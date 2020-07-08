@@ -1,0 +1,13 @@
+{
+  "name": "GX_app",  
+  "version": "1.0",  
+  "icons": {"128": "logo.ico"},  
+  "description": "Get title and url of web page that you are opening now", 
+  "browser_action": {
+    "default_title": "GX_app",
+    "default_popup": "index.html"  
+  },
+  "permissions": ["activeTab"],  
+  "author": "ywzx",  
+  "manifest_version": 2  
+}
