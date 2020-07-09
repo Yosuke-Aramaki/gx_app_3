@@ -35,6 +35,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    'plugins/axios'
   ],
   /*
   ** Auto import components
@@ -62,12 +63,7 @@ export default {
     proxy: true
   },
   proxy: {
-    '/api': {
-      target: 'http://localhost:3000',
-      pathRewrite: {
-        '^/api' : '/'
-      }
-    }
+    '/api': 'http://localhost:3000'
   },
   /*
   ** Build configuration
