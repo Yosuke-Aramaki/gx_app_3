@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!hasCookies" class="signup-form">
+    <div class="signup-form">
       <form @submit.prevent="signup">
         <p><input type="text" v-model="form.name" placeholder="name" name="name"/></p>
         <p><input type="text" v-model="form.email" placeholder="email" name="email"/></p>
@@ -10,8 +10,15 @@
           <button type="submit">signup</button>
         </div>
       </form>
+      <form @submit.prevent="login">
+        <p><input type="text" v-model="form_login.email" placeholder="email" name="email"/></p>
+        <p><input type="password" v-model="form_login.password" placeholder="password" name="password"/></p>
+        <div class="login-btn">
+          <button type="submit">login</button>
+        </div>
+      </form>
     </div>
-    <div v-else>
+    <div v-if="hasCookies">
       <button @click="logout">logout</button>
     </div>
   </div>
@@ -26,6 +33,10 @@ export default {
       password: '',
       password_confirmation: ''
     },
+    form_login: {
+      email: '',
+      password: ''
+    },
   }),
   computed: {
     hasCookies: function() {
@@ -33,9 +44,15 @@ export default {
     }
   },
   methods: {
-    signup () {
+    async signup () {
       this.$axios.$post('/api/v1/users', {user: this.form }).then((res) => {
-        this.$store.dispatch('auth/sign_up', res )
+        this.$store.dispatch('auth/signup', res )
+      })
+    },
+    async login () {
+      this.$axios.$post('/api/v1/login', {session: this.form_login }).then((res) => {
+        console.log(res)
+        this.$store.dispatch('auth/login', res )
       })
     },
     async logout() {

@@ -9,7 +9,11 @@ export const mutations = {
 }
 
 export const actions = {
-  async sign_up({ commit }, userId ) {
+  async signup({ commit }, userId ) {
+    this.$cookies.set('user_id', userId )
+    commit('setCurrentUser', { userId })
+  },
+  async login({ commit }, userId ) {
     this.$cookies.set('user_id', userId )
     commit('setCurrentUser', { userId })
   }

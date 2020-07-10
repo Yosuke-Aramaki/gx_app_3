@@ -5,11 +5,9 @@ class Api::V1::SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
-      log_in user
-      redirect_to root_url
+      render json: { user_id: user.id }
     else
-      flash.now[:danger] = 'ログインに失敗しました'
-      render 'new'
+      render json: { messages: "エラー" }, status: :unauthorized
     end
   end
 
