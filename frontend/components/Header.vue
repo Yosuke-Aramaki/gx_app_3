@@ -23,7 +23,6 @@
 export default {
   data() {
     return {
-      viewSignout: false
     }
   },
   computed: {
