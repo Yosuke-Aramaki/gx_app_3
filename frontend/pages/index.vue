@@ -3,13 +3,9 @@
     <nuxt-link to="/sign_up" no-prefetch>
       <p>ユーザー登録</p>
     </nuxt-link>
-      <form @submit.prevent="login">
-        <p><input type="text" v-model="form_login.email" placeholder="email" name="email"/></p>
-        <p><input type="password" v-model="form_login.password" placeholder="password" name="password"/></p>
-        <div class="login-btn">
-          <button type="submit">login</button>
-        </div>
-      </form>
+    <nuxt-link to="/login" no-prefetch>
+      <p>ユーザー登録</p>
+    </nuxt-link>
     <div v-if="hasCookies">
       <button @click="logout">logout</button>
     </div>
@@ -33,7 +29,6 @@ export default {
   methods: {
     async login () {
       this.$axios.$post('/api/v1/login', {session: this.form_login }).then((response) => {
-        console.log(response)
         this.$store.dispatch('auth/login', res )
       })
     },

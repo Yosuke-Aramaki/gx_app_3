@@ -11,11 +11,6 @@ class Api::V1::UsersController < ApplicationController
       render json: { user_id: @user.id }
     else
       render json: { messages: @user.errors }, status: :unauthorized
-      # render json: {
-      #   name: @user.errors.messages[:name][0],
-      #   email: @user.errors.messages[:email][0],
-      #   password: @user.errors.messages[:password][0] 
-      # }
     end
   end
 

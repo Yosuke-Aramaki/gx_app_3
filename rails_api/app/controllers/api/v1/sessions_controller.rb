@@ -7,7 +7,7 @@ class Api::V1::SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       render json: { user_id: user.id }
     else
-      render json: { messages: "エラー" }, status: :unauthorized
+      render json: { messages: "メールまたはパスワードが一致しません"}, status: :unauthorized
     end
   end
 
@@ -16,7 +16,7 @@ class Api::V1::SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password])
       render json: { user_id: user.id }
     else
-      render json: { messages: "エラー" }, status: :unauthorized
+      render json: { messages: user.errors }, status: :unauthorized
     end
   end
 end
