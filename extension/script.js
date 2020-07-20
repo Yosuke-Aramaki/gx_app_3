@@ -31,24 +31,31 @@ window.addEventListener('load',()=>{
   })
 
   // ログイン
-  document.getElementById('loginButton').addEventListener('click',()=>{
+  document.getElementById('loginButton').addEventListener('click', ()=>{
     var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = async function(){
+      if(this.readyState == 4 && this.status == 200){
+        let login_session = this.response;
+        // chrome strage にユーザー情報を保存
+        await chrome.storage.sync.set({user_id: login_session.user_id}, function() {
+          console.log('Value is set to ' + login_session.user_id);
+        });
+      }
+    }
     // 通信のリクエスト 参照：https://qiita.com/sirone/items/412b2a171dccb11e1bb6
     xhr.open("post", "http://localhost:3000/api/v1/login", true);
     xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded' );
+    xhr.responseType = 'json';
     // サーバーへリクエストの送信
     xhr.send(
       'session[email]='+ document.getElementById("email_input").value +
       '&session[password]=' + document.getElementById("password_input").value
     );
-    xhr.addEventListener("load", function(){ 
-      document.getElementById('sample').textContent = this.response;
-      chrome.storage.sync.set({user_id: this.response}, function() {
-        console.log('Value is set to ' + this.response);
-      });
-    }, false);
-    chrome.storage.sync.get(['user_id'], function(result) {
-      console.log('Value currently is ' + result);
-    });
   });
 })
+
+// chrome.storage.sync.remove(['user_id'], function() {
+//   chrome.storage.sync.get(['user_id'], function(result) {
+//     console.log('Value currently is ' + result.user_id);
+//   });
+// });
