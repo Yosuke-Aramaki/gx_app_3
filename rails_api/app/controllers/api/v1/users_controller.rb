@@ -5,6 +5,7 @@ class Api::V1::UsersController < ApplicationController
     }
   end
 
+  # ユーザー登録
   def create
     @user = User.new(user_params)
     if @user.save
