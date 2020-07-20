@@ -18,7 +18,7 @@ window.addEventListener('load',()=>{
   chrome.storage.sync.get(['user_id'], function(result) {
     if (!Object.keys(result).length) {
       // ログイン画面の挿入
-      document.getElementById('body_contents').innerHTML = '<input type="email" id="email_input" placeholder="Enter email"><input type="password" id="password_input" placeholder="Password"><button type="submit" id="loginButton">Log In</button>'
+      document.getElementById('body_contents').innerHTML = '<input type="email" id="email_input" placeholder="Enter email"><input type="password" id="password_input" placeholder="Password"><button type="submit" id="loginButton">Log In</button><a href="localhost:3000/" target="_blank">新規登録はこちらから</a>'
       // ログイン通信
       document.getElementById('loginButton').addEventListener('click', ()=>{
         var xhr = new XMLHttpRequest();
