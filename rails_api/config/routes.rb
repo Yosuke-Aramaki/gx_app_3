@@ -4,7 +4,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'sign_up',  to: 'users#create'  # ユーザー登録
       post 'login',   to: 'sessions#create'  # ログイン
-      resources :users
+      get 'test', to: 'articles#test'
+      resources :articles, only: [:index, :create, :edit, :delete]
     end
   end
 end
