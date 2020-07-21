@@ -1,4 +1,4 @@
 class Article < ApplicationRecord
   belongs_to :user
-  belongs_to :categories
+  belongs_to :category
 end

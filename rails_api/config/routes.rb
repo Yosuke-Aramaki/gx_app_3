@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       post 'login',   to: 'sessions#create'  # ログイン
       get 'test', to: 'articles#test'
       resources :articles, only: [:index, :create, :edit, :delete]
+      resources :users, only: [:create] do 
+      end 
     end
   end
 end

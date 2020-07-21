@@ -7,7 +7,7 @@ one:
   article_note: MyText
   is_read: false
   user: one
-  categories: one
+  category: one
 
 two:
   title: MyString
@@ -16,4 +16,4 @@ two:
   article_note: MyText
   is_read: false
   user: two
-  categories: two
+  category: two

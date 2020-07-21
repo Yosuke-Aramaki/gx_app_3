@@ -7,7 +7,7 @@ class CreateArticles < ActiveRecord::Migration[5.2]
       t.text :article_note
       t.boolean :is_read, default: false, null: false
       t.references :user, foreign_key: true
-      t.references :categories, foreign_key: true
+      t.references :category, foreign_key: true
 
       t.timestamps
     end
