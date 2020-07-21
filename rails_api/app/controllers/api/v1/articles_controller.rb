@@ -3,6 +3,11 @@ class Api::V1::ArticlesController < ApplicationController
     render plain: current_user.inspect
   end
 
+  def index
+    articles = Article.find_by(user_id: 1) #current_user.articles.order(:created_at)
+    render json: articles.to_json
+  end
+
   def create 
     @article = Article.new(article_params)
     if @article.save

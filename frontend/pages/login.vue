@@ -24,7 +24,7 @@ export default {
     async login () {
       this.$axios.$post('/api/v1/login', {session: this.form_login })
       .then((response) => {
-        this.$store.dispatch('auth/login', response )
+        this.$store.dispatch('auth/set_user_token', response )
         location.replace('/')
       })
       .catch((error) => {

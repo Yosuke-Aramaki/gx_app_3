@@ -30,7 +30,7 @@ export default {
     async signup () {
       await this.$axios.$post('/api/v1/users', {user: this.form })
         .then(async (response) => {
-          await this.$store.dispatch('auth/signup', response )
+          await this.$store.dispatch('auth/set_user_token', response.data )
           location.replace('/')
           // await this.$router.push('/')
         })

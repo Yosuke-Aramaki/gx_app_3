@@ -3,18 +3,15 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setCurrentUser(state, userId) {
+  set_current_user(state, userId) {
     state.userId = userId
   }
 }
 
 export const actions = {
-  async signup({ commit }, userId ) {
-    this.$cookies.set('user_id', userId )
-    commit('setCurrentUser', { userId })
-  },
-  async login({ commit }, userId ) {
-    this.$cookies.set('user_id', userId )
-    commit('setCurrentUser', { userId })
+  async set_user_token({ commit }, response ) {
+    let user_id = response.user_id
+    this.$cookies.set('user_id', user_id )
+    commit('set_current_user', { user_id })
   }
 }
