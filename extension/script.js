@@ -9,11 +9,18 @@ var xhr = new XMLHttpRequest();
 // });
 
 // chrome Extension 起動時
-window.addEventListener('load',　async ()=>{  
-  
+window.addEventListener('load',　async ()=>{
+
+  // 開いてるタブのタイトルとURLを取得する
+  chrome.tabs.getSelected( tab => { 
+    siteData.title = tab.title;
+    siteData.url = tab.url;  
+  });
+
   // chrome storage にユーザー情報があるか確認
-  await chrome.storage.sync.get(['user_id'], function(result) {
-    if (!Object.keys(result).length) { // ログインしてない時の処理
+  await chrome.storage.sync.get(['user_id'], async (result) => {
+    // ログインしてない時の処理
+    if (!Object.keys(result).length) { 
       // ログイン画面の挿入
       document.getElementById('body_contents').innerHTML = '<input type="email" id="email_input" placeholder="Enter email"><input type="password" id="password_input" placeholder="Password"><button type="submit" id="loginButton">Log In</button><a href="localhost:3000/" target="_blank">新規登録はこちらから</a>'
       // ログイン通信
@@ -39,20 +46,15 @@ window.addEventListener('load',　async ()=>{
           '&session[password]=' + document.getElementById("password_input").value
         );
       });
-    } else {　// ログイン時の処理
-      console.log(1)
+    } else {　
+      // ログイン時の処理
       user_id = result.user_id;
-      // 開いてるタブのタイトルとURLを取得する
-      chrome.tabs.getSelected( tab => { 
-        siteData.title = tab.title;
-        siteData.url = tab.url;  
-      });
 
+      // タブのタイトルを表示
       document.getElementById('og_title_section').textContent = siteData.title;
       
       // og:imageの取得
-      const url = siteData.url;
-      fetch(url).then(res => res.text()).then(text => {
+      await fetch(siteData.url).then(res => res.text()).then(text => {
         const el = new DOMParser().parseFromString(text, "text/html")
         const headEls = (el.head.children)
         Array.from(headEls).map(v => {
@@ -65,36 +67,29 @@ window.addEventListener('load',　async ()=>{
         })
       })
 
-      document.getElementById('logout_extension').addEventListener('click', ()=>{
-        chrome.storage.sync.remove(['user_id'], function() {
-        });
-      })
-
       // 記事の保存
       xhr.open("post", "http://localhost:3000/api/v1/articles", true);
       xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
-      xhr.setRequestHeader('Authorization', 'Token ' + 1);
+      xhr.setRequestHeader('Authorization', 'Token ' + user_id);
       xhr.responseType = 'json';
-      console.log(
-        'article[title]='+ siteData.title +
-        '&article[article_url]=' + siteData.url +
-        '&article[og_image_url]=' + siteData.og_image +
-        '&article[article_note]=' + siteData.og_description +
-        '&article[category_id]=' + 1
-      );
       // サーバーへリクエストの送信
       xhr.send(
         'article[title]='+ siteData.title +
         '&article[article_url]=' + siteData.url +
         '&article[og_image_url]=' + siteData.og_image +
         '&article[article_note]=' + siteData.og_description +
-        '&article[is_read]=' + 0 +
-        '&article[user_id]=' + 1 +
+        '&article[user_id]=' + user_id +
         '&article[category_id]=' + 1
       );
       xhr.onload = ()=> {
         console.log(xhr.response);
       };
+
+      // ログアウト
+      document.getElementById('logout_extension').addEventListener('click', ()=>{
+        chrome.storage.sync.remove(['user_id'], function() {
+        });
+      })
     }
   });
 })
