@@ -3,6 +3,8 @@
     <Header />
     <div class="item-list" v-for="article in articles" :key="article.id">
       <p>{{ article.id }}</p>
+      <p>{{ article.title }}</p>
+      <p><a :href="article.article_url">{{ article.article_url }}</a></p>
     </div>
   </div>
 </template>
