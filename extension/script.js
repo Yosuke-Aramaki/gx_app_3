@@ -1,12 +1,8 @@
 
 let siteData = {"title": "", "url": "", "og_image": "", "article_note": ""}
 let user_id
+let article_data
 var xhr = new XMLHttpRequest();
-
-// chrome.tabs.getSelected( tab => { 
-//   siteData.title = tab.title;
-//   siteData.url = tab.url;    
-// });
 
 // chrome Extension 起動時
 window.addEventListener('load',　async ()=>{
@@ -53,24 +49,24 @@ window.addEventListener('load',　async ()=>{
       // タブのタイトルを表示
       document.getElementById('og_title_section').textContent = siteData.title;
       
-      // og:imageの取得
-      await fetch(siteData.url).then(res => res.text()).then(text => {
-        const el = new DOMParser().parseFromString(text, "text/html")
-        const headEls = (el.head.children)
-        Array.from(headEls).map(v => {
-          const prop = v.getAttribute('property')
-          if (!prop) return;
-          if (prop == "og:image") {
-            siteData.og_image = v.getAttribute("content")
-            document.getElementById('og_image').src = siteData.og_image
-          }
-          if (prop == "og:description") {
-            siteData.article_note = v.getAttribute("content")
-          }
-        })
-      })
+      // og:imageとog:descriptionの取得
+      // await fetch(siteData.url).then(res => res.text()).then(text => {
+      //   const el = new DOMParser().parseFromString(text, "text/html")
+      //   const headEls = (el.head.children)
+      //   Array.from(headEls).map(v => {
+      //     const prop = v.getAttribute('property')
+      //     if (!prop) return;
+      //     if (prop == "og:image") {
+      //       siteData.og_image = v.getAttribute("content")
+      //       document.getElementById('og_image').src = siteData.og_image
+      //     }
+      //     if (prop == "og:description") {
+      //       siteData.article_note = v.getAttribute("content")
+      //     }
+      //   })
+      // })
 
-      // 記事の保存
+      // // 記事の保存
       xhr.open("post", "http://localhost:3000/api/v1/articles", true);
       xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader('Authorization', 'Token ' + user_id);
@@ -85,9 +81,34 @@ window.addEventListener('load',　async ()=>{
         '&article[category_id]=' + 1
       );
       xhr.onload = ()=> {
+        article_data = xhr.response 
         // 記事を保存できたことを通知
-        document.getElementById('store_notification').textContent = '記事を保存しました';
+        document.getElementById('save_notification').textContent = '記事を保存しました';
       };
+
+      // メモを追加を押した時にテキストエリアが表示される
+      document.getElementById('note_section_title').addEventListener('click', ()=>{
+        document.getElementById('note_textarea').style.display = 'inline-block';
+      })
+
+      // メモを保存
+      document.getElementById('article_save_button').addEventListener('click', ()=>{
+        document.getElementById('note_section_title').style.display = 'none';
+        
+        xhr.open("put", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
+        xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('Authorization', 'Token ' + user_id);
+        // サーバーへリクエストの送信
+        xhr.send(
+          '&article[article_note]=' + document.getElementById("note_textarea").value +
+          '&article[category_id]=' + 1
+        );
+        xhr.onload = ()=> {
+          // 記事を保存できたことを通知
+          document.getElementById('save_notification').textContent = 'メモを保存しました';
+        };
+      })
+
 
       // ログアウト
       document.getElementById('logout_extension').addEventListener('click', ()=>{

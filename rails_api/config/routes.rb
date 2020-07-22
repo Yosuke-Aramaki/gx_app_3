@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       post 'sign_up',  to: 'users#create'  # ユーザー登録
       post 'login',   to: 'sessions#create'  # ログイン
       get 'test', to: 'articles#test'
-      resources :articles, only: [:index, :create, :edit, :delete]
+      resources :articles, only: [:index, :create, :edit, :update, :delete]
       resources :users, only: [:create] do 
       end 
     end

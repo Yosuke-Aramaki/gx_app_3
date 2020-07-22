@@ -13,10 +13,15 @@ class Api::V1::ArticlesController < ApplicationController
   def create 
     @article = Article.new(article_params)
     if @article.save
-      render json: { user_id: @article }
+      render json: @article.to_json
     else
       render json: { messages: @article.errors }, status: :unauthorized
     end
+  end
+
+  def update
+    @article = Article.find(params[:id])
+    @article.update(article_note: params[:article][:article_note])
   end
 
   private
