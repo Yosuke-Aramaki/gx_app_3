@@ -1,5 +1,5 @@
 
-let siteData = {"title": "", "url": "", "og_image": "", "og_description": ""}
+let siteData = {"title": "", "url": "", "og_image": "", "article_note": ""}
 let user_id
 var xhr = new XMLHttpRequest();
 
@@ -64,6 +64,9 @@ window.addEventListener('load',　async ()=>{
             siteData.og_image = v.getAttribute("content")
             document.getElementById('og_image').src = siteData.og_image
           }
+          if (prop == "og:description") {
+            siteData.article_note = v.getAttribute("content")
+          }
         })
       })
 
@@ -77,7 +80,7 @@ window.addEventListener('load',　async ()=>{
         'article[title]='+ siteData.title +
         '&article[article_url]=' + siteData.url +
         '&article[og_image_url]=' + siteData.og_image +
-        '&article[article_note]=' + siteData.og_description +
+        '&article[article_note]=' + siteData.article_note +
         '&article[user_id]=' + user_id +
         '&article[category_id]=' + 1
       );
