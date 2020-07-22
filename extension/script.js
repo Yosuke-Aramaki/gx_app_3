@@ -82,7 +82,8 @@ window.addEventListener('load',　async ()=>{
         '&article[category_id]=' + 1
       );
       xhr.onload = ()=> {
-        console.log(xhr.response);
+        // 記事を保存できたことを通知
+        document.getElementById('store_notification').textContent = '記事を保存しました';
       };
 
       // ログアウト
