@@ -4,7 +4,9 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   def index
-    articles = Article.find_by(user_id: 1) #current_user.articles.order(:created_at)
+    @user = current_user
+    # articles = @user.articles
+    articles = Article.where('user_id' == 1)
     render json: articles.to_json
   end
 

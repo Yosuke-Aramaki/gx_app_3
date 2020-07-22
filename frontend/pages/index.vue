@@ -22,6 +22,7 @@ export default {
   methods: {
     async fetchArticles() {
       let res = await this.$axios.$get('/api/v1/articles')
+      console.log(res)
       this.articles = res
     },
   }
