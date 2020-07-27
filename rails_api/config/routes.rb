@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       get 'test', to: 'articles#test'
       get 'already_saved', to: 'articles#already_saved'
 
-      resources :articles, only: [:index, :create, :edit, :update, :delete] do
+      resources :articles, only: [:index, :create, :edit, :update, :destroy] do
         put :update_is_read, on: :member
       end
 

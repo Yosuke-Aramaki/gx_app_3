@@ -124,10 +124,25 @@ window.addEventListener('load',　async ()=>{
         );
         xhr.onload = ()=> {
           // 記事を保存できたことを通知
-          document.getElementById('save_notification').textContent = 'メモを保存しました';
+          if (xhr.readyState == 4 && xhr.status == "200") {
+            document.getElementById('save_notification').textContent = 'メモを保存しました';
+          } else {
+          }
         };
       })
 
+      // 保存しているURLを削除する
+      document.getElementById('delete_section_title').addEventListener('click', ()=>{
+        xhr.open("DELETE", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
+        xhr.setRequestHeader('Authorization', 'Token ' + user_id);
+        xhr.send();
+        xhr.onload = () => {
+          if (xhr.readyState == 4 && xhr.status == "200") {
+            document.getElementById('save_notification').textContent = '削除しました';
+          } else {
+          }
+        }
+      })
 
       // ログアウト
       document.getElementById('logout_extension').addEventListener('click', ()=>{

@@ -35,6 +35,15 @@ class Api::V1::ArticlesController < ApplicationController
     render json: @article.to_json
   end
 
+  def destroy
+    @article = Article.find(params[:id])
+    if @article.destroy
+      render json: { messages: '削除にしました' }
+    else
+      render json: { messages: '削除に失敗しました' }, status: :unauthorized
+    end
+  end
+
   private
   def article_params
     params.require(:article).permit(:title, :article_url, :og_image_url, :article_note, :user_id, :category_id)
