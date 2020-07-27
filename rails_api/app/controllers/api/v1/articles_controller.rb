@@ -6,7 +6,6 @@ class Api::V1::ArticlesController < ApplicationController
   def index
     @user = current_user
     articles = @user.articles
-    # articles = Article.where('user_id' == 1)
     render json: articles.to_json
   end
 
