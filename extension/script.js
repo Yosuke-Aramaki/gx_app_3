@@ -144,6 +144,35 @@ window.addEventListener('load',　async ()=>{
         }
       })
 
+      // 未読にする
+      document.getElementById('article_unread_button').addEventListener('click', ()=>{
+        // xhr.open("PUT", 'http://localhost:3000/api/v1/articles/' + article_data.id + '/update_is_read?' + 'is_read=0', true);
+        // xhr.setRequestHeader('Authorization', 'Token ' + user_id);
+        // xhr.send();
+        // xhr.onload = () => {
+        //   if (xhr.readyState == 4 && xhr.status == "200") {
+        //     document.getElementById('save_notification').textContent = '未読にしました';
+        //   } else {
+        //   }
+        // }
+        xhr.open("put", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
+        xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('Authorization', 'Token ' + user_id);
+        // サーバーへリクエストの送信
+        xhr.send(
+          '&article[article_note]=' + document.getElementById("note_textarea").value +
+          '&article[category_id]=' + 1 + 
+          '&article[is_read]=' + 0
+        );
+        xhr.onload = ()=> {
+          // 記事を保存できたことを通知
+          if (xhr.readyState == 4 && xhr.status == "200") {
+            document.getElementById('save_notification').textContent = 'メモを保存しました';
+          } else {
+          }
+        };
+      })
+
       // ログアウト
       document.getElementById('logout_extension').addEventListener('click', ()=>{
         chrome.storage.sync.remove(['user_id'], function() {

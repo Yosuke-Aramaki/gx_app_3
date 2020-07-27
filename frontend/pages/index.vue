@@ -28,7 +28,10 @@ export default {
       this.articles = res
     },
     async article_url_clicked(article_id) {
-      this.$axios.$put('/api/v1/articles/'+ article_id +'/update_is_read', {is_read: 1 }) //booleanをtrueにするため１を引数に
+      this.$axios.$put(
+        '/api/v1/articles/'+ article_id +'/update_is_read', 
+        {is_read: 1 } //booleanをtrueにするため１を引数に
+      )
       .then((response) => {
       })
       .catch((error) => {
