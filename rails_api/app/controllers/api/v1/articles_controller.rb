@@ -24,6 +24,11 @@ class Api::V1::ArticlesController < ApplicationController
     @article.update(article_note: params[:article][:article_note])
   end
 
+  def update_is_read 
+    @article = Article.find(params[:id])
+    @article.update(is_read: params[:is_read])
+  end
+
   private
   def article_params
     params.require(:article).permit(:title, :article_url, :og_image_url, :article_note, :user_id, :category_id)
