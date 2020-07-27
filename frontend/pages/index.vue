@@ -1,9 +1,10 @@
 <template>
   <div>
     <Header />
+     <p>{{ this.errors }}</p>
     <div>
       <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
-      <button type="submit">カテゴリーを追加</button>
+      <button type="submit" @click="add_category()">カテゴリーを追加</button>
     </div>
     <div class="item-list" v-for="article in articles" :key="article.id">
       <p>{{ article.id }}</p>
@@ -20,7 +21,8 @@ export default {
       articles: [],
       category_form: {
         category_name: ''
-      }
+      },
+      errors: '',
     }
   },
   created() {
@@ -47,7 +49,18 @@ export default {
       })
     },
     async add_category() {
-      
+      this.$axios.$post(
+        '/api/v1/categories', 
+        { category: this.category_form } 
+      )
+      .then((response) => {
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          this.errors = []
+          this.errors = error.response.data.messages
+        }
+      })
     }
   }
 }
