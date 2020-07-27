@@ -1,6 +1,10 @@
 <template>
   <div>
     <Header />
+    <div>
+      <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
+      <button type="submit">カテゴリーを追加</button>
+    </div>
     <div class="item-list" v-for="article in articles" :key="article.id">
       <p>{{ article.id }}</p>
       <p>{{ article.title }}</p>
@@ -13,7 +17,10 @@
 export default {
   data() {
     return {
-      articles: []
+      articles: [],
+      category_form: {
+        category_name: ''
+      }
     }
   },
   created() {
@@ -38,6 +45,9 @@ export default {
         if (error.response && error.response.status === 401) {
         }
       })
+    },
+    async add_category() {
+      
     }
   }
 }

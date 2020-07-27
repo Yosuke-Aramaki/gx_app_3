@@ -88,7 +88,6 @@ window.addEventListener('load',　async ()=>{
             '&article[article_url]=' + siteData.url +
             '&article[og_image_url]=' + siteData.og_image +
             '&article[article_note]=' + siteData.article_note +
-            '&article[user_id]=' + user_id +
             '&article[category_id]=' + 1
           );
           xhr.onload = ()=> {

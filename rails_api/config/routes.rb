@@ -7,12 +7,16 @@ Rails.application.routes.draw do
       get 'test', to: 'articles#test'
       get 'already_saved', to: 'articles#already_saved'
 
+      resources :users, only: [:create] do 
+      end 
+
       resources :articles, only: [:index, :create, :edit, :update, :destroy] do
         put :update_is_read, on: :member
       end
 
-      resources :users, only: [:create] do 
+      resources :categories, only: [:index, :create, :edit, :update, :destroy] do 
       end 
+
     end
   end
 end

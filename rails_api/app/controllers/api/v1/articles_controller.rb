@@ -12,6 +12,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   def create 
     @article = Article.new(article_params)
+    @article.user_id = current_user.id
     if @article.save
       render json: @article.to_json
     else
@@ -46,7 +47,7 @@ class Api::V1::ArticlesController < ApplicationController
 
   private
   def article_params
-    params.require(:article).permit(:title, :article_url, :og_image_url, :article_note, :is_read, :user_id, :category_id)
+    params.require(:article).permit(:title, :article_url, :og_image_url, :article_note, :is_read, :category_id)
   end
 
 end
