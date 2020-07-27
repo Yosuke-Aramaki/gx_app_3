@@ -8,7 +8,7 @@ var xhr = new XMLHttpRequest();
 window.addEventListener('load',　async ()=>{
 
   // 開いてるタブのタイトルとURLを取得する
-  chrome.tabs.getSelected( tab => { 
+  await chrome.tabs.getSelected( tab => { 
     siteData.title = tab.title;
     siteData.url = tab.url;  
   });
@@ -66,24 +66,44 @@ window.addEventListener('load',　async ()=>{
       //   })
       // })
 
-      // // 記事の保存
-      xhr.open("post", "http://localhost:3000/api/v1/articles", true);
-      xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
+      // 同じURLが保存されているかの確認
+      xhr.open("get", "http://localhost:3000/api/v1/already_saved?" + 'article_url=' + siteData.url, true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader('Authorization', 'Token ' + user_id);
       xhr.responseType = 'json';
-      // サーバーへリクエストの送信
-      xhr.send(
-        'article[title]='+ siteData.title +
-        '&article[article_url]=' + siteData.url +
-        '&article[og_image_url]=' + siteData.og_image +
-        '&article[article_note]=' + siteData.article_note +
-        '&article[user_id]=' + user_id +
-        '&article[category_id]=' + 1
-      );
-      xhr.onload = ()=> {
-        article_data = xhr.response 
-        // 記事を保存できたことを通知
-        document.getElementById('save_notification').textContent = '記事を保存しました';
+      document.getElementById('og_title_section').textContent = siteData.url;
+      xhr.send();
+      xhr.onload = async () => {
+        article_data = await xhr.response 
+
+        // タブで開いているURLがまだ保存されていない場合の処理
+        if (article_data == null) {
+          // タブで開いている記事の保存
+          xhr.open("post", "http://localhost:3000/api/v1/articles", true);
+          xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
+          xhr.setRequestHeader('Authorization', 'Token ' + user_id);
+          xhr.responseType = 'json';
+          // サーバーへリクエストの送信
+          xhr.send(
+            'article[title]='+ siteData.title +
+            '&article[article_url]=' + siteData.url +
+            '&article[og_image_url]=' + siteData.og_image +
+            '&article[article_note]=' + siteData.article_note +
+            '&article[user_id]=' + user_id +
+            '&article[category_id]=' + 1
+          );
+          xhr.onload = ()=> {
+            article_data = xhr.response 
+            // 記事を保存できたことを通知
+            document.getElementById('save_notification').textContent = '記事を保存しました';
+          };
+        } else {
+        // タブで開いているURLがすでに保存されている場合（サービスサイトからリンクを開いた場合）
+          // メモを追加するを非表示
+          document.getElementById('note_section_title').style.display = 'none';
+          // メモ記入欄の表示
+          document.getElementById('note_textarea').style.display = 'inline-block';
+        }
       };
 
       // メモを追加を押した時にテキストエリアが表示される
@@ -93,7 +113,6 @@ window.addEventListener('load',　async ()=>{
 
       // メモを保存
       document.getElementById('article_save_button').addEventListener('click', ()=>{
-        document.getElementById('note_section_title').style.display = 'none';
         
         xhr.open("put", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
         xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');

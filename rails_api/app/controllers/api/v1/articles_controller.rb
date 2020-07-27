@@ -29,6 +29,12 @@ class Api::V1::ArticlesController < ApplicationController
     @article.update(is_read: params[:is_read])
   end
 
+  def already_saved
+    @user = current_user
+    @article = current_user.articles.find_by(article_url: params[:article_url])
+    render json: @article.to_json
+  end
+
   private
   def article_params
     params.require(:article).permit(:title, :article_url, :og_image_url, :article_note, :user_id, :category_id)
