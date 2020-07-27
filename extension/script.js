@@ -71,7 +71,6 @@ window.addEventListener('load',　async ()=>{
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader('Authorization', 'Token ' + user_id);
       xhr.responseType = 'json';
-      document.getElementById('og_title_section').textContent = siteData.url;
       xhr.send();
       xhr.onload = async () => {
         article_data = await xhr.response 
@@ -97,12 +96,15 @@ window.addEventListener('load',　async ()=>{
             // 記事を保存できたことを通知
             document.getElementById('save_notification').textContent = '記事を保存しました';
           };
-        } else {
+
         // タブで開いているURLがすでに保存されている場合（サービスサイトからリンクを開いた場合）
+        } else {
           // メモを追加するを非表示
           document.getElementById('note_section_title').style.display = 'none';
           // メモ記入欄の表示
           document.getElementById('note_textarea').style.display = 'inline-block';
+          // メモ記入欄に既存のメモを表示する
+          document.getElementById('note_textarea').textContent = article_data.article_note;
         }
       };
 
