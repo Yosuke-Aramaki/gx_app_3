@@ -2,6 +2,7 @@
   <div>
     <Header />
      <p>{{ this.errors }}</p>
+    <button @click="openModal">開く</button>
     <div>
       <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
       <button type="submit" @click="add_category()">カテゴリーを追加</button>
@@ -14,11 +15,16 @@
       <p>{{ article.title }}</p>
       <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
     </div>
+    <AddArticleModal @close="closeModal" v-if="modal" />
   </div>
 </template>
 
 <script>
+import AddArticleModal from '@/components/AddArticleModal'
 export default {
+  components: {
+    AddArticleModal
+  },
   data() {
     return {
       articles: [],
@@ -27,6 +33,7 @@ export default {
         category_name: ''
       },
       errors: '',
+      modal: false,
     }
   },
   created() {
@@ -36,6 +43,12 @@ export default {
   computed: {
   },
   methods: {
+    openModal() {
+      this.modal = true
+    },
+    closeModal() {
+      this.modal = false
+    },
     async fetch_articles() {
       let res = await this.$axios.$get('/api/v1/articles')
       console.log(res)
