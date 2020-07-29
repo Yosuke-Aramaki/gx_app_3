@@ -3,6 +3,7 @@
     <Header />
      <p>{{ this.errors }}</p>
     <button @click="openModal">開く</button>
+    <button @click="openRemindModal">リマインド</button>
     <div>
       <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
       <button type="submit" @click="add_category()">カテゴリーを追加</button>
@@ -16,14 +17,17 @@
       <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
     </div>
     <AddArticleModal @close="closeModal" v-if="modal" />
+    <RemindModal @close="closeRemindModal" v-if="remind_modal" />
   </div>
 </template>
 
 <script>
 import AddArticleModal from '@/components/AddArticleModal'
+import RemindModal from '@/components/RemindModal'
 export default {
   components: {
-    AddArticleModal
+    AddArticleModal,
+    RemindModal
   },
   data() {
     return {
@@ -34,6 +38,7 @@ export default {
       },
       errors: '',
       modal: false,
+      remind_modal: false
     }
   },
   created() {
@@ -48,6 +53,12 @@ export default {
     },
     closeModal() {
       this.modal = false
+    },
+    openRemindModal() {
+      this.remind_modal = true
+    },
+    closeRemindModal() {
+      this.remind_modal = false
     },
     async fetch_articles() {
       let res = await this.$axios.$get('/api/v1/articles')
