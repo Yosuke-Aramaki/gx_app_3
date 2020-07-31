@@ -5,11 +5,18 @@
     <button @click="openModal">開く</button>
     <button @click="openRemindModal">リマインド</button>
     <div>
+      <p>あとで読む</p>
+      <div class="category-list" v-for="category in categories" :key="'category' + category.id">
+        <p @click="fetch_categorised_crticle(0, category.id)">{{ category.category_name }}</p>
+      </div>
+      <p>-------------</p>
+      <div class="category-list" v-for="category in categories" :key="'category' + category.id">
+        <p>{{ category.category_name }}</p>
+      </div>
+    </div>
+    <div>
       <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
       <button type="submit" @click="add_category()">カテゴリーを追加</button>
-    </div>
-    <div class="category-list" v-for="category in categories" :key="'category' + category.id">
-      <p>{{ category.category_name }}</p>
     </div>
     <div class="item-list" v-for="article in articles" :key="article.id">
       <p>{{ article.id }}</p>
@@ -61,7 +68,11 @@ export default {
       this.remind_modal = false
     },
     async fetch_articles() {
-      let res = await this.$axios.$get('/api/v1/articles')
+      let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
+        params: {
+          is_read: 0
+        }
+      })
       console.log(res)
       this.articles = res
     },
@@ -76,6 +87,15 @@ export default {
         if (error.response && error.response.status === 401) {
         }
       })
+    },
+    async fetch_categorised_crticle(is_read, category_id) {
+      let res = await this.$axios.$get('/api/v1/categorised_articles', {
+        params: {
+          is_read: is_read,
+          category_id: category_id
+        }
+      })
+      this.articles = res
     },
     async fetch_categories() {
       let res = await this.$axios.$get('/api/v1/categories')

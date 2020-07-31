@@ -5,14 +5,18 @@ Rails.application.routes.draw do
       post 'sign_up',  to: 'users#create'  # ユーザー登録
       post 'login',   to: 'sessions#create'  # ログイン
       get 'test', to: 'articles#test'
-      get 'already_saved', to: 'articles#already_saved'
 
+      
       resources :users, only: [:create] do 
       end 
-
+      
       resources :articles, only: [:index, :create, :edit, :update, :destroy] do
         put :update_is_read, on: :member
       end
+      get 'all_unread_or_read_articles', to: 'articles#all_unread_or_read_articles'
+      get 'categorised_articles', to: 'articles#categorised_articles'
+      get 'already_saved', to: 'articles#already_saved'
+      
 
       resources :categories, only: [:index, :create, :edit, :update, :destroy] do 
       end 

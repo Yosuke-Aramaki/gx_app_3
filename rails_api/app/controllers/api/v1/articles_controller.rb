@@ -9,6 +9,18 @@ class Api::V1::ArticlesController < ApplicationController
     render json: articles.to_json
   end
 
+  def all_unread_or_read_articles
+    @user = current_user
+    articles = @user.articles.where(is_read: params[:is_read])
+    render json: articles.to_json
+  end
+
+  def categorised_articles
+    @user = current_user
+    articles = @user.articles.where(is_read: params[:is_read], category_id: params[:category_id])
+    render json: articles.to_json
+  end
+
   def create 
     @article = Article.new(article_params)
     @article.user_id = current_user.id
