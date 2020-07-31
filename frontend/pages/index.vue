@@ -99,7 +99,6 @@ export default {
     },
     async fetch_categories() {
       let res = await this.$axios.$get('/api/v1/categories')
-      console.log(res)
       this.categories = res
     },
     async add_category() {
