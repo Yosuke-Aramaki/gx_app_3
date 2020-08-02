@@ -79,7 +79,7 @@ export default {
     async article_url_clicked(article_id) {
       this.$axios.$put(
         '/api/v1/articles/'+ article_id +'/update_is_read', 
-        {is_read: 1 } //booleanをtrueにするため１を引数に
+        { is_read: 1 } //booleanをtrueにするため１を引数に
       )
       .then((response) => {
       })
@@ -100,6 +100,20 @@ export default {
     async fetch_categories() {
       let res = await this.$axios.$get('/api/v1/categories')
       this.categories = res
+    },
+    async add_article() {
+      this.$axios.$post(
+        '/api/v1/categories', 
+        { category: this.category_form } 
+      )
+      .then((response) => {
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          this.errors = []
+          this.errors = error.response.data.messages
+        }
+      })
     },
     async add_category() {
       this.$axios.$post(

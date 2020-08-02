@@ -1,6 +1,12 @@
 class Api::V1::ArticlesController < ApplicationController
+  skip_before_action :authenticate, only: [:test]
+  
   def test
-    render plain: current_user.inspect
+    require 'mechanize'
+    agent = Mechanize.new
+    page = agent.get('https://qiita.com/F-koji/items/4886dda6d287c7f2dc1b')
+
+    render plain: page.title.inspect
   end
 
   def index
