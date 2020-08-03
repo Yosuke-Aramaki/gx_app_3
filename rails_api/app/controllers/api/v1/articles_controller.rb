@@ -58,7 +58,6 @@ class Api::V1::ArticlesController < ApplicationController
       category_id: params[:article][:category_id],
       user_id: current_user.id
     )
-    logger.debug(@article.inspect)
     if @article.save
       render json: @article.to_json
     else
