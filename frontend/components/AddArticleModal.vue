@@ -56,11 +56,8 @@ export default {
     },
     async add_article() {
       // カテゴリー指定がない場合はcategory_idを1に指定する カテゴリーの扱いは要検討
-      if (this.form.category_id == '') {
-        this.form.category_id = 1
-      } else {
-        this.form.category_id = selected
-      }
+      this.form.category_id = this.selected
+      
       await this.$axios.$post(
         '/api/v1/save_article_from_url', 
         { article: this.form } 

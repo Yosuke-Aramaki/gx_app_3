@@ -10,7 +10,7 @@
         </div>
         <p>-------------</p>
         <div class="category-list" v-for="category in categories" :key="'category' + category.id">
-          <p>{{ category.category_name }}</p>
+          <p @click="fetch_categorised_crticle(1, category.id)">{{ category.category_name }}</p>
         </div>
         <div>
           <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
