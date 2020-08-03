@@ -9,6 +9,7 @@
           <p @click="fetch_categorised_crticle(0, category.id)">{{ category.category_name }}</p>
         </div>
         <p>-------------</p>
+        <p>読んだ</p>
         <div class="category-list" v-for="category in categories" :key="'category' + category.id">
           <p @click="fetch_categorised_crticle(1, category.id)">{{ category.category_name }}</p>
         </div>
@@ -19,7 +20,9 @@
       </div>
       <div class="article_section">
         <div class="unread-article-list" v-for="article in articles" :key="article.id">
-          <img class="image_section" border="0" :src="article.og_image_url" width="190" height="100" :alt="article.title">
+          <div class="image_section">
+            <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+          </div>
           <div class="article_information">
             <p>{{ article.title }}</p>
             <p><small>{{ article.article_note }}</small></p>
@@ -116,6 +119,16 @@ export default {
 
 .category-list {
   padding-left: 8px;
+}
+
+.image_section {
+  width: 190px;
+  height: 100px;
+}
+
+.image_size {
+  width: 190px;
+  height: 100px;
 }
 
 .article_section {
