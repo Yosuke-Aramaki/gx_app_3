@@ -175,6 +175,7 @@ export default {
 
 .read-article-list {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .read-article-item {
