@@ -43,6 +43,7 @@ class Api::V1::ArticlesController < ApplicationController
     page = agent.get(params[:article][:article_url])
     og_image_url = page.at('meta[property="og:image"]')[:content]
 
+    # メモがない場合はog:descriptionをメモとして保存する
     if params[:article][:article_note].empty?
       article_note = page.at('meta[property="og:description"]')[:content]
     else 

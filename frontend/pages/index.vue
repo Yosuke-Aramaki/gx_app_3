@@ -1,9 +1,7 @@
 <template>
   <div>
     <Header />
-     <p>{{ this.errors }}</p>
-    <button @click="openModal">記事を追加</button>
-    <button @click="openRemindModal">リマインド</button>
+    <p>{{ this.errors }}</p>
     <div>
       <p>あとで読む</p>
       <div class="category-list" v-for="category in categories" :key="'category' + category.id">
@@ -29,13 +27,7 @@
 </template>
 
 <script>
-import AddArticleModal from '@/components/AddArticleModal'
-import RemindModal from '@/components/RemindModal'
 export default {
-  components: {
-    AddArticleModal,
-    RemindModal
-  },
   data() {
     return {
       articles: [],
@@ -55,18 +47,6 @@ export default {
   computed: {
   },
   methods: {
-    openModal() {
-      this.modal = true
-    },
-    closeModal() {
-      this.modal = false
-    },
-    openRemindModal() {
-      this.remind_modal = true
-    },
-    closeRemindModal() {
-      this.remind_modal = false
-    },
     async fetch_articles() {
       let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
         params: {
