@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       get 'all_unread_or_read_articles', to: 'articles#all_unread_or_read_articles'
       get 'categorised_articles', to: 'articles#categorised_articles'
       get 'already_saved', to: 'articles#already_saved'
-      
+      post 'save_article_from_url', to: 'articles#save_article_from_url'
 
       resources :categories, only: [:index, :create, :edit, :update, :destroy] do 
       end 

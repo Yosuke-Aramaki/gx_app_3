@@ -35,9 +35,7 @@ export default {
   data() {
     return {
       form: {
-        title: '',
         article_url: '',
-        og_image_url: '',
         article_note: '',
         is_read: '',
         category_id: ''
@@ -57,36 +55,14 @@ export default {
       this.categories.unshift({ id: 1, category_name: "カテゴリーを追加しない" })
     },
     async add_article() {
-      console.log(this.form)
       // カテゴリー指定がない場合はcategory_idを1に指定する カテゴリーの扱いは要検討
       if (this.form.category_id == '') {
         this.form.category_id = 1
+      } else {
+        this.form.category_id = selected
       }
-      // og image と og description の取得
-      await fetch(
-        this.form.article_url, { 
-          mode: "cors",
-          credentials: "same-origin",
-        }).then(res => res.text()).then(text => {
-          console.log(text)
-          const el = new DOMParser().parseFromString(text, "text/html")
-          const headEls = (el.head.children)
-          Array.from(headEls).map(v => {
-            const prop = v.getAttribute('property')
-            if (!prop) return;
-            if (prop == "og:image") {
-              console.log(v.getAttribute("content"))
-              this.form.og_image_url = v.getAttribute("content")
-            }
-            if (prop == "og:description") {
-              if (this.form.article_note == '') {
-                this.form.article_note = v.getAttribute("content")
-              }
-            }
-        })
-      })
       await this.$axios.$post(
-        '/api/v1/articles', 
+        '/api/v1/save_article_from_url', 
         { article: this.form } 
       )
       .then((response) => {

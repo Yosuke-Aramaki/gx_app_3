@@ -37,6 +37,35 @@ class Api::V1::ArticlesController < ApplicationController
     end
   end
 
+  def save_article_from_url
+    require 'mechanize'
+    agent = Mechanize.new
+    page = agent.get(params[:article][:article_url])
+    og_image_url = page.at('meta[property="og:image"]')[:content]
+
+    if params[:article][:article_note].empty?
+      article_note = page.at('meta[property="og:description"]')[:content]
+    else 
+      article_note = params[:article][:article_note]
+    end
+
+    @article = Article.new(
+      title: page.title, 
+      article_url: params[:article][:article_url], 
+      og_image_url: og_image_url, 
+      is_read: params[:article][:is_read],
+      article_note: article_note, 
+      category_id: params[:article][:category_id],
+      user_id: current_user.id
+    )
+    logger.debug(@article.inspect)
+    if @article.save
+      render json: @article.to_json
+    else
+      render json: { messages: @article.errors }, status: :unauthorized
+    end
+  end
+
   def update
     @article = Article.find(params[:id])
     @article.update(article_params)

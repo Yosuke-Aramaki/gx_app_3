@@ -2,7 +2,7 @@
   <div>
     <Header />
      <p>{{ this.errors }}</p>
-    <button @click="openModal">開く</button>
+    <button @click="openModal">記事を追加</button>
     <button @click="openRemindModal">リマインド</button>
     <div>
       <p>あとで読む</p>
@@ -100,20 +100,6 @@ export default {
     async fetch_categories() {
       let res = await this.$axios.$get('/api/v1/categories')
       this.categories = res
-    },
-    async add_article() {
-      this.$axios.$post(
-        '/api/v1/categories', 
-        { category: this.category_form } 
-      )
-      .then((response) => {
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          this.errors = []
-          this.errors = error.response.data.messages
-        }
-      })
     },
     async add_category() {
       this.$axios.$post(
