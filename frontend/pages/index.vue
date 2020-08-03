@@ -2,27 +2,32 @@
   <div>
     <Header />
     <p>{{ this.errors }}</p>
-    <div>
-      <p>あとで読む</p>
-      <div class="category-list" v-for="category in categories" :key="'category' + category.id">
-        <p @click="fetch_categorised_crticle(0, category.id)">{{ category.category_name }}</p>
+    <div class="wrapper">
+      <div class="category_section">
+        <p>あとで読む</p>
+        <div class="category-list" v-for="category in categories" :key="'category' + category.id">
+          <p @click="fetch_categorised_crticle(0, category.id)">{{ category.category_name }}</p>
+        </div>
+        <p>-------------</p>
+        <div class="category-list" v-for="category in categories" :key="'category' + category.id">
+          <p>{{ category.category_name }}</p>
+        </div>
+        <div>
+          <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
+          <button type="submit" @click="add_category()">カテゴリーを追加</button>
+        </div>
       </div>
-      <p>-------------</p>
-      <div class="category-list" v-for="category in categories" :key="'category' + category.id">
-        <p>{{ category.category_name }}</p>
+      <div class="article_section">
+        <div class="unread-article-list" v-for="article in articles" :key="article.id">
+          <img class="image_section" border="0" :src="article.og_image_url" width="190" height="100" :alt="article.title">
+          <div class="article_information">
+            <p>{{ article.title }}</p>
+            <p><small>{{ article.article_note }}</small></p>
+            <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
+          </div>
+        </div>
       </div>
     </div>
-    <div>
-      <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
-      <button type="submit" @click="add_category()">カテゴリーを追加</button>
-    </div>
-    <div class="item-list" v-for="article in articles" :key="article.id">
-      <p>{{ article.id }}</p>
-      <p>{{ article.title }}</p>
-      <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
-    </div>
-    <AddArticleModal @close="closeModal" v-if="modal" />
-    <RemindModal @close="closeRemindModal" v-if="remind_modal" />
   </div>
 </template>
 
@@ -98,3 +103,32 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.wrapper {
+  display: flex;
+}
+
+.category_section {
+  padding-left: 16px;
+  width: 20%;
+}
+
+.category-list {
+  padding-left: 8px;
+}
+
+.article_section {
+  width: 80%;
+}
+
+.unread-article-list {
+  display: flex;
+}
+
+.unread-article-list .article_information {
+  padding-left: 16px;
+}
+
+
+</style>
