@@ -6,12 +6,12 @@
       <div class="category_section">
         <p>あとで読む</p>
         <div class="category-list" v-for="category in categories" :key="'category' + category.id">
-          <p @click="fetch_categorised_crticle(0, category.id)">{{ category.category_name }}</p>
+          <p @click="fetch_categorised_article(0, category.id)">{{ category.category_name }}</p>
         </div>
         <p>-------------</p>
         <p>読んだ</p>
         <div class="category-list" v-for="category in categories" :key="'category' + category.id">
-          <p @click="fetch_categorised_crticle(1, category.id)">{{ category.category_name }}</p>
+          <p @click="fetch_read_categorised_article(1, category.id)">{{ category.category_name }}</p>
         </div>
         <div>
           <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
@@ -19,14 +19,32 @@
         </div>
       </div>
       <div class="article_section">
-        <div class="unread-article-list" v-for="article in articles" :key="article.id">
-          <div class="image_section">
-            <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+        <div v-if="show_unread_articles" class="unread-article-list">
+          <div v-for="article in articles" :key="article.id">
+            <div class="unread-article-item">
+              <div class="image_section">
+                <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+              </div>
+              <div class="article_information">
+                <p>{{ article.title }}</p>
+                <p><small>{{ article.article_note }}</small></p>
+                <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
+              </div>
+            </div>  
           </div>
-          <div class="article_information">
-            <p>{{ article.title }}</p>
-            <p><small>{{ article.article_note }}</small></p>
-            <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
+        </div>
+        <div v-else class="read-article-list">
+          <div v-for="article in read_articles" :key="article.id">
+            <div class="read-article-item">
+              <p>{{ article.title }}</p>
+              <div class="image_section">
+                <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+              </div>
+              <div class="article_information">
+                <p><small>{{ article.article_note }}</small></p>
+                <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -39,13 +57,13 @@ export default {
   data() {
     return {
       articles: [],
+      read_articles: [],
       categories: [],
       category_form: {
         category_name: ''
       },
       errors: '',
-      modal: false,
-      remind_modal: false
+      show_unread_articles: true,
     }
   },
   created() {
@@ -76,7 +94,7 @@ export default {
         }
       })
     },
-    async fetch_categorised_crticle(is_read, category_id) {
+    async fetch_categorised_article(is_read, category_id) {
       let res = await this.$axios.$get('/api/v1/categorised_articles', {
         params: {
           is_read: is_read,
@@ -84,6 +102,18 @@ export default {
         }
       })
       this.articles = res
+      this.show_unread_articles = true
+    },
+    async fetch_read_categorised_article(is_read, category_id) {
+      let res = await this.$axios.$get('/api/v1/categorised_articles', {
+        params: {
+          is_read: is_read,
+          category_id: category_id
+        }
+      })
+      this.read_articles = res
+      this.show_unread_articles = false
+      // console.log(this.show_unread_articles) // falseが700回くらい反応してる
     },
     async fetch_categories() {
       let res = await this.$axios.$get('/api/v1/categories')
@@ -121,27 +151,46 @@ export default {
   padding-left: 8px;
 }
 
-.image_section {
-  width: 190px;
-  height: 100px;
-}
-
-.image_size {
-  width: 190px;
-  height: 100px;
-}
-
 .article_section {
   width: 80%;
 }
 
-.unread-article-list {
+.unread-article-item {
   display: flex;
+}
+
+.unread-article-list .image_size {
+  width: 190px;
+  height: 100px;
+}
+
+.unread-article-list .image_section {
+  width: 190px;
+  height: 100px;
 }
 
 .unread-article-list .article_information {
   padding-left: 16px;
 }
 
+.read-article-list {
+  display: flex;
+}
+
+.read-article-item {
+  margin-left: 1.25%;
+  width: 360px;
+  border: 1px solid #000;
+}
+
+.read-article-list .image_size {
+  width: 190px;
+  height: 100px;
+}
+
+.read-article-list .image_section {
+  width: 190px;
+  height: 100px;
+}
 
 </style>
