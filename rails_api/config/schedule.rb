@@ -3,6 +3,27 @@
 # It's helpful, but not entirely necessary to understand cron before proceeding.
 # http://en.wikipedia.org/wiki/Cron
 
+# require File.expand_path(File.dirname(__FILE__) + "/environment")
+# set :output, 'log/cron.log'
+
+# wheneverにrailsを起動する必要があるためRails.rootを使用
+require File.expand_path(File.dirname(__FILE__) + "/environment")
+# cronを実行する環境変数
+rails_env = ENV['RAILS_ENV'] || :development
+# cronを実行する環境変数をセット
+set :environment, rails_env
+
+# cronのログの場所
+set :output, "#{Rails.root}/log/cron.log"
+
+every 1.hours, at: 40 do
+  runner 'User.create(name: "cc", email: "cc@gmail.com", password: "cc", password_confirmation: "cc")'
+end
+
+# every 1.minute do
+#   command "echo 'mossmossmossmossmossmoss'"
+# end 
+
 # Example:
 #
 # set :output, "/path/to/my/cron_log.log"

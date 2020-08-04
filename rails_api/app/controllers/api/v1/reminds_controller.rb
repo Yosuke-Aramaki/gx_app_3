@@ -1,5 +1,11 @@
 class Api::V1::RemindsController < ApplicationController
 
+  skip_before_action :authenticate, only: [:index]
+
+  def index 
+    @remind = Remind.where(user_id: 1)
+  end
+
   def create
     @remind = Remind.new(remind_params)
     @remind.user_id = current_user.id
