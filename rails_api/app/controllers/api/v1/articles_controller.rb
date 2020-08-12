@@ -2,11 +2,12 @@ class Api::V1::ArticlesController < ApplicationController
   skip_before_action :authenticate, only: [:test]
   
   def test
-    require 'mechanize'
-    agent = Mechanize.new
-    page = agent.get('https://qiita.com/F-koji/items/4886dda6d287c7f2dc1b')
+    require 'date'
+    time = Time.now
+    remind_time = time.hour.to_s + ':' + time.min.to_s + ':00'
+    @remind = Remind.where(Remind_time: '12:00:00')
 
-    render plain: page.title.inspect
+    render plain: @remind.inspect
   end
 
   def index

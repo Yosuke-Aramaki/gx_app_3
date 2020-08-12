@@ -10,6 +10,10 @@ export default {
   ** See https://nuxtjs.org/api/configuration-target
   */
   target: 'server',
+  server: {
+    port: 5000,
+    host: 'localhost'
+  },
   /*
   ** Headers of the page
   ** See https://nuxtjs.org/api/configuration-head
@@ -23,7 +27,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
   },
   /*
   ** Global CSS
@@ -55,6 +59,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
     ['cookie-universal-nuxt', { parseJSON: false }],
+    '@nuxtjs/onesignal',
+    '@nuxtjs/pwa'
   ],
   /*
   ** Axios module configuration
@@ -64,7 +70,37 @@ export default {
     proxy: true
   },
   proxy: {
-    '/api': 'http://localhost:3000'
+    // '/api': 'http://localhost:3000'
+    '/api/v1': { target: 'http://localhost:3000', pathRewrite: {'^/api/v1': ''} }
+  },
+  oneSignal: {
+    init: {
+      appId: 'c3c52b3b-e0f2-423b-9491-8ba8784e6434',
+      allowLocalhostAsSecureOrigin: true,
+      welcomeNotification: {
+        disable: true
+      },
+      notifyButton: {
+        enable: true,
+      },
+    },
+    importScripts: ['https://cdn.onesignal.com/sdks/OneSignalSDK.js'],
+  },
+  pwa: {
+    workbox: {
+      dev: true, // devモードで起動した時でもServiceWorkerを有効にする
+    },
+    manifest: {
+      name: 'test',
+      short_name: 'test',
+      title: 'test',
+      'og:title': 'test',
+      description: 'test',
+      'og:description': 'test',
+      lang: 'ja',
+      theme_color: '#ffffff',
+      background_color: '#ffffff'
+    },
   },
   /*
   ** Build configuration

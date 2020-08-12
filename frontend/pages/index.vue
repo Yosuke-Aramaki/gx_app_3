@@ -2,6 +2,7 @@
   <div>
     <Header />
     <p>{{ this.errors }}</p>
+    <button @click="notifyMe()">Notify me!</button>
     <div class="wrapper">
       <div class="category_section">
         <p>あとで読む</p>
@@ -67,12 +68,75 @@ export default {
     }
   },
   created() {
-    this.fetch_articles(),
-    this.fetch_categories()
+    this.enable_notification()
+    // this.fetch_articles(),
+    // this.fetch_categories()
   },
   computed: {
   },
   methods: {
+    async notifyMe() {
+      // ブラウザが通知をサポートしているか確認
+      // if (!('Notification' in window)) {
+      //   alert('未対応のブラウザです');
+      // }
+      // else {
+      //   // 通知を許可するポップアップを生成
+      //   Notification.requestPermission()
+      //     .then((permission) => {
+      //       if (permission == 'granted') {
+      //         // 許可
+      //         console.log(1)
+      //       } else if (permission == 'denied') {
+      //         // 拒否
+      //       } else if (permission == 'default') {
+      //         // 無視
+      //       }
+      //     });
+      // }
+      console.log(1)
+      this.$OneSignal.push(['sendTag', 'customId', 1, function(tagsSent) {
+        console.log(1)
+      }]); 
+      this.$OneSignal.push(() => {
+        console.log(1)
+        this.$OneSignal.on('subscriptionChange', function (isSubscribed) {
+          console.log(1)
+          console.log(isSubscribed)
+                  if (isSubscribed == true) {
+                      this.$OneSignal.setExternalUserId(this.$cookies.get('user_id'));
+                      this.$OneSignal.getExternalUserId().then(function (id) {
+                        console.log(id)
+                      });
+                  } else if (isSubscribed == false) {
+                      this.$OneSignal.removeExternalUserId();
+                  }
+              });
+      })
+    },
+    async enable_notification() {
+      this.$OneSignal.push(() => {
+        this.$OneSignal.getUserId(function(userId) {
+          console.log("OneSignal User ID:", userId);
+          // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316    
+        });
+        this.$OneSignal.push(["getNotificationPermission", function(permission) {
+            console.log("Site Notification Permission:", permission);
+            // (Output) Site Notification Permission: default
+        }]);
+        this.$OneSignal.on('permissionPromptDisplay', function () {
+          console.log("The prompt displayed");
+        });
+        this.$OneSignal.isPushNotificationsEnabled((isEnabled) => {
+          if (isEnabled) {
+            console.log('Push notifications are enabled!')
+          } else {
+            console.log('Push notifications are not enabled yet.')
+          }
+        })
+      console.log(1)
+      })
+    },
     async fetch_articles() {
       let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
         params: {

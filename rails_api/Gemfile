@@ -32,6 +32,9 @@ gem 'mechanize'
 # cron
 gem 'whenever', require: false
 
+# httpparty for onesignal
+gem 'httparty'
+
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
