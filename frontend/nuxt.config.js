@@ -10,10 +10,6 @@ export default {
   ** See https://nuxtjs.org/api/configuration-target
   */
   target: 'server',
-  server: {
-    port: 5000,
-    host: 'localhost'
-  },
   /*
   ** Headers of the page
   ** See https://nuxtjs.org/api/configuration-head
@@ -67,11 +63,15 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    proxy: true
+    proxy: true,
+    // baseURL: 'http://localhost:3000'
   },
   proxy: {
-    // '/api': 'http://localhost:3000'
-    '/api/v1': { target: 'http://localhost:3000', pathRewrite: {'^/api/v1': ''} }
+    '/api': 'http://[::1]:3000'
+    // '/api': { 
+    //   target: 'http://[::1]', 
+    //   pathRewrite: {'^/api': ''}
+    // }
   },
   oneSignal: {
     init: {

@@ -3,11 +3,11 @@ class Api::V1::ArticlesController < ApplicationController
   
   def test
     require 'date'
-    time = Time.now
+    time = Time.now.in_time_zone("Tokyo")
     remind_time = time.hour.to_s + ':' + time.min.to_s + ':00'
-    @remind = Remind.where(Remind_time: '12:00:00')
+    @remind = Remind.where(day_of_the_week: time.wday, remind_time: remind_time).select("user_id")
 
-    render plain: @remind.inspect
+    render plain: @remind[0].user_id.inspect
   end
 
   def index

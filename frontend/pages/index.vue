@@ -69,8 +69,8 @@ export default {
   },
   created() {
     this.enable_notification()
-    // this.fetch_articles(),
-    // this.fetch_categories()
+    this.fetch_articles(),
+    this.fetch_categories()
   },
   computed: {
   },
@@ -94,14 +94,13 @@ export default {
       //       }
       //     });
       // }
-      console.log(1)
-      this.$OneSignal.push(['sendTag', 'customId', 1, function(tagsSent) {
+      console.log(this.$cookies.get('user_id'))
+      this.$OneSignal.push(['sendTag', 'customId', this.$cookies.get('user_id'), function(tagsSent) {
         console.log(1)
       }]); 
       this.$OneSignal.push(() => {
-        console.log(1)
         this.$OneSignal.on('subscriptionChange', function (isSubscribed) {
-          console.log(1)
+          console.log(2)
           console.log(isSubscribed)
                   if (isSubscribed == true) {
                       this.$OneSignal.setExternalUserId(this.$cookies.get('user_id'));

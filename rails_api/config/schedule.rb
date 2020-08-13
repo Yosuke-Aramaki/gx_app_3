@@ -26,7 +26,7 @@ set :environment, :development
 
 
 # every 1.hours, at: 46 do
-every 2.minutes do
+every 1.minutes do
   rake 'remind_task:check_remind_time'
   # runner "Test.yakisoba", :environment => :development # runnnerの例
 end
