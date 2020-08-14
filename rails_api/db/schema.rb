@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 2020_07_29_080642) do
   create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.string "article_url"
-    t.string "og_image_url"
+    t.text "og_image_url"
     t.text "article_note"
     t.boolean "is_read", default: false, null: false
     t.bigint "user_id"

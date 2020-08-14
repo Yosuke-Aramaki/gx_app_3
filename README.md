@@ -64,12 +64,12 @@ cd rails_api
 
 //dockerのアプリを起動した状態で
 docker-compose build
-
-docker-compose -up d
+docker-compose up -d
 
 // RailsDBの作成
-docker-compose run app rails db:create
-docker-compose run app rails db:migrate
+docker-compose exec app bash
+rails db:create
+rails db:migrate
 ```
 
 ```
