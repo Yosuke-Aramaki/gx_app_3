@@ -64,7 +64,6 @@ export default {
   */
   axios: {
     proxy: true,
-    // baseURL: 'http://localhost:3000'
   },
   proxy: {
     '/api': 'http://[::1]:3000'
