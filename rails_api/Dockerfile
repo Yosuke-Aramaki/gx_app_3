@@ -18,7 +18,7 @@ COPY Gemfile /gx_app_3/Gemfile
 COPY Gemfile.lock /gx_app_3/Gemfile.lock
 
 RUN gem install bundler
-RUN bundle install
+RUN bundle install --path=vendor
 
 COPY . /gx_app_3
 
