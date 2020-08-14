@@ -1,9 +1,8 @@
 class Api::V1::UsersController < ApplicationController
   skip_before_action :authenticate, only: [:create]
+  
   def index
-    render json: {
-      msg: "Hello!!!!!"
-    }
+   
   end
 
   # ユーザー登録

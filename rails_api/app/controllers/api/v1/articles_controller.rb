@@ -2,12 +2,7 @@ class Api::V1::ArticlesController < ApplicationController
   skip_before_action :authenticate, only: [:test]
   
   def test
-    require 'date'
-    time = Time.now.in_time_zone("Tokyo")
-    remind_time = time.hour.to_s + ':' + time.min.to_s + ':00'
-    @remind = Remind.where(day_of_the_week: time.wday, remind_time: remind_time).select("user_id")
-
-    render plain: @remind[0].user_id.inspect
+    
   end
 
   def index
@@ -38,9 +33,12 @@ class Api::V1::ArticlesController < ApplicationController
     end
   end
 
+  # サイトから記事を保存する場合（Rails側でスクレイピングする必要があるためcreateとは別にした）
   def save_article_from_url
+    
     require 'mechanize'
     agent = Mechanize.new
+    
     page = agent.get(params[:article][:article_url])
     og_image_url = page.at('meta[property="og:image"]')[:content]
 
@@ -77,6 +75,7 @@ class Api::V1::ArticlesController < ApplicationController
     @article.update(is_read: params[:is_read])
   end
 
+  # 保存しようとしてる記事がすでに保存されているかの確認
   def already_saved
     @user = current_user
     @article = current_user.articles.find_by(article_url: params[:article_url])

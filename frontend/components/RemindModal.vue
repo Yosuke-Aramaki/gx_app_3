@@ -4,6 +4,11 @@
       <div class="modal-window">
         <div class="modal-content">
           <p>リマインドの時間を指定する</p>
+          <div v-if="notificationAllowed == true">
+            <p>ブラウザの通知が許可されていません。こちらから許可設定してください</p>
+            <button @click="allowNotification()">通知を許可する</button>
+          </div>
+            <p>{{ notificationAllowed }}</p>
           <form @submit.prevent="set_remind">
             <input type="time" v-model="form.remind_time" placeholder="remind time" name="remind_time" />
             <br />
@@ -44,18 +49,54 @@ export default {
         remind_time: ''
       },
       selected: 1,
-      categories: [],
+      reminds: [],
       errors: '',
+      notificationAllowance: true,
     }
   },
   created() {
+    this.check_notification()
     this.fetch_remindss()
   },
+  computed: {
+    notificationAllowed: function() {
+      return this.$OneSignal.isPushNotificationsEnabled(async (isEnabled) => {
+        if (isEnabled) {
+          console.log('Push notifications are enabled!')
+          return false
+        } else {
+          console.log('Push notifications are not enabled yet.')
+          return true
+        }
+      })
+    }
+  },
   methods: {
+    async check_notification() {
+      // ブラウザが通知をサポートしているか確認
+      if (!('Notification' in window)) {
+        alert('未対応のブラウザです');
+      }
+    },
     async fetch_remindss() {
-      // let res = await this.$axios.$get('/api/v1/categories')
-      // this.categories = res
-      // this.categories.unshift({ id: 1, category_name: "カテゴリーを追加しない" })
+      let res = await this.$axios.$get('/api/v1/reminds')
+      this.reminds = res
+      for (let i = 0; i < this.reminds.length; i++) {
+        this.form.day_of_the_week.push(this.reminds[i].day_of_the_week)
+      }
+      this.form.remind_time = this.reminds[0].remind_time
+    },
+    async allowNotification() {
+      // 通知を許可するポップアップを生成
+      Notification.requestPermission().then((permission) => {
+        if (permission == 'granted') { // 通知が許可された場合
+          
+        } else if (permission == 'denied') {
+          
+        } else if (permission == 'default') {
+          
+        }
+      });
     },
     async set_remind() {
       // 繰り返し処理で１つずつ曜日と時間を保存していく

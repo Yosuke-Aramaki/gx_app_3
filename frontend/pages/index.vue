@@ -102,39 +102,39 @@ export default {
         this.$OneSignal.on('subscriptionChange', function (isSubscribed) {
           console.log(2)
           console.log(isSubscribed)
-                  if (isSubscribed == true) {
-                      this.$OneSignal.setExternalUserId(this.$cookies.get('user_id'));
-                      this.$OneSignal.getExternalUserId().then(function (id) {
-                        console.log(id)
-                      });
-                  } else if (isSubscribed == false) {
-                      this.$OneSignal.removeExternalUserId();
-                  }
-              });
+            if (isSubscribed == true) {
+                this.$OneSignal.setExternalUserId(this.$cookies.get('user_id'));
+                this.$OneSignal.getExternalUserId().then(function (id) {
+                  console.log(id)
+                });
+            } else if (isSubscribed == false) {
+                this.$OneSignal.removeExternalUserId();
+            }
+        });
       })
     },
     async enable_notification() {
-      this.$OneSignal.push(() => {
-        this.$OneSignal.getUserId(function(userId) {
-          console.log("OneSignal User ID:", userId);
-          // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316    
-        });
-        this.$OneSignal.push(["getNotificationPermission", function(permission) {
-            console.log("Site Notification Permission:", permission);
-            // (Output) Site Notification Permission: default
-        }]);
-        this.$OneSignal.on('permissionPromptDisplay', function () {
-          console.log("The prompt displayed");
-        });
-        this.$OneSignal.isPushNotificationsEnabled((isEnabled) => {
-          if (isEnabled) {
-            console.log('Push notifications are enabled!')
-          } else {
-            console.log('Push notifications are not enabled yet.')
-          }
-        })
-      console.log(1)
-      })
+      // this.$OneSignal.push(() => {
+      //   this.$OneSignal.getUserId(function(userId) {
+      //     console.log("OneSignal User ID:", userId);
+      //     // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316    
+      //   });
+      //   this.$OneSignal.push(["getNotificationPermission", function(permission) {
+      //       console.log("Site Notification Permission:", permission);
+      //       // (Output) Site Notification Permission: default
+      //   }]);
+      //   this.$OneSignal.on('permissionPromptDisplay', function () {
+      //     console.log("The prompt displayed");
+      //   });
+      //   this.$OneSignal.isPushNotificationsEnabled((isEnabled) => {
+      //     if (isEnabled) {
+      //       console.log('Push notifications are enabled!')
+      //     } else {
+      //       console.log('Push notifications are not enabled yet.')
+      //     }
+      //   })
+      // console.log(1)
+      // })
     },
     async fetch_articles() {
       let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
