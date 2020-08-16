@@ -28,12 +28,12 @@ export default {
   },
   methods: {
     async signup () {
-      await this.$axios.$post(
+      this.$axios.$post(
         '/api/v1/users', 
         {user: this.form }
       )
       .then(async (response) => {
-        await this.$store.dispatch('auth/set_user_token', response.data )
+        this.$store.dispatch('auth/set_user_token', response )
         location.replace('/')
         // await this.$router.push('/')
       })
