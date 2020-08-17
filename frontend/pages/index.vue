@@ -5,12 +5,12 @@
     <button @click="notifyMe()">Notify me!</button>
     <div class="wrapper">
       <div class="category_section">
-        <p>あとで読む</p>
+        <p @click="fetch_articles(0)">あとで読む</p>
         <div class="category-list" v-for="category in categories" :key="'category' + category.id">
           <p @click="fetch_categorised_article(0, category.id)">{{ category.category_name }}</p>
         </div>
         <p>-------------</p>
-        <p>読んだ</p>
+        <p @click="fetch_articles(1)">読んだ</p>
         <div class="category-list" v-for="category in categories" :key="'category' + category.id">
           <p @click="fetch_read_categorised_article(1, category.id)">{{ category.category_name }}</p>
         </div>
@@ -69,7 +69,7 @@ export default {
   },
   created() {
     this.enable_notification()
-    this.fetch_articles(),
+    this.fetch_articles(0),
     this.fetch_categories()
   },
   computed: {
@@ -136,14 +136,23 @@ export default {
       // console.log(1)
       // })
     },
-    async fetch_articles() {
+    async fetch_articles(is_read) {
       let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
         params: {
-          is_read: 0
+          is_read: is_read
         }
       })
       console.log(res)
-      this.articles = res
+
+      if (is_read == 0) {
+        this.articles =[]
+        this.articles = res
+        this.show_unread_articles = true
+      } else {
+        this.read_articles =[]
+        this.read_articles = res
+        this.show_unread_articles = false
+      }
     },
     async article_url_clicked(article_id) {
       this.$axios.$put(
@@ -164,6 +173,7 @@ export default {
           category_id: category_id
         }
       })
+      this.articles =[]
       this.articles = res
       this.show_unread_articles = true
     },
@@ -174,6 +184,8 @@ export default {
           category_id: category_id
         }
       })
+      this.articles = []
+      this.read_articles = []
       this.read_articles = res
       this.show_unread_articles = false
       // console.log(this.show_unread_articles) // falseが700回くらい反応してる
@@ -188,6 +200,7 @@ export default {
         { category: this.category_form } 
       )
       .then((response) => {
+        this.categories.push(response)
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
