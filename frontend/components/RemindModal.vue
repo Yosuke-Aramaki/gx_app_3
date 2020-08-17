@@ -102,6 +102,9 @@ export default {
       });
     },
     async set_remind() {
+      // OneSignalのタグを設定する
+      this.$OneSignal.push(['sendTag', 'customId', this.$cookies.get('user_id'), function(tagsSent) {
+      }]); 
       // 繰り返し処理で１つずつ曜日と時間を保存していく
       for (let i = 0; i < this.form.day_of_the_week.length; i++ ) {
         await this.$axios.$post(

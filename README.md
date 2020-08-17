@@ -12,7 +12,7 @@
 ![ERD](erd.png)
 
 ### デモ動画
-
+![DEMO](demo.gif)
 
 ##  インストール
 
