@@ -5,6 +5,7 @@ class Api::V1::RemindsController < ApplicationController
     render json: @remind.to_json
   end
 
+  # time型をそのまま取得すると無駄なデータまで取得するのでremind_timeは整形して取り出す
   def get_remind_time
     @remind = Remind.where(user_id: current_user.id).select("remind_time")
     render json:  @remind[0].remind_time.strftime("%H:%M").to_json

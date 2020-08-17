@@ -1,9 +1,8 @@
 class Api::V1::ArticlesController < ApplicationController
   skip_before_action :authenticate, only: [:test]
-  
+    
   def test
-    @remind = Remind.where(user_id: 8).select("remind_time")
-    render json: @remind[0].remind_time.strftime("%H:%M").to_json
+
   end
 
   def index
@@ -69,6 +68,7 @@ class Api::V1::ArticlesController < ApplicationController
     @article.update(article_params)
   end
 
+  # 既読未読の変更、もしかしたら上記の`update`アクションに統合させても良いかも
   def update_is_read 
     @article = Article.find(params[:id])
     @article.update(is_read: params[:is_read])
