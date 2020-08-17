@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
       resources :reminds, only: [:index, :create, :edit, :update, :destroy] do 
       end 
+      get 'get_remind_time', to: 'reminds#get_remind_time'
 
     end
   end

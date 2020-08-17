@@ -4,11 +4,11 @@
       <div class="modal-window">
         <div class="modal-content">
           <p>リマインドの時間を指定する</p>
-          <div v-if="!!notificationAllowed">
+          <div v-if="!!notificationAllowance">
             <p>ブラウザの通知が許可されていません。こちらから許可設定してください</p>
             <button @click="allowNotification()">通知を許可する</button>
           </div>
-            <p>{{ this.notificationAllowed }}</p>
+            <p>{{ this.notificationAllowance }}</p>
           <form @submit.prevent="set_remind">
             <input type="time" v-model="form.remind_time" placeholder="remind time" name="remind_time" />
             <br />
@@ -56,12 +56,9 @@ export default {
   },
   created() {
     this.check_notification()
-    // this.fetch_remindss()
+    this.fetch_reminds()
   },
   computed: {
-    notificationAllowed: function() {
-      
-    }
   },
   methods: {
     async check_notification() {
@@ -69,6 +66,7 @@ export default {
       if (!('Notification' in window)) {
         alert('未対応のブラウザです');
       } else {
+        // ブラウザが通知を許可しているか確認
         this.$OneSignal.push(() => {
           this.$OneSignal.isPushNotificationsEnabled(async (isEnabled) => {
             if (isEnabled) {
@@ -76,19 +74,20 @@ export default {
               return 
             } else {
               console.log('Push notifications are not enabled yet.')
-              return this.notificationAllowed = false;
+              return this.notificationAllowance = false;
             }
           })
         })
       }
     },
-    async fetch_remindss() {
+    async fetch_reminds() {
       let res = await this.$axios.$get('/api/v1/reminds')
       this.reminds = res
       for (let i = 0; i < this.reminds.length; i++) {
         this.form.day_of_the_week.push(this.reminds[i].day_of_the_week)
       }
-      this.form.remind_time = this.reminds[0].remind_time
+      let remind_time = await this.$axios.$get('/api/v1/get_remind_time')
+      this.form.remind_time = remind_time
     },
     async allowNotification() {
       // 通知を許可するポップアップを生成

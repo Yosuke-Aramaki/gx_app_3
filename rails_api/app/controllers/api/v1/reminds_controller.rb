@@ -2,8 +2,12 @@ class Api::V1::RemindsController < ApplicationController
 
   def index 
     @remind = Remind.where(user_id: current_user.id).select("id, day_of_the_week, user_id")
-    @remind[0].remind_time.strftime('%H:%M')
     render json: @remind.to_json
+  end
+
+  def get_remind_time
+    @remind = Remind.where(user_id: current_user.id).select("remind_time")
+    render json:  @remind[0].remind_time.strftime("%H:%M").to_json
   end
 
   def create
