@@ -6,12 +6,12 @@
     <div class="wrapper">
       <div class="category_section">
         <p @click="fetch_articles(0)">あとで読む</p>
-        <div class="category-list" v-for="category in categories" :key="'category' + category.id">
+        <div class="category-list" v-for="category in categories" :key="'unread_category' + category.id">
           <p @click="fetch_categorised_article(0, category.id)">{{ category.category_name }}</p>
         </div>
         <p>-------------</p>
         <p @click="fetch_articles(1)">読んだ</p>
-        <div class="category-list" v-for="category in categories" :key="'category' + category.id">
+        <div class="category-list" v-for="category in categories" :key="'read_category' + category.id">
           <p @click="fetch_read_categorised_article(1, category.id)">{{ category.category_name }}</p>
         </div>
         <div>
@@ -21,7 +21,7 @@
       </div>
       <div class="article_section">
         <div v-if="show_unread_articles" class="unread-article-list">
-          <div v-for="article in articles" :key="article.id">
+          <div v-for="article in articles" :key="'unread_article' + article.id">
             <div class="unread-article-item">
               <div class="image_section">
                 <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
@@ -35,7 +35,7 @@
           </div>
         </div>
         <div v-else class="read-article-list">
-          <div v-for="article in read_articles" :key="article.id">
+          <div v-for="article in read_articles" :key="'read_article' + article.id">
             <div class="read-article-item">
               <p>{{ article.title }}</p>
               <div class="image_section">
@@ -98,20 +98,6 @@ export default {
       this.$OneSignal.push(['sendTag', 'customId', this.$cookies.get('user_id'), function(tagsSent) {
         console.log(1)
       }]); 
-      this.$OneSignal.push(() => {
-        this.$OneSignal.on('subscriptionChange', function (isSubscribed) {
-          console.log(2)
-          console.log(isSubscribed)
-            if (isSubscribed == true) {
-                this.$OneSignal.setExternalUserId(this.$cookies.get('user_id'));
-                this.$OneSignal.getExternalUserId().then(function (id) {
-                  console.log(id)
-                });
-            } else if (isSubscribed == false) {
-                this.$OneSignal.removeExternalUserId();
-            }
-        });
-      })
     },
     async enable_notification() {
       // this.$OneSignal.push(() => {

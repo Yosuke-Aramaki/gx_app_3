@@ -4,11 +4,11 @@
       <div class="modal-window">
         <div class="modal-content">
           <p>リマインドの時間を指定する</p>
-          <div v-if="notificationAllowed == true">
+          <div v-if="!!notificationAllowed">
             <p>ブラウザの通知が許可されていません。こちらから許可設定してください</p>
             <button @click="allowNotification()">通知を許可する</button>
           </div>
-            <p>{{ notificationAllowed }}</p>
+            <p>{{ this.notificationAllowed }}</p>
           <form @submit.prevent="set_remind">
             <input type="time" v-model="form.remind_time" placeholder="remind time" name="remind_time" />
             <br />
@@ -56,19 +56,11 @@ export default {
   },
   created() {
     this.check_notification()
-    this.fetch_remindss()
+    // this.fetch_remindss()
   },
   computed: {
     notificationAllowed: function() {
-      return this.$OneSignal.isPushNotificationsEnabled(async (isEnabled) => {
-        if (isEnabled) {
-          console.log('Push notifications are enabled!')
-          return false
-        } else {
-          console.log('Push notifications are not enabled yet.')
-          return true
-        }
-      })
+      
     }
   },
   methods: {
@@ -76,6 +68,18 @@ export default {
       // ブラウザが通知をサポートしているか確認
       if (!('Notification' in window)) {
         alert('未対応のブラウザです');
+      } else {
+        this.$OneSignal.push(() => {
+          this.$OneSignal.isPushNotificationsEnabled(async (isEnabled) => {
+            if (isEnabled) {
+              console.log('Push notifications are enabled!')
+              return 
+            } else {
+              console.log('Push notifications are not enabled yet.')
+              return this.notificationAllowed = false;
+            }
+          })
+        })
       }
     },
     async fetch_remindss() {
