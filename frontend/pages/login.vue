@@ -1,13 +1,19 @@
 <template>
   <div>
-    <p>{{ this.errors }}</p>
-    <form @submit.prevent="login">
-      <p><input type="text" v-model="form_login.email" placeholder="email" name="email"/></p>
-      <p><input type="password" v-model="form_login.password" placeholder="password" name="password"/></p>
-      <div class="login-btn">
-        <button type="submit">login</button>
+    <div class="section-logo">
+
+    </div>
+    <div class="box-frame">
+      <p class="error">{{ this.errors }}</p>
+      <div class="box-frame-title">
+        <h2>Welcome back!</h2>
       </div>
-    </form>
+      <form @submit.prevent="login">
+        <input class="form-field" type="text" v-model="form_login.email" placeholder="email" name="email"/>
+        <input class="form-field" type="password" v-model="form_login.password" placeholder="password" name="password"/>
+        <button class="form-button" type="submit">ログイン</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -37,3 +43,64 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.section-logo {
+  margin: 20px 0px;
+  text-align: center;
+}
+
+.box-frame {
+  width: 400px;
+  margin: 0 auto;
+  padding: 25px 40px;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px 0px;
+}
+
+.box-frame-title h2 {
+  margin-top: 4px;
+  margin-bottom: 35px;
+}
+
+.form-field {
+  width: 100%;
+  font-size: 13px;
+  height: 40px;
+  padding-left: 8px;
+  margin-bottom: 20px;
+  background-color: #FAFBFC;
+  border: 2px solid #DFE1E6;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.form-button {
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 8px;
+  border: 0;      
+  cursor: pointer;
+  padding: auto 18px;
+  background: #47B931;
+  color: #ffffff;
+  transition: .2s;
+  /* box-shadow: 6px 6px 3px #666666;   */
+  /* border: 2px solid #ffffff;  */
+}
+
+.form-button:hover {
+  background: #D9F2A0;
+}
+
+.error {
+  font-size: 12px;
+  color: #FF954A;
+}
+</style>
