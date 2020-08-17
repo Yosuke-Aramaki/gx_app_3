@@ -6,6 +6,14 @@
 
 # Developer's guide
 
+## 開発関係情報
+
+### ERD
+![ERD](erd.png)
+
+### デモ動画
+
+
 ##  インストール
 
 ```
