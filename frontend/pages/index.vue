@@ -1,55 +1,64 @@
 <template>
-  <div>
+  <v-app>
     <Header />
     <p>{{ this.errors }}</p>
-    <div class="wrapper">
-      <div class="category_section">
-        <p @click="fetch_articles(0)">未読記事</p>
-        <div class="category-list" v-for="category in categories" :key="'unread_category' + category.id">
-          <p @click="fetch_categorised_article(0, category.id)">{{ category.category_name }}</p>
-        </div>
-        <p>-------------</p>
-        <p @click="fetch_articles(1)">既読記事</p>
-        <div class="category-list" v-for="category in categories" :key="'read_category' + category.id">
-          <p @click="fetch_read_categorised_article(1, category.id)">{{ category.category_name }}</p>
-        </div>
-        <div>
-          <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
-          <button type="submit" @click="add_category()">カテゴリーを追加</button>
-        </div>
-      </div>
-      <div class="article_section">
-        <div v-if="show_unread_articles" class="unread-article-list">
-          <div v-for="article in articles" :key="'unread_article' + article.id">
-            <div class="unread-article-item">
-              <div class="image_section">
-                <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
-              </div>
-              <div class="article_information">
-                <p>{{ article.title }}</p>
-                <p><small>{{ article.article_note }}</small></p>
-                <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
-              </div>
-            </div>  
+    <v-container>
+      <v-row justify="center">
+        <v-col cols="2" class="category_section">
+          <div @click="fetch_articles(0)">未読記事</div>
+          <div class="category-list" v-for="category in categories" :key="'unread_category' + category.id">
+            <div @click="fetch_categorised_article(0, category.id)">{{ category.category_name }}</div>
           </div>
-        </div>
-        <div v-else class="read-article-list">
-          <div v-for="article in read_articles" :key="'read_article' + article.id">
-            <div class="read-article-item">
-              <p>{{ article.title }}</p>
-              <div class="image_section">
-                <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+          <p>-------------</p>
+          <div @click="fetch_articles(1)">既読記事</div>
+          <div class="category-list" v-for="category in categories" :key="'read_category' + category.id">
+            <div @click="fetch_read_categorised_article(1, category.id)">{{ category.category_name }}</div>
+          </div>
+          <div>
+            <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
+            <button type="submit" @click="add_category()">カテゴリーを追加</button>
+          </div>
+        </v-col>
+        <v-col cols="10" class="article_section">
+          <div v-if="show_unread_articles" class="unread-article-list">
+            <div v-for="(article, index) in articles" :key="'unread_article' + article.id">
+              <div class="article_saved_date" v-if="index == 0">{{dataFormat(article.created_at)}}</div>
+              <div v-else>
+                <div class="article_saved_date" v-if="sameDate(index)">{{dataFormat(article.created_at)}}</div>
               </div>
-              <div class="article_information">
-                <p><small>{{ article.article_note }}</small></p>
-                <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
-              </div>
+              <a :href="article.article_url" @click="article_url_clicked(article.id)">
+                <div class="unread-article-item">
+                    <div class="image_section">
+                      <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+                    </div>
+                    <div class="article_information">
+                      <div class="article_title">{{ article.title }}</div>
+                      <div class="article_description"><small>{{ article.article_note }}</small></div>
+                    </div>
+                </div>  
+              </a>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          <div v-else class="read-article-list">
+            <v-row>
+              <v-col cols="4" v-for="article in read_articles" :key="'read_article' + article.id">
+                <div class="read-article-item">
+                  <p>{{ article.title }}</p>
+                  <div class="image_section">
+                    <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+                  </div>
+                  <div class="article_information">
+                    <p><small>{{ article.article_note }}</small></p>
+                    <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
@@ -71,6 +80,16 @@ export default {
     this.fetch_categories()
   },
   computed: {
+    sameDate: function() {
+      return function(value) {
+        return this.articles[value-1].created_at.substr(0, 10) != this.articles[value].created_at.substr(0, 10)
+      }
+    },
+    dataFormat: function() {
+      return function(value) {
+        return value.substr(0, 10)
+      }
+    }
   },
   methods: {
     async fetch_articles(is_read) {
@@ -155,21 +174,28 @@ export default {
   display: flex;
 }
 
-.category_section {
-  padding-left: 16px;
-  width: 20%;
-}
-
 .category-list {
   padding-left: 8px;
 }
 
 .article_section {
-  width: 80%;
+  /* width: 80%; */
+}
+
+.article_saved_date {
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+a {
+  text-decoration: none;
 }
 
 .unread-article-item {
   display: flex;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  border-bottom: 0.5px solid #7b7b7b;
 }
 
 .unread-article-list .image_size {
@@ -186,14 +212,23 @@ export default {
   padding-left: 16px;
 }
 
+.article_title {
+  color: #000000;
+  font-weight: 500;
+}
+
+.article_description {
+  color: #7B7B7B;
+}
+
 .read-article-list {
   display: flex;
   flex-wrap: wrap;
 }
 
 .read-article-item {
-  margin-left: 1.25%;
-  width: 360px;
+  /* margin-left: 1.25%;
+  width: 360px; */
   border: 1px solid #000;
 }
 
