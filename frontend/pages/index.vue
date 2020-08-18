@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="body-contents">
     <Header />
     <p>{{ this.errors }}</p>
     <v-container>
@@ -42,16 +42,18 @@
           <div v-else class="read-article-list">
             <v-row>
               <v-col cols="4" v-for="article in read_articles" :key="'read_article' + article.id">
-                <div class="read-article-item">
-                  <p>{{ article.title }}</p>
-                  <div class="image_section">
-                    <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+                <a :href="article.article_url" @click="article_url_clicked(article.id)">
+                  <div class="read-article-item">
+                    <div class="image_section" style="margin:auto;">
+                      <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+                    </div>
+                    <div class="article_title">{{ article.title }}</div>
+                    <div class="article_read_date"><small>{{dataFormat(article.updated_at)}}</small></div>
+                    <div class="article_note">
+                      <p><small>{{ article.article_note }}</small></p>
+                    </div>
                   </div>
-                  <div class="article_information">
-                    <p><small>{{ article.article_note }}</small></p>
-                    <p><a :href="article.article_url" @click="article_url_clicked(article.id)">{{ article.article_url }}</a></p>
-                  </div>
-                </div>
+                </a>
               </v-col>
             </v-row>
           </div>
@@ -170,6 +172,10 @@ export default {
 </script>
 
 <style scoped>
+.body-contents {
+  background-color: #fafafa;
+}
+
 .wrapper {
   display: flex;
 }
@@ -221,25 +227,54 @@ a {
   color: #7B7B7B;
 }
 
-.read-article-list {
-  display: flex;
-  flex-wrap: wrap;
+.article_section .col {
+  padding-top: 0px;
 }
 
 .read-article-item {
-  /* margin-left: 1.25%;
-  width: 360px; */
-  border: 1px solid #000;
+  /* border: 1px solid #000; */
+  padding: 16px;
+  height: 360px;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px 0px;
+  background-color: #ffffff;
 }
 
-.read-article-list .image_size {
-  width: 190px;
-  height: 100px;
+.article_read_date {
+  text-align: right;
+  color: #7B7B7B;
 }
 
 .read-article-list .image_section {
-  width: 190px;
-  height: 100px;
+  width: 100%;
+  height: 48%;
+}
+
+.read-article-list .image_size {
+  width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+}
+
+
+.article_title {
+  overflow: hidden;
+  height: 48px;
+  width: 100%;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.article_note p {
+  color: #000000;
+  overflow: hidden;
+  height: 96px;
+  width: 100%;
+  margin-bottom: 0px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 </style>
