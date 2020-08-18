@@ -4,12 +4,12 @@
     <p>{{ this.errors }}</p>
     <div class="wrapper">
       <div class="category_section">
-        <p @click="fetch_articles(0)">あとで読む</p>
+        <p @click="fetch_articles(0)">未読記事</p>
         <div class="category-list" v-for="category in categories" :key="'unread_category' + category.id">
           <p @click="fetch_categorised_article(0, category.id)">{{ category.category_name }}</p>
         </div>
         <p>-------------</p>
-        <p @click="fetch_articles(1)">読んだ</p>
+        <p @click="fetch_articles(1)">既読記事</p>
         <div class="category-list" v-for="category in categories" :key="'read_category' + category.id">
           <p @click="fetch_read_categorised_article(1, category.id)">{{ category.category_name }}</p>
         </div>
