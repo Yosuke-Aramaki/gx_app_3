@@ -73,8 +73,36 @@
             </div>
           </v-item-group>
           <div>
-            <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
-            <button type="submit" @click="add_category()">カテゴリーを追加</button>
+            <v-dialog v-model="dialog" max-width="600px">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  カテゴリーの追加
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="headline">新規カテゴリーを追加する</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-text-field
+                    v-model="category_form.category_name"
+                    label="追加したいカテゴリー名"
+                    name="category_name"
+                    required
+                  ></v-text-field>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
+                  <v-btn color="blue darken-1" text @click="add_category()">Save</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </div>
         </v-col>
         <v-col cols="10" class="article_section">
@@ -133,7 +161,7 @@ export default {
       },
       errors: '',
       show_unread_articles: true,
-      active: false,
+      dialog: false,
     }
   },
   created() {
@@ -221,6 +249,7 @@ export default {
       )
       .then((response) => {
         this.categories.push(response)
+        this.dialog = false
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
