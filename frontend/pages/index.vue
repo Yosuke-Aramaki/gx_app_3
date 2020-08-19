@@ -5,15 +5,48 @@
     <v-container>
       <v-row justify="center">
         <v-col cols="2" class="category_section">
-          <div @click="fetch_articles(0)">未読記事</div>
-          <div class="category-list" v-for="category in categories" :key="'unread_category' + category.id">
-            <div @click="fetch_categorised_article(0, category.id)">{{ category.category_name }}</div>
-          </div>
-          <p>-------------</p>
-          <div @click="fetch_articles(1)">既読記事</div>
-          <div class="category-list" v-for="category in categories" :key="'read_category' + category.id">
-            <div @click="fetch_read_categorised_article(1, category.id)">{{ category.category_name }}</div>
-          </div>
+          <v-item-group mandatory>
+            <v-item v-slot:default="{ active, toggle }">
+              <v-card
+                :color="active ? '#5294E2' : '#fafafa'"
+                :flat="active ? false : true"
+                @click="toggle"
+              >
+                <div @click="fetch_articles(0)">未読記事</div>
+              </v-card>
+            </v-item>
+            <div class="category-list" v-for="category in categories" :key="'unread_category' + category.id">
+              <v-item v-slot:default="{ active, toggle }">
+                <v-card
+                  :color="active ? '#5294E2' : '#fafafa'"
+                  :flat="active ? false : true"
+                  @click="toggle"
+                >
+                  <div @click="fetch_categorised_article(0, category.id)">{{ category.category_name }}</div>
+                </v-card>
+              </v-item>
+            </div>
+            <v-item v-slot:default="{ active, toggle }">
+              <v-card
+                :color="active ? '#5294E2' : '#fafafa'"
+                :flat="active ? false : true"
+                @click="toggle"
+              >
+                <div @click="fetch_articles(1)">既読記事</div>
+              </v-card>
+            </v-item>
+            <div class="category-list" v-for="category in categories" :key="'read_category' + category.id">
+              <v-item v-slot:default="{ active, toggle }">
+                <v-card
+                  :color="active ? '#5294E2' : '#fafafa'"
+                  :flat="active ? false : true"
+                  @click="toggle"
+                >
+                  <div @click="fetch_read_categorised_article(1, category.id)">{{ category.category_name }}</div>
+                </v-card>
+              </v-item>
+            </div>
+          </v-item-group>
           <div>
             <input type="text" v-model="category_form.category_name" placeholder="category name" name="category_name"/>
             <button type="submit" @click="add_category()">カテゴリーを追加</button>
@@ -75,6 +108,7 @@ export default {
       },
       errors: '',
       show_unread_articles: true,
+      active: false,
     }
   },
   created() {
@@ -94,6 +128,9 @@ export default {
     }
   },
   methods: {
+    async toggle() {
+      this.active = !!this.active
+    },
     async fetch_articles(is_read) {
       let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
         params: {
