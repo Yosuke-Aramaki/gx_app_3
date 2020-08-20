@@ -162,6 +162,7 @@ export default {
       errors: '',
       show_unread_articles: true,
       dialog: false,
+      model:'',
     }
   },
   created() {

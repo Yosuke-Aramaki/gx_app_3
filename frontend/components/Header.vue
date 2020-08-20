@@ -5,8 +5,7 @@
     </nuxt-link>
     <nav>
       <div v-if="hasCookies">
-        <div class="button--grey" @click="openRemindModal">リマインドを追加</div>
-        <RemindModal @close="closeRemindModal" v-if="remind_modal" />
+        <RemindModal />
         <div class="button--grey" @click="openArticleModal">リンクを追加</div>
         <AddArticleModal @close="closeArticleModal" v-if="article_modal" />
         <div class="button--grey" @click="logout">ログアウト</div>
@@ -34,7 +33,6 @@ export default {
   data() {
     return {
       article_modal: false,
-      remind_modal: false
     }
   },
   computed: {
