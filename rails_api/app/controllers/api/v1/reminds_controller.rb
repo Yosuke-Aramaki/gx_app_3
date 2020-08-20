@@ -21,6 +21,23 @@ class Api::V1::RemindsController < ApplicationController
     end
   end
 
+  def update
+    @remind = Remind.find_by(day_of_the_week: params[:remind][:day_of_the_week], user_id: current_user.id)
+    if @remind.update(remind_time: params[:remind][:remind_time])
+      render json: @remind.to_json
+    else
+      render json: { messages: @remind.errors }, status: :unauthorized
+    end
+  end
+
+  def check_reminds
+    if Remind.find_by(day_of_the_week: params[:remind][:day_of_the_week], user_id: current_user.id)
+      update
+    else
+      create
+    end 
+  end
+
   private
   def remind_params
     params.require(:remind).permit(:day_of_the_week, :remind_time)

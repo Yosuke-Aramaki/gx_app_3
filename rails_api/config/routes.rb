@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       resources :reminds, only: [:index, :create, :edit, :update, :destroy] do 
       end 
       get 'get_remind_time', to: 'reminds#get_remind_time'
+      post 'check_reminds', to:'reminds#check_reminds'
 
     end
   end

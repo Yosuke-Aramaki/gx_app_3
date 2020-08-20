@@ -121,6 +121,7 @@ export default {
         day_of_the_week: [],
         remind_time: ''
       },
+      check_day_of_the_week: [],
       day_of_the_week: ["日", "月", "火", "水", "木", "金", "土"],
       items: [
         "00:00", "00:10", "00:20", "00:30", "00:40", "00:50", 
@@ -148,8 +149,6 @@ export default {
         "23:00", "23:10", "23:20", "23:30", "23:40", "23:50",
       ],
       dialog: false,
-      selected: 1,
-      reminds: [],
       errors: '',
       notificationAllowance: true,
     }
@@ -186,6 +185,7 @@ export default {
       for (let i = 0; i < this.reminds.length; i++) {
         this.form.day_of_the_week.push(this.reminds[i].day_of_the_week)
       }
+      this.check_day_of_the_week = this.form.day_of_the_week
       let remind_time = await this.$axios.$get('/api/v1/get_remind_time')
       this.form.remind_time = remind_time
     },
@@ -208,7 +208,7 @@ export default {
       // 繰り返し処理で１つずつ曜日と時間を保存していく
       for (let i = 0; i < this.form.day_of_the_week.length; i++ ) {
         await this.$axios.$post(
-          '/api/v1/reminds', 
+          '/api/v1/check_reminds', 
           { remind: { day_of_the_week: this.form.day_of_the_week[i], remind_time: this.form.remind_time }} 
         )
         .then((response) => {
