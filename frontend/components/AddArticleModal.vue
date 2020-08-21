@@ -55,8 +55,8 @@
             </v-col>
             <v-col cols="9">
               <v-select
-                v-model="form.categories"
                 :items="categories"
+                v-model="form.category_id"
                 :item-text="'category_name'"
                 :item-value="'id'"
                 label="カテゴリーを追加"
@@ -135,12 +135,15 @@ export default {
     },
     async add_article() {
       // カテゴリー指定がない場合はcategory_idを1に指定する カテゴリーの扱いは要検討
-      this.form.category_id = this.selected
+      if (this.form.category_id == "") {
+        this.form.category_id = 1
+      }
       await this.$axios.$post(
         '/api/v1/save_article_from_url', 
         { article: this.form } 
       )
       .then((response) => {
+        this.dialog = false
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {

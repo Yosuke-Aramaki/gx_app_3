@@ -212,6 +212,7 @@ export default {
           { remind: { day_of_the_week: this.form.day_of_the_week[i], remind_time: this.form.remind_time }} 
         )
         .then((response) => {
+          this.dialog = false
         })
         .catch((error) => {
           if (error.response && error.response.status === 401) {
