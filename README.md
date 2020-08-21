@@ -22,82 +22,14 @@ cd gx_app_3
 git checkout development
 ```
 
-## rbenv, MySQLのインストール
+### Rails APIのセットアップ
+[rails_api/README.md](/rails_api)
 
-*インストール済の方はこの手順を飛ばしてください
+### Nuxt フロントエンドのセットアップ
+[frontend/README.md](/frontend)
 
-```
-// rbenvのインストール
-$ rbenv install 1.1.2
-$ rbenv exec gem install bundler
-```
-```
-// MySQLのインストール 
-brew update
-brew install mysql
-brew info mysql // インストールの確認
- mysql: stable 8.0.19 (bottled)
-```
+### Chrome Extensionのセットアップ
+[extension/README.md](/extension)
 
-## データベース設定ファイル
-データベース設定ファイルを作成します
 
-touch rails_api/config/database.yml
-作業ユーザー名とパスワードを指定して作成されたファイルを下記の内容に書き換えます
-
-```
-default: &default
-  adapter: mysql2
-  encoding: utf8mb4
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password: 
-  host: db
-
-development:
-  <<: *default
-  database: pilee_development
-
-production:
-  <<: *default
-  database: pilee_production
-  username: sample
-  password: <%= ENV['SAMPLE_DATABASE_PASSWORD'] %>
-```
-
-## dockerの起動
-
-```
-cd rails_api
-
-//dockerのアプリを起動した状態で
-docker-compose build
-docker-compose up -d
-
-// RailsDBの作成
-docker-compose exec app bash
-rails db:create
-rails db:migrate
-```
-
-```
-// DBに接続
-$ mysql -u root -h 127.0.0.1
-```
-
-## フロントエンドの起動
-
-```
-cd frontend
-npm install
-npm run dev
-```
-
-## Chrome Extension
-
-・[chrome://extensions/]に移動 
-・右上でデベロッパーモードに起動 
-・「パッケージ化されてない拡張機能を読み込む」ボタンをおす 
-・「gx_app_3/extension」を選択 
-・[chrome-extension://ID/index.html]にてデバッグ 
 

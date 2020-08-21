@@ -1,24 +1,65 @@
-# README
+# Rails APIのセットアップ
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## rbenv, MySQLのインストール
 
-Things you may want to cover:
+*インストール済の方はこの手順を飛ばしてください
 
-* Ruby version
+```
+// rbenvのインストール
+$ rbenv install 1.1.2
+$ rbenv exec gem install bundler
+```
+```
+// MySQLのインストール 
+brew update
+brew install mysql
+brew info mysql // インストールの確認
+ mysql: stable 8.0.19 (bottled)
+```
 
-* System dependencies
+## データベース設定ファイル
+データベース設定ファイルを作成します
 
-* Configuration
+touch rails_api/config/database.yml
+作業ユーザー名とパスワードを指定して作成されたファイルを下記の内容に書き換えます
 
-* Database creation
+```
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: root
+  password: 
+  host: db
 
-* Database initialization
+development:
+  <<: *default
+  database: pilee_development
 
-* How to run the test suite
+production:
+  <<: *default
+  database: pilee_production
+  username: sample
+  password: <%= ENV['SAMPLE_DATABASE_PASSWORD'] %>
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+## dockerの起動
 
-* Deployment instructions
+```
+cd rails_api
 
-* ...
+//dockerのアプリを起動した状態で
+docker-compose build
+docker-compose up -d
+
+// RailsDBの作成
+docker-compose exec app bash
+rails db:create
+rails db:migrate
+```
+
+```
+// DBに接続
+$ mysql -u root -h 127.0.0.1
+```
+
