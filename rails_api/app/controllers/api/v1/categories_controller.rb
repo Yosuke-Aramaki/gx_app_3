@@ -2,7 +2,7 @@ class Api::V1::CategoriesController < ApplicationController
   
   def index
     @user = current_user
-    categories = @user.categories
+    categories = @user.categories.select("id, category_name")
     render json: categories.to_json
   end
 

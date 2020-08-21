@@ -6,8 +6,7 @@
     <nav>
       <div v-if="hasCookies">
         <RemindModal />
-        <div class="button--grey" @click="openArticleModal">リンクを追加</div>
-        <AddArticleModal @close="closeArticleModal" v-if="article_modal" />
+        <AddArticleModal />
         <div class="button--grey" @click="logout">ログアウト</div>
       </div>
       <div v-else>
