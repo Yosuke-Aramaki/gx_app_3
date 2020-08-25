@@ -125,10 +125,10 @@ export default {
     }
   },
   created() {
-    this.fetch_categories()
+    this.fetchCategories()
   },
   methods: {
-    async fetch_categories() {
+    async fetchCategories() {
       this.categories = await this.$axios.$get('/api/v1/categories')
       console.log(this.categories)
       this.categories.unshift({ id: 1, category_name: "カテゴリーを追加しない" })

@@ -10,7 +10,7 @@
         <div class="button--grey" @click="logout">ログアウト</div>
       </div>
       <div v-else>
-        <nuxt-link to="/sign_up" class="button--grey" no-prefetch
+        <nuxt-link to="/signUp" class="button--grey" no-prefetch
           >ユーザー登録</nuxt-link
         >
         <nuxt-link to="/login" class="button--grey" no-prefetch
@@ -31,7 +31,6 @@ export default {
   },
   data() {
     return {
-      article_modal: false,
     }
   },
   computed: {
@@ -40,18 +39,6 @@ export default {
     }
   },
   methods: {
-    openArticleModal() {
-      this.article_modal = true
-    },
-    closeArticleModal() {
-      this.article_modal = false
-    },
-    openRemindModal() {
-      this.remind_modal = true
-    },
-    closeRemindModal() {
-      this.remind_modal = false
-    },
     async logout() {
       try {
         this.$cookies.remove('user_id')

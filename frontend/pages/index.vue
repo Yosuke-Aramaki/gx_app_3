@@ -13,7 +13,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>
-                    <div class="category_name" @click="fetch_articles(0)">未読記事</div>
+                    <div class="category_name" @click="fetchArticles(0)">未読記事</div>
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -23,7 +23,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>
-                    <div class="category_name" @click="fetch_articles(1)" style="margin-top: 8px;">既読記事</div>
+                    <div class="category_name" @click="fetchArticles(1)" style="margin-top: 8px;">既読記事</div>
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
@@ -36,7 +36,7 @@
                 :flat="active ? false : true"
                 @click="toggle"
               >
-                <div class="category_name" @click="fetch_articles(0)">未読記事</div>
+                <div class="category_name" @click="fetchArticles(0)">未読記事</div>
               </v-card>
             </v-item>
             <div class="category-list" v-for="category in categories" :key="'unread_category' + category.id">
@@ -57,7 +57,7 @@
                 :flat="active ? false : true"
                 @click="toggle"
               >
-                <div class="category_name" @click="fetch_articles(1)" style="margin-top: 8px;">既読記事</div>
+                <div class="category_name" @click="fetchArticles(1)" style="margin-top: 8px;">既読記事</div>
               </v-card>
             </v-item>
             <div class="category-list" v-for="category in categories" :key="'read_category' + category.id">
@@ -127,7 +127,7 @@
           </div>
           <div v-else class="read-article-list">
             <v-row>
-              <v-col cols="4" v-for="article in read_articles" :key="'read_article' + article.id">
+              <v-col cols="4" v-for="article in readArticles" :key="'read_article' + article.id">
                 <a :href="article.article_url" @click="article_url_clicked(article.id)">
                   <div class="read-article-item">
                     <div class="image_section" style="margin:auto;">
@@ -154,7 +154,7 @@ export default {
   data() {
     return {
       articles: [],
-      read_articles: [],
+      readArticles: [],
       categories: [],
       category_form: {
         category_name: ''
@@ -166,8 +166,8 @@ export default {
     }
   },
   created() {
-    this.fetch_articles(0),
-    this.fetch_categories()
+    this.fetchArticles(0),
+    this.fetchCategories()
   },
   computed: {
     sameDate: function() {
@@ -185,7 +185,7 @@ export default {
     async toggle() {
       this.active = !!this.active
     },
-    async fetch_articles(is_read) {
+    async fetchArticles(is_read) {
       let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
         params: {
           is_read: is_read
@@ -198,8 +198,8 @@ export default {
         this.articles = res
         this.show_unread_articles = true
       } else {
-        this.read_articles =[]
-        this.read_articles = res
+        this.readArticles =[]
+        this.readArticles = res
         this.show_unread_articles = false
       }
     },
@@ -234,12 +234,12 @@ export default {
         }
       })
       this.articles = []
-      this.read_articles = []
-      this.read_articles = res
+      this.readArticles = []
+      this.readArticles = res
       this.show_unread_articles = false
       // console.log(this.show_unread_articles) // falseが700回くらい反応してる
     },
-    async fetch_categories() {
+    async fetchCategories() {
       let res = await this.$axios.$get('/api/v1/categories')
       this.categories = res
     },

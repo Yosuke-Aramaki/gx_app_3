@@ -55,7 +55,7 @@
                     fab
                     small
                   >
-                    {{ day_of_the_week[n] }}
+                    {{ dayOfTheWeek[n] }}
                   </v-btn>
                 </v-item>
               </v-col>
@@ -67,7 +67,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-        <v-btn color="blue darken-1" text @click="set_remind()">Save</v-btn>
+        <v-btn color="blue darken-1" text @click="setRemind()">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -82,7 +82,7 @@
             <button @click="allowNotification()">通知を許可する</button>
           </div>
             <p>{{ this.notificationAllowance }}</p>
-          <form @submit.prevent="set_remind">
+          <form @submit.prevent="setRemind">
             <input type="time" v-model="form.remind_time" placeholder="remind time" name="remind_time" />
             <br />
             <input type="checkbox" id="0" value="0" v-model="form.day_of_the_week">
@@ -121,8 +121,8 @@ export default {
         day_of_the_week: [],
         remind_time: ''
       },
-      check_day_of_the_week: [],
-      day_of_the_week: ["日", "月", "火", "水", "木", "金", "土"],
+      checkDayOfTheWeek: [],
+      dayOfTheWeek: ["日", "月", "火", "水", "木", "金", "土"],
       items: [
         "00:00", "00:10", "00:20", "00:30", "00:40", "00:50", 
         "01:00", "01:10", "01:20", "01:30", "01:40", "01:50", 
@@ -154,13 +154,13 @@ export default {
     }
   },
   created() {
-    this.check_notification()
-    this.fetch_reminds()
+    this.checkNotification()
+    this.fetchReminds()
   },
   computed: {
   },
   methods: {
-    async check_notification() {
+    async checkNotification() {
       // ブラウザが通知をサポートしているか確認
       if (!('Notification' in window)) {
         alert('未対応のブラウザです');
@@ -179,13 +179,13 @@ export default {
         })
       }
     },
-    async fetch_reminds() {
+    async fetchReminds() {
       let res = await this.$axios.$get('/api/v1/reminds')
       this.reminds = res
       for (let i = 0; i < this.reminds.length; i++) {
         this.form.day_of_the_week.push(this.reminds[i].day_of_the_week)
       }
-      this.check_day_of_the_week = this.form.day_of_the_week
+      this.checkDayOfTheWeek = this.form.day_of_the_week
       let remind_time = await this.$axios.$get('/api/v1/get_remind_time')
       this.form.remind_time = remind_time
     },
@@ -201,7 +201,7 @@ export default {
         }
       });
     },
-    async set_remind() {
+    async setRemind() {
       // OneSignalのタグを設定する
       this.$OneSignal.push(['sendTag', 'customId', this.$cookies.get('user_id'), function(tagsSent) {
       }]); 
