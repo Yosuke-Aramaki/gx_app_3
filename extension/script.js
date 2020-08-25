@@ -1,24 +1,16 @@
-
-let siteData = {"title": "", "url": "", "og_image": "", "article_note": ""}
-let user_id
-let article_data
-var xhr = new XMLHttpRequest();
-
 // chrome Extension 起動時
 window.addEventListener('load',　async ()=>{
 
-  // 開いてるタブのタイトルとURLを取得する
-  await chrome.tabs.getSelected( tab => { 
-    siteData.title = tab.title;
-    siteData.url = tab.url;  
-  });
+  var xhr = new XMLHttpRequest();
 
   // chrome storage にユーザー情報があるか確認
   await chrome.storage.sync.get(['user_id'], async (result) => {
     // ログインしてない時の処理
     if (!Object.keys(result).length) { 
-      // ログイン画面の挿入
+      
+      // ログイン画面に切り替える
       document.getElementById('body_contents').innerHTML = '<input type="email" id="email_input" placeholder="Enter email"><input type="password" id="password_input" placeholder="Password"><button type="submit" id="loginButton">Log In</button><a href="localhost:3000/" target="_blank">新規登録はこちらから</a>'
+      
       // ログイン通信
       document.getElementById('loginButton').addEventListener('click', ()=>{
         var xhr = new XMLHttpRequest();
@@ -44,8 +36,20 @@ window.addEventListener('load',　async ()=>{
       });
     } else {　
       // ログイン時の処理
+
+      let siteData = {"title": "", "url": "", "og_image": "", "article_note": ""}
+      let user_id
+      let article_data
+
+      // ユーザーIDを設定する
       user_id = result.user_id;
 
+      // 開いてるタブのタイトルとURLを取得する
+      await chrome.tabs.getSelected( tab => { 
+        siteData.title = tab.title;
+        siteData.url = tab.url;  
+      });
+    
       // タブのタイトルを表示
       document.getElementById('og_title_section').textContent = siteData.title;
       
@@ -56,17 +60,22 @@ window.addEventListener('load',　async ()=>{
           const headEls = (el.head.children)
           Array.from(headEls).map(v => {
             const prop = v.getAttribute('property')
-            if (!prop) return;
-            if (prop == "og:image") {
-              siteData.og_image = v.getAttribute("content")
-              document.getElementById('og_image').src = siteData.og_image
-            }
-            if (prop == "og:description") {
-              siteData.article_note = v.getAttribute("content")
+            if (!prop) { //propertyの設定がない場合
+              siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
+              document.getElementById('og_image').src = "/logo.ico"
+              siteData.article_note = siteData.title
+            } else {
+              if (prop == "og:image") {
+                siteData.og_image = v.getAttribute("content")
+                document.getElementById('og_image').src = siteData.og_image
+              }
+              if (prop == "og:description") {
+                siteData.article_note = v.getAttribute("content")
+              }
             }
           })
         })
-      } catch (err) { //og設定がない場合
+      } catch (err) { //サイトのスクレイピングがうまくいかない場合
         siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
         document.getElementById('og_image').src = "/logo.ico"
         siteData.article_note = siteData.title
@@ -84,11 +93,13 @@ window.addEventListener('load',　async ()=>{
 
         // タブで開いているURLがまだ保存されていない場合の処理
         if (article_data == null) {
+
           // タブで開いている記事の保存
           xhr.open("post", "http://localhost:3000/api/v1/articles", true);
           xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
           xhr.setRequestHeader('Authorization', 'Token ' + user_id);
           xhr.responseType = 'json';
+
           // サーバーへリクエストの送信
           xhr.send(
             'article[title]='+ siteData.title +
@@ -103,7 +114,7 @@ window.addEventListener('load',　async ()=>{
             document.getElementById('save_notification').textContent = '記事を保存しました';
           };
 
-        // タブで開いているURLがすでに保存されている場合（サービスサイトからリンクを開いた場合）
+        // タブで開いているURLがすでに保存されている場合
         } else {
           // メモを追加するを非表示
           document.getElementById('note_section_title').style.display = 'none';
