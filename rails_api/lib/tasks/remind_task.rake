@@ -3,7 +3,7 @@ namespace :remind_task do
   task check_remind_time: :environment do
     require 'date'
     time = Time.now.in_time_zone("Tokyo")
-    remind_time = time.hour.to_s + ':' + time.min.to_s + ':00'
+    remind_time = time.strftime('%H:%M:00')
     @remind = Remind.where(day_of_the_week: time.wday, remind_time: remind_time).select("user_id")
     
     include HTTParty
