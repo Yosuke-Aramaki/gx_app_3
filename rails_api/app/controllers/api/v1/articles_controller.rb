@@ -1,7 +1,7 @@
 class Api::V1::ArticlesController < ApplicationController
   skip_before_action :authenticate, only: [:test]
     
-  def test
+  def health_check
 
   end
 

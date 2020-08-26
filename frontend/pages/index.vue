@@ -240,8 +240,7 @@ export default {
       // console.log(this.show_unread_articles) // falseが700回くらい反応してる
     },
     async fetchCategories() {
-      let res = await this.$axios.$get('/api/v1/categories')
-      this.categories = res
+      this.categories = await this.$axios.$get('/api/v1/categories')
     },
     async add_category() {
       this.$axios.$post(

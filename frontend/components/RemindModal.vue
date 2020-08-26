@@ -180,14 +180,12 @@ export default {
       }
     },
     async fetchReminds() {
-      let res = await this.$axios.$get('/api/v1/reminds')
-      this.reminds = res
+      this.reminds = await this.$axios.$get('/api/v1/reminds')
       for (let i = 0; i < this.reminds.length; i++) {
         this.form.day_of_the_week.push(this.reminds[i].day_of_the_week)
       }
       this.checkDayOfTheWeek = this.form.day_of_the_week
-      let remind_time = await this.$axios.$get('/api/v1/get_remind_time')
-      this.form.remind_time = remind_time
+      this.form.remind_time  = await this.$axios.$get('/api/v1/get_remind_time')
     },
     async allowNotification() {
       // 通知を許可するポップアップを生成
