@@ -163,7 +163,7 @@ export default {
     async checkNotification() {
       // ブラウザが通知をサポートしているか確認
       if (!('Notification' in window)) {
-        alert('未対応のブラウザです');
+        alert('通知設定が未対応のブラウザです');
       } else {
         // ブラウザが通知を許可しているか確認
         this.$OneSignal.push(() => {
