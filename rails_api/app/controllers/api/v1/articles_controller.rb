@@ -37,15 +37,23 @@ class Api::V1::ArticlesController < ApplicationController
   def save_article_from_url
     require 'mechanize'
     agent = Mechanize.new
-    page = agent.get(params[:article][:article_url])
-    og_image_url = page.at('meta[property="og:image"]')[:content]
-
-    # メモがない場合はog:descriptionをメモとして保存する
-    if params[:article][:article_note].empty?
-      article_note = page.at('meta[property="og:description"]')[:content]
-    else 
-      article_note = params[:article][:article_note]
+    
+    begin
+      page = agent.get(params[:article][:article_url])
+      og_image_url = page.at('meta[property="og:image"]')[:content]
+  
+      # メモがない場合はog:descriptionをメモとして保存する
+      if params[:article][:article_note].empty?
+        article_note = page.at('meta[property="og:description"]')[:content]
+      else 
+        article_note = params[:article][:article_note]
+      end   
+    rescue => e
+      # ogがうまく取得できない場合
+      og_image_url = "/logo.ico"
+      article_note = ""
     end
+
 
     @article = Article.new(
       title: page.title, 

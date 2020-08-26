@@ -313,13 +313,24 @@ a {
   padding-left: 16px;
 }
 
-.article_title {
-  color: #000000;
-  font-weight: 500;
+.article_information {
+  overflow: hidden;
+  width: 100%;
 }
 
-.article_description {
+.article_information .article_title {
+  color: #000000;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.article_information .article_description small {
   color: #7B7B7B;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
 }
 
 .article_section .col {
@@ -352,7 +363,7 @@ a {
 }
 
 
-.article_title {
+.read-article-item .article_title {
   overflow: hidden;
   height: 48px;
   width: 100%;
@@ -361,7 +372,7 @@ a {
   -webkit-line-clamp: 2;
 }
 
-.article_note p {
+.read-article-item .article_note p {
   color: #000000;
   overflow: hidden;
   height: 96px;
