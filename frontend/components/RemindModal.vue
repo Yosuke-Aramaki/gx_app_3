@@ -180,8 +180,7 @@ export default {
       }
     },
     async fetchReminds() {
-      let res = await this.$axios.$get('/api/v1/reminds')
-      this.reminds = res
+      this.reminds = await this.$axios.$get('/api/v1/reminds')
       for (let i = 0; i < this.reminds.length; i++) {
         this.form.day_of_the_week.push(this.reminds[i].day_of_the_week)
       }
