@@ -10,7 +10,32 @@
         <div v-if="hasCookies">
           <RemindModal />
           <AddArticleModal />
-          <div class="button--grey" @click="logout">ログアウト</div>
+          <v-menu 
+            transition="slide-x-transition"
+            offset-y
+            left
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                icon
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon 
+                  color="black"
+                  large
+                >
+                  mdi-account-circle
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item>
+                <div class="button--grey" @click="logout">ログアウト</div>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </div>
         <div v-else>
           <nuxt-link to="/signUp" class="button--grey" no-prefetch
