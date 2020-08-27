@@ -1,8 +1,8 @@
 <template>
   <v-app class="body-contents">
-    <Header />
-    <p>{{ this.errors }}</p>
     <v-container>
+      <Header />
+      <p>{{ this.errors }}</p>
       <v-row justify="center">
         <v-col cols="2" class="category_section">
           <v-list>

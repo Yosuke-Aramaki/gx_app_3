@@ -1,24 +1,28 @@
 <template>
-  <header>
-    <nuxt-link to="/" no-prefetch>
+  <v-row justify="space-between">
+    <v-col cols="3">
+      <nuxt-link to="/" no-prefetch>
       <h1><img src="" class="logo" />GX_APP_3</h1>
-    </nuxt-link>
-    <nav>
-      <div v-if="hasCookies">
-        <RemindModal />
-        <AddArticleModal />
-        <div class="button--grey" @click="logout">ログアウト</div>
-      </div>
-      <div v-else>
-        <nuxt-link to="/signUp" class="button--grey" no-prefetch
-          >ユーザー登録</nuxt-link
-        >
-        <nuxt-link to="/login" class="button--grey" no-prefetch
-          >ログイン</nuxt-link
-        >
-      </div>
-    </nav>
-  </header>
+      </nuxt-link>
+    </v-col>
+    <v-col cols="5">
+      <nav>
+        <div v-if="hasCookies">
+          <RemindModal />
+          <AddArticleModal />
+          <div class="button--grey" @click="logout">ログアウト</div>
+        </div>
+        <div v-else>
+          <nuxt-link to="/signUp" class="button--grey" no-prefetch
+            >ユーザー登録</nuxt-link
+          >
+          <nuxt-link to="/login" class="button--grey" no-prefetch
+            >ログイン</nuxt-link
+          >
+        </div>
+      </nav>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -53,11 +57,10 @@ export default {
 
 <style scoped>
 header {
+  width: 100%;
   display: flex;
-  align-items: center;
   padding: 16px;
   line-height: 1.5;
-  background-color: white;
 }
 
 h1 {
@@ -75,7 +78,7 @@ h1 {
 }
 
 nav {
-  margin-left: auto;
+  text-align: right;
 }
 
 .button--grey {
