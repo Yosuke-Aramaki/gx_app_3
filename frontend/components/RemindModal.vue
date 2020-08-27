@@ -158,6 +158,20 @@ export default {
     this.fetchReminds()
   },
   computed: {
+    sample: async function() {
+      // return await this~に変更
+      return await this.$OneSignal.push(async () => {
+        await this.$OneSignal.isPushNotificationsEnabled(async isEnabled => {
+          if (isEnabled) {
+            console.log('Push notifications are enabled!')
+            return false
+          } else {
+            console.log('Push notifications are not enabled yet.')
+            return true
+          }
+        })
+      })
+    }
   },
   methods: {
     async checkNotification() {
@@ -166,17 +180,11 @@ export default {
         alert('通知設定が未対応のブラウザです');
       } else {
         // ブラウザが通知を許可しているか確認
-        this.$OneSignal.push(() => {
-          this.$OneSignal.isPushNotificationsEnabled(async (isEnabled) => {
-            if (isEnabled) {
-              console.log('Push notifications are enabled!')
-              return 
-            } else {
-              console.log('Push notifications are not enabled yet.')
-              return this.notificationAllowance = false;
-            }
-          })
-        })
+        if (Notification.permission == "granted") { // 通知が許可されている場合
+          return  
+        } else {
+          return this.notificationAllowance = false;
+        }
       }
     },
     async fetchReminds() {
@@ -191,11 +199,10 @@ export default {
       // 通知を許可するポップアップを生成
       Notification.requestPermission().then((permission) => {
         if (permission == 'granted') { // 通知が許可された場合
-          
+          this.notificationAllowance = true;
         } else if (permission == 'denied') {
-          
+          alert('ブラウザの設定で通知アクセスを許可してください')
         } else if (permission == 'default') {
-          
         }
       });
     },

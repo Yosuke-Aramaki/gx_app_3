@@ -78,7 +78,7 @@ export default {
       appId: 'c3c52b3b-e0f2-423b-9491-8ba8784e6434',
       allowLocalhostAsSecureOrigin: true,
       welcomeNotification: {
-        disable: true
+        disable: false
       },
       notifyButton: {
         enable: true,
