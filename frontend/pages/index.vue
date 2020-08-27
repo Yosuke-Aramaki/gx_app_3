@@ -314,12 +314,13 @@ a {
 }
 
 .article_information {
-  overflow: hidden;
-  width: 100%;
+ 
 }
 
 .article_information .article_title {
   color: #000000;
+  overflow: hidden;
+  width: 100%;
   font-weight: 500;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -328,6 +329,8 @@ a {
 
 .article_information .article_description small {
   color: #7B7B7B;
+  overflow: hidden;
+  width: 100%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
