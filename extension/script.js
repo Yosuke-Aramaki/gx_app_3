@@ -52,19 +52,22 @@ window.addEventListener('load',　async ()=>{
     
       // タブのタイトルを表示
       document.getElementById('og_title_section').textContent = siteData.title;
+      // "| ether - Token swap amount difference between the amount from uniswap app and contract read - Ethereum Stack Exchange |" 
+      // siteData.title;
       
       // og:imageとog:descriptionの取得
-      try {
+      // try {
         await fetch(siteData.url).then(res => res.text()).then(text => {
           const el = new DOMParser().parseFromString(text, "text/html")
           const headEls = (el.head.children)
           Array.from(headEls).map(v => {
             const prop = v.getAttribute('property')
-            if (!prop) { //propertyの設定がない場合
-              siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
-              document.getElementById('og_image').src = "/logo.ico"
-              siteData.article_note = siteData.title
-            } else {
+            if (!prop) return;
+            // { //propertyの設定がない場合
+            //   // siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
+            //   // document.getElementById('og_image').src = "/logo.ico"
+            //   // siteData.article_note = siteData.title
+            // } else {
               if (prop == "og:image") {
                 siteData.og_image = v.getAttribute("content")
                 document.getElementById('og_image').src = siteData.og_image
@@ -72,14 +75,14 @@ window.addEventListener('load',　async ()=>{
               if (prop == "og:description") {
                 siteData.article_note = v.getAttribute("content")
               }
-            }
+            
           })
         })
-      } catch (err) { //サイトのスクレイピングがうまくいかない場合
-        siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
-        document.getElementById('og_image').src = "/logo.ico"
-        siteData.article_note = siteData.title
-      }
+      // } catch (err) { //サイトのスクレイピングがうまくいかない場合
+      //   siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
+      //   document.getElementById('og_image').src = "/logo.ico"
+      //   siteData.article_note = siteData.title
+      // }
       
 
       // 同じURLが保存されているかの確認

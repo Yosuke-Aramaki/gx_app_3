@@ -5,73 +5,41 @@
       <p>{{ this.errors }}</p>
       <v-row justify="center">
         <v-col cols="2" class="category_section">
-          <v-list>
-            <v-list-item-group v-model="model" mandatory color="indigo">
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon>mdi-wifi</v-icon>
+          <v-list rounded dense>
+            <!-- <v-subheader>カテゴリー</v-subheader> -->
+            <v-list-item-group v-model="item" color="#5294E2">
+              <v-list-item @click="fetchArticles(0)" >
+                <v-list-item-icon style="margin-right: 14px;">
+                  <v-icon>mdi-book</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>
-                    <div class="category_name" @click="fetchArticles(0)">未読記事</div>
-                  </v-list-item-title>
+                  <v-list-item-title>未読記事</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item>
-                <v-list-item-icon>
-                  <v-icon>mdi-wifi</v-icon>
+              <div class="category-list">
+                <v-list-item v-for="category in categories" :key="'unread_category' + category.id">
+                  <v-list-item-content @click="fetch_categorised_article(0, category.id)">
+                    <v-list-item-title>{{ category.category_name }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </div>
+              <v-list-item @click="fetchArticles(1)">
+                <v-list-item-icon style="margin-right: 14px;">
+                  <v-icon>mdi-book-open</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>
-                    <div class="category_name" @click="fetchArticles(1)" style="margin-top: 8px;">既読記事</div>
-                  </v-list-item-title>
+                  <v-list-item-title>既読記事</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
+              <div class="category-list">
+                <v-list-item v-for="category in categories" :key="'read_category' + category.id">
+                  <v-list-item-content @click="fetch_read_categorised_article(1, category.id)">
+                    <v-list-item-title>{{ category.category_name }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </div>
             </v-list-item-group>
           </v-list>
-          <v-item-group mandatory>
-            <v-item v-slot:default="{ active, toggle }">
-              <v-card
-                :color="active ? '#5294E2' : '#fafafa'"
-                :flat="active ? false : true"
-                @click="toggle"
-              >
-                <div class="category_name" @click="fetchArticles(0)">未読記事</div>
-              </v-card>
-            </v-item>
-            <div class="category-list" v-for="category in categories" :key="'unread_category' + category.id">
-              <v-item v-slot:default="{ active, toggle }">
-                <v-card
-                  :color="active ? '#5294E2' : '#fafafa'"
-                  :flat="active ? false : true"
-                  @click="toggle"
-                >
-                  <div class="category_name" @click="fetch_categorised_article(0, category.id)">{{ category.category_name }}</div>
-                </v-card>
-              </v-item>
-            </div>
-            <hr />
-            <v-item v-slot:default="{ active, toggle }">
-              <v-card
-                :color="active ? '#5294E2' : '#fafafa'"
-                :flat="active ? false : true"
-                @click="toggle"
-              >
-                <div class="category_name" @click="fetchArticles(1)" style="margin-top: 8px;">既読記事</div>
-              </v-card>
-            </v-item>
-            <div class="category-list" v-for="category in categories" :key="'read_category' + category.id">
-              <v-item v-slot:default="{ active, toggle }">
-                <v-card
-                  :color="active ? '#5294E2' : '#fafafa'"
-                  :flat="active ? false : true"
-                  @click="toggle"
-                >
-                  <div class="category_name" @click="fetch_read_categorised_article(1, category.id)">{{ category.category_name }}</div>
-                </v-card>
-              </v-item>
-            </div>
-          </v-item-group>
           <div>
             <v-dialog v-model="dialog" max-width="600px">
               <template v-slot:activator="{ on, attrs }">
@@ -163,6 +131,12 @@ export default {
       show_unread_articles: true,
       dialog: false,
       model:'',
+      item: 1,
+      items: [
+        { text: 'Real-Time', icon: 'mdi-clock' },
+        { text: 'Audience', icon: 'mdi-account' },
+        { text: 'Conversions', icon: 'mdi-flag' },
+      ],
     }
   },
   created() {
@@ -271,12 +245,24 @@ export default {
   display: flex;
 }
 
+.v-list {
+  padding: 0px;
+  background-color: #fafafa;
+}
+
+.v-list-item__icon {
+  margin-right: 12px;
+}
+
 .category-list {
-  padding-left: 8px;
+  padding-left: 16px;
 }
 
 .category_name {
+  padding: 6px 8px 6px 12px;
   margin-bottom: 8px;
+  border-radius: 18px;
+ vertical-align: middle;
 }
 
 .article_section {

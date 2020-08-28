@@ -23,7 +23,7 @@
                 v-on="on"
               >
                 <v-icon 
-                  color="black"
+                  color="#1E65DC"
                   large
                 >
                   mdi-account-circle

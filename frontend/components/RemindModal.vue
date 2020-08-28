@@ -49,7 +49,7 @@
                   v-slot:default="{ active, toggle }"
                 >
                   <v-btn
-                    active-class="purple--text"
+                    active-class="primary--text"
                     :input-value="active"
                     @click="toggle"
                     fab
@@ -63,7 +63,6 @@
           </v-item-group>
         </v-container>
       </v-card-text>
-              
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>

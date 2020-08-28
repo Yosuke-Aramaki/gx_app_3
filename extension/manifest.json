@@ -9,12 +9,6 @@
     "default_title": "GX_app",
     "default_popup": "index.html"  
   },
-  "content_scripts": [ 
-    { 
-      "matches": [ "<all_urls>" ],
-      "js": [ "content_script.js" ]
-    }
-  ],
   "permissions": [
     "storage", "activeTab"
   ]
