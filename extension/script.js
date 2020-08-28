@@ -47,27 +47,20 @@ window.addEventListener('load',　async ()=>{
       // 開いてるタブのタイトルとURLを取得する
       await chrome.tabs.getSelected( tab => { 
         siteData.title = tab.title;
-        siteData.url = tab.url;  
-      });
-    
-      // タブのタイトルを表示
-      document.getElementById('og_title_section').textContent = siteData.title;
-      // "| ether - Token swap amount difference between the amount from uniswap app and contract read - Ethereum Stack Exchange |" 
-      // siteData.title;
-      
-      // og:imageとog:descriptionの取得
-      // try {
-        await fetch(siteData.url).then(res => res.text()).then(text => {
-          const el = new DOMParser().parseFromString(text, "text/html")
-          const headEls = (el.head.children)
-          Array.from(headEls).map(v => {
-            const prop = v.getAttribute('property')
-            if (!prop) return;
-            // { //propertyの設定がない場合
-            //   // siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
-            //   // document.getElementById('og_image').src = "/logo.ico"
-            //   // siteData.article_note = siteData.title
-            // } else {
+        siteData.url = tab.url;
+
+        // タブのタイトルを表示
+        document.getElementById('og_title_section').textContent = siteData.title;  
+        
+        // og:imageとog:descriptionの取得
+        try {
+          fetch(siteData.url).then(res => res.text()).then(text => {
+            const el = new DOMParser().parseFromString(text, "text/html")
+            const headEls = (el.head.children)
+            Array.from(headEls).map(v => {
+              console.log(v)
+              const prop = v.getAttribute('property')
+              if (!prop) return
               if (prop == "og:image") {
                 siteData.og_image = v.getAttribute("content")
                 document.getElementById('og_image').src = siteData.og_image
@@ -75,15 +68,15 @@ window.addEventListener('load',　async ()=>{
               if (prop == "og:description") {
                 siteData.article_note = v.getAttribute("content")
               }
-            
+            })
           })
-        })
-      // } catch (err) { //サイトのスクレイピングがうまくいかない場合
-      //   siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
-      //   document.getElementById('og_image').src = "/logo.ico"
-      //   siteData.article_note = siteData.title
-      // }
-      
+        } catch (err) { //サイトのスクレイピングがうまくいかない場合
+          document.getElementById('sample').textContent = 3; 
+          siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
+          document.getElementById('og_image').src = "/logo.ico"
+          siteData.article_note = siteData.title
+        }
+      });
 
       // 同じURLが保存されているかの確認
       xhr.open("get", "http://localhost:3000/api/v1/already_saved?" + 'article_url=' + siteData.url, true);
