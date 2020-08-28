@@ -50,7 +50,7 @@ window.addEventListener('load',　async ()=>{
         siteData.url = tab.url;
 
         // タブのタイトルを表示
-        document.getElementById('og_title_section').textContent = "siteData.title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title title ";  
+        document.getElementById('og_title_section').textContent = "siteData.title title title";  
         
         // og:imageとog:descriptionの取得
         try {
