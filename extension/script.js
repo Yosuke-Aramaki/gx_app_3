@@ -107,22 +107,26 @@ window.addEventListener('load',　async ()=>{
           xhr.onload = ()=> {
             article_data = xhr.response 
             // 記事を保存できたことを通知
-            document.getElementById('save_notification').textContent = '記事を保存しました';
+            document.getElementById('notification').textContent = '記事を保存しました';
+            deleteNotification()
           };
 
         // タブで開いているURLがすでに保存されている場合
         } else {
           // メモを追加するを非表示
-          document.getElementById('note_section_title').style.display = 'none';
+          document.getElementById('note_section').style.display = 'none';
           // メモ記入欄の表示
           document.getElementById('note_textarea').style.display = 'inline-block';
           // メモ記入欄に既存のメモを表示する
           document.getElementById('note_textarea').textContent = article_data.article_note;
+          // その他オプションの表示
+          document.getElementById('footer_section').style.display = 'inline-block';
         }
       };
 
       // メモを追加を押した時にテキストエリアが表示される
-      document.getElementById('note_section_title').addEventListener('click', ()=>{
+      document.getElementById('note_section').addEventListener('click', ()=>{
+        document.getElementById('note_section').style.display = 'none';
         document.getElementById('note_textarea').style.display = 'inline-block';
       })
 
@@ -135,25 +139,45 @@ window.addEventListener('load',　async ()=>{
         // サーバーへリクエストの送信
         xhr.send(
           '&article[article_note]=' + document.getElementById("note_textarea").value +
-          '&article[category_id]=' + 1
+          '&article[category_id]=' + document.getElementById("category_list").value
         );
         xhr.onload = ()=> {
           // 記事を保存できたことを通知
           if (xhr.readyState == 4 && xhr.status == "200") {
-            document.getElementById('save_notification').textContent = 'メモを保存しました';
+            document.getElementById('notification').textContent = 'メモを保存しました';
+            deleteNotification()
           } else {
           }
         };
       })
 
+      // カテゴリ追加を押した時の処理
+      document.getElementById('catecory_section_title').addEventListener('click', () => {
+
+        xhr.open("get", "http://localhost:3000/api/v1/categories", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('Authorization', 'Token ' + user_id);
+        xhr.responseType = 'json';
+        xhr.send();
+        xhr.onload = async () => {
+          document.getElementById('category_list').style.display = 'inline-block';
+          category_data = await xhr.response
+          for (let i=0; i < category_data.length; i++) {
+            document.getElementById('category_list').insertAdjacentHTML('beforeend','<option value=”' + category_data[i].id + '”>' + category_data[i].category_name + '</option>');
+          }
+        };
+      })
+
+
       // 保存しているURLを削除する
-      document.getElementById('delete_section_title').addEventListener('click', ()=>{
+      document.getElementById('delete_section').addEventListener('click', ()=>{
         xhr.open("DELETE", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
         xhr.setRequestHeader('Authorization', 'Token ' + user_id);
         xhr.send();
         xhr.onload = () => {
           if (xhr.readyState == 4 && xhr.status == "200") {
-            document.getElementById('save_notification').textContent = '削除しました';
+            document.getElementById('notification').textContent = '削除しました';
+            deleteNotification()
           } else {
           }
         }
@@ -166,7 +190,7 @@ window.addEventListener('load',　async ()=>{
         // xhr.send();
         // xhr.onload = () => {
         //   if (xhr.readyState == 4 && xhr.status == "200") {
-        //     document.getElementById('save_notification').textContent = '未読にしました';
+        //     document.getElementById('notification').textContent = '未読にしました';
         //   } else {
         //   }
         // }
@@ -182,7 +206,7 @@ window.addEventListener('load',　async ()=>{
         xhr.onload = ()=> {
           // 記事を保存できたことを通知
           if (xhr.readyState == 4 && xhr.status == "200") {
-            document.getElementById('save_notification').textContent = 'メモを保存しました';
+            document.getElementById('notification').textContent = 'メモを保存しました';
           } else {
           }
         };
@@ -196,3 +220,9 @@ window.addEventListener('load',　async ()=>{
     }
   });
 })
+
+function deleteNotification() {
+  setTimeout(function(){
+    document.getElementById('notification').textContent = '';
+  }, 5000);
+}

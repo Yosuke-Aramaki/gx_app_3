@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </head>
   <body>
-    
     <div id="body_contents">
       <div id="og_section">
         <div id="og_image_section">
@@ -18,23 +17,35 @@
         <div id="og_title_section" class="ellipsis">
         </div>
       </div>
-      <p id="save_notification"></p>
+      <p id="notification"></p>
       <div id="note_section">
-        <p id="note_section_title">メモを追加</p>
-        <textarea id="note_textarea" rows="8" style='width: 100%; display: none;'>メモを記入できます</textarea>
+        <img class="icon_image" src="images/note-outline.svg">
+        <text>メモを追加</text>
       </div>
-      <div id="delete_section">
-        <p id="delete_section_title">リストから削除する</p>
-      </div>
+      <textarea id="note_textarea" rows="8" style='width: 100%; display: none;'>メモを記入できます</textarea>
       <div id="catecory_section">
-        <p id="catecory_section_title">カテゴリーを追加</p>
+        <div id="catecory_section_title">
+          <img class="icon_image" src="images/tag-outline.svg">
+          <text>カテゴリーを追加 </text>
+        </div>
+        <div>
+          <select name=”categories” id="category_list" style='display: none;'>
+            <option value=”1”>カテゴリーを追加しない</option>
+          </select>
+        </div>
       </div>
-      <button id="article_unread_button">未読にする</button>
-      <button id="article_save_button">保存する</button>
-      <p id="sample"></p>
+      <div class="footer_section" style='display: none;'>
+        <div id="delete_section">
+          <img class="icon_image" src="images/trash-can-outline.svg">
+          <text>リストから削除</text>
+        </div>
+        <div>
+          <button id="article_unread_button">未読にする</button>
+          <button id="article_save_button">保存する</button>
+        </div>
+      </div>
     </div>
-    <br />
-    <p id="logout_extension"><small>ログアウト</small></p>
+    <span id="logout_extension"><small>ログアウト</small></span>
     <!-- <p>Open source project. <a href="" target="_blank">See source code.</a></p> -->
   </body>
 </html>
