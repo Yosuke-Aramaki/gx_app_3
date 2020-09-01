@@ -9,10 +9,11 @@ window.addEventListener('load',　async ()=>{
     if (!Object.keys(result).length) { 
       
       // ログイン画面に切り替える
-      document.getElementById('body_contents').innerHTML = '<input type="email" id="email_input" placeholder="Enter email"><input type="password" id="password_input" placeholder="Password"><button type="submit" id="loginButton">Log In</button><a href="localhost:3000/" target="_blank">新規登録はこちらから</a>'
-      
+      // document.getElementById('body_contents').innerHTML = '<input type="email" id="email_input" placeholder="Enter email"><input type="password" id="password_input" placeholder="Password"><button type="submit" id="login_button">Log In</button><a href="localhost:3000/" target="_blank">新規登録はこちらから</a>'
+      document.getElementById('body_contents').style.display = 'none';
+
       // ログイン通信
-      document.getElementById('loginButton').addEventListener('click', ()=>{
+      document.getElementById('login_button').addEventListener('click', ()=>{
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = async function(){
           if(this.readyState == 4 && this.status == 200){

@@ -9,6 +9,23 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </head>
   <body>
+    <div id="login_section" > 
+      <!-- style="display: none;" -->
+      <div class="input_section">
+        <input type="email" id="email_input" placeholder="メールアドレス">
+        <div class ="underline"></div>
+      </div>
+      <div class="input_section">
+        <input type="password" id="password_input" placeholder="パスワード">
+        <div class ="underline"></div>
+      </div>
+      <div class="input_section">
+        <button type="submit" id="login_button">ログイン</button>
+      </div>
+      <div class="link_for_signup">
+        <a href="localhost:3000/" target="_blank"><small>新規登録はこちらから</small></a>
+      </div>
+    </div>
     <div id="body_contents">
       <div id="og_section">
         <div id="og_image_section">
@@ -44,8 +61,8 @@
           <button id="article_save_button">保存する</button>
         </div>
       </div>
+      <span id="logout_extension"><small>ログアウト</small></span>
     </div>
-    <span id="logout_extension"><small>ログアウト</small></span>
     <!-- <p>Open source project. <a href="" target="_blank">See source code.</a></p> -->
   </body>
 </html>
