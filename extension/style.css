@@ -27,6 +27,10 @@
   transition: transform 0.18s ease-out;
 }
 
+#email_input::placeholder, #password_input::placeholder {
+  font-size: 12px;
+}
+
 .underline {
   text-align: center;
   width: 200px;
