@@ -1,5 +1,6 @@
 class Api::V1::SessionsController < ApplicationController
   skip_before_action :authenticate, only: [:create]
+  
   def new
   end
 
@@ -7,7 +8,9 @@ class Api::V1::SessionsController < ApplicationController
   def create
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
-      render json: { user_id: user.id }
+      token = SecureRandom.hex(18)
+      Redis.current.set(token, user.id)
+      render json: { token: token }
     else
       render json: { messages: "メールまたはパスワードが一致しません"}, status: :unauthorized
     end

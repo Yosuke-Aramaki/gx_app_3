@@ -26,6 +26,13 @@ services:
       - "3000:3000"
     links:
       - db
+      - redis
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    volumes:
+      - "./data/redis:/data"
 
 volumes:
   mysql-data:

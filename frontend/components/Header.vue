@@ -64,13 +64,13 @@ export default {
   },
   computed: {
     hasCookies: function() {
-      return !!this.$cookies.get('user_id')
+      return !!this.$cookies.get('token')
     }
   },
   methods: {
     async logout() {
       try {
-        this.$cookies.remove('user_id')
+        this.$cookies.remove('token')
         location.replace('/')
       } catch (e) {
         console.log(e)

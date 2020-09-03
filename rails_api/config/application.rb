@@ -37,5 +37,6 @@ module RailsApi
     config.eager_load_paths += Dir["#{config.root}/lib/**/"]
     # Rails5から productionで呼び出す設定
     config.enable_dependency_loading = true 
+
   end
 end
