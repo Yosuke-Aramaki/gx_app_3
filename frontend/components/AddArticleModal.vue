@@ -6,6 +6,7 @@
         dark
         v-bind="attrs"
         v-on="on"
+        @click="fetchCategories()"
       >
         記事を追加
       </v-btn>
@@ -125,7 +126,6 @@ export default {
     }
   },
   created() {
-    this.fetchCategories()
   },
   methods: {
     async fetchCategories() {
