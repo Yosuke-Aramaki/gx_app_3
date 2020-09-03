@@ -131,12 +131,7 @@ export default {
       show_unread_articles: true,
       dialog: false,
       model:'',
-      item: 1,
-      items: [
-        { text: 'Real-Time', icon: 'mdi-clock' },
-        { text: 'Audience', icon: 'mdi-account' },
-        { text: 'Conversions', icon: 'mdi-flag' },
-      ],
+      item: 0,
     }
   },
   created() {
