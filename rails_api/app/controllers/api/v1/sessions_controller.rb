@@ -16,4 +16,10 @@ class Api::V1::SessionsController < ApplicationController
     end
   end
 
+  def destroy
+    user_token = request.headers[:HTTP_AUTHORIZATION].slice!(6..44)
+    Redis.current.del( user_token )
+    render json: { status: user_token }
+  end
+
 end

@@ -70,8 +70,13 @@ export default {
   methods: {
     async logout() {
       try {
-        this.$cookies.remove('token')
-        location.replace('/')
+        this.$axios.$post(
+          '/api/v1/logout'
+        )
+        .then((response) => {
+          this.$cookies.remove('token')
+          location.replace('/')
+        })
       } catch (e) {
         console.log(e)
       }
