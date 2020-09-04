@@ -1,5 +1,6 @@
 class Api::V1::RemindsController < ApplicationController
-
+  # skip_before_action :authenticate, only: [:destroy]
+  
   def index 
     @remind = Remind.where(user_id: current_user.id).select("id, day_of_the_week, user_id")
     render json: @remind.to_json
@@ -25,6 +26,16 @@ class Api::V1::RemindsController < ApplicationController
     @remind = Remind.find_by(day_of_the_week: params[:remind][:day_of_the_week], user_id: current_user.id)
     if @remind.update(remind_time: params[:remind][:remind_time])
       render json: @remind.to_json
+    else
+      render json: { messages: @remind.errors }, status: :unauthorized
+    end
+  end
+
+  def destroy 
+    @remind = Remind.find_by(day_of_the_week: params[:remind][:day_of_the_week], user_id: current_user.id)
+    # render json: { messages: @remind }
+    if @remind.destroy
+      render json: { messages: "success" }
     else
       render json: { messages: @remind.errors }, status: :unauthorized
     end

@@ -57,12 +57,24 @@
                   <span class="headline">新規カテゴリーを追加する</span>
                 </v-card-title>
                 <v-card-text>
-                  <v-text-field
-                    v-model="category_form.category_name"
-                    label="追加したいカテゴリー名"
-                    name="category_name"
-                    required
-                  ></v-text-field>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="3">
+                        <v-subheader>カテゴリー名</v-subheader>
+                      </v-col>
+                      <v-col cols="9">
+                        <v-text-field
+                          v-model="category_form.category_name"
+                          label="追加したいカテゴリー名"
+                          name="category_name"
+                          required
+                          prepend-inner-icon="mdi-folder-multiple"
+                          outlined
+                          hide-details=false
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -365,6 +377,15 @@ a {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
+}
+
+.v-card {
+  padding: 16px 32px;
+}
+
+.headline {
+  margin: 18px auto;
+  font-weight: 700;
 }
 
 </style>

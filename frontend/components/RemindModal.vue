@@ -187,8 +187,9 @@ export default {
       }
     },
     async fetchReminds() {
-      this.reminds = await this.$axios.$get('/api/v1/reminds')
+      this.reminds = await this.$axios.$get('/api/v1/get_remind_info')
       for (let i = 0; i < this.reminds.length; i++) {
+        console.log(this.reminds[i])
         this.form.day_of_the_week.push(this.reminds[i].day_of_the_week)
       }
       this.checkDayOfTheWeek = this.form.day_of_the_week
@@ -210,6 +211,21 @@ export default {
       this.$OneSignal.push(['sendTag', 'customId', this.$cookies.get('user_id'), function(tagsSent) {
       }]); 
       // 繰り返し処理で１つずつ曜日と時間を保存していく
+      let dayOfTheWeekForDestroy = this.checkDayOfTheWeek.filter(i => this.form.day_of_the_week.indexOf(i) == -1)
+      if (dayOfTheWeekForDestroy.length > 0) {
+        for (let t = 0; t < dayOfTheWeekForDestroy.length; t++) {
+          await this.$axios.$delete(
+            '/api/v1/reminds', {
+              data: {
+                remind: { day_of_the_week: dayOfTheWeekForDestroy[t] }
+              }
+            }
+          )
+          .then((response) => {
+            console.log(response)
+          })
+        }
+      }
       for (let i = 0; i < this.form.day_of_the_week.length; i++ ) {
         await this.$axios.$post(
           '/api/v1/check_reminds', 
