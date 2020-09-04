@@ -2,11 +2,11 @@
 *{
   font-family: 'Muli', sans-serif;
   box-sizing: border-box;
-  margin: auto;
+  /* margin: auto; */
 }
 
 /* -------- ログイン画面 -------- */
-#login_section {
+#signin_section {
   text-align: center;
   /* display: flex;
   justify-content: center; */
@@ -45,7 +45,7 @@
   transform: scaleX(1);
 }
 
-#login_button {
+#signin_button {
   width: 200px;
   height: 30px;
   color: #ffffff;
@@ -71,6 +71,7 @@
   display: flex;
 }
 
+/* --- 画像 --- */
 #og_image{
   height: 58px;
   width: 90px;
@@ -88,6 +89,7 @@
   -webkit-box-orient: vertical;
 } */
 
+/* --- タイトルの・・・省略 --- */
 .ellipsis {
   position: relative;
   padding: 6px;
@@ -112,11 +114,13 @@
   content: "";
 }
 
+/* --- 通知文章 --- */
 #notification {
   font-size: large;
   margin: 8px 0;
 }
 
+/* --- ノート欄 --- */
 #note_section, #catecory_section_title, #delete_section {
   padding: 4px 8px;
   width: 100px;
@@ -141,6 +145,11 @@
     inset -10px -10px 30px rgba(248, 253, 255, 0.9);
 }
 
+#note_textarea {
+  border-radius: 4px;
+}
+
+/* --- カテゴリー --- */
 #catecory_section {
   display: flex;
   align-items: center;
@@ -150,10 +159,18 @@
   width: 140px;
 }
 
-#category_list {
+.category_list_section {
   margin-left: 6px;
+  border-bottom: 1px solid #000000;
 }
 
+#category_list {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* --- ボタン群 --- */
 .footer_section {
   display: flex;
   justify-content: space-between;

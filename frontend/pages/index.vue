@@ -167,13 +167,17 @@ export default {
       this.active = !!this.active
     },
     async fetchArticles(is_read) {
+      let test = await this.$axios.$get('/api/v1/already_saved', {
+        params: {
+          article_url: "https://note.com/komakine/n/n251dc619435c"
+        }
+      })
+      console.log(test)
       let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
         params: {
           is_read: is_read
         }
       })
-      console.log(res)
-
       if (is_read == 0) {
         this.articles =[]
         this.articles = res
