@@ -119,7 +119,7 @@
                   </a>
                   <div class="article_footer">
                     <v-icon small class="article_footer_button">mdi-circle-edit-outline</v-icon>
-                    <v-icon small class="article_footer_button">mdi-trash-can-outline</v-icon>
+                    <v-icon small class="article_footer_button" @click="delete_article(article.id)">mdi-trash-can-outline</v-icon>
                   </div>
                 </div>
               </v-col>
@@ -174,7 +174,6 @@ export default {
           article_url: "https://note.com/komakine/n/n251dc619435c"
         }
       })
-      console.log(test)
       let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
         params: {
           is_read: is_read
@@ -223,6 +222,7 @@ export default {
       this.articles = []
       this.readArticles = []
       this.readArticles = res
+      console.log(res)
       this.show_unread_articles = false
       // console.log(this.show_unread_articles) // falseが700回くらい反応してる
     },
@@ -244,6 +244,14 @@ export default {
           this.errors = error.response.data.messages
         }
       })
+    },
+    async delete_article(article_id) {
+      let article_array = this.readArticles
+      await this.$axios.$delete('api/v1/articles/' + article_id )
+      article_array.some(function(v, i) {
+        if (v.id === article_id) article_array.splice(i,1)
+      })
+      this.readArticles = article_array
     }
   }
 }
@@ -387,7 +395,14 @@ a {
 
 /* 既読記事アイテムのフッター部分 */
 .article_footer {
+  margin-top: 4px;
+  display: flex;
+  justify-content: flex-end;
+}
 
+.article_footer_button {
+  margin-left: 8px;
+  cursor: pointer;
 }
 
 .v-card {
