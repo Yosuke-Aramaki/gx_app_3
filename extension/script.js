@@ -70,10 +70,10 @@ window.addEventListener('load',　async ()=>{
         })
         .catch((error) => { //サイトのスクレイピングがうまくいかない場合
           console.error('Error:', error);
-          document.getElementById('sample').textContent = 3; 
           siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
-          document.getElementById('og_image').src = "/logo.ico"
+          document.getElementById('og_image').src = "images/logo.ico"
           siteData.article_note = tab.title
+          return
         });
 
         // 同じURLが保存されているかの確認
@@ -103,7 +103,9 @@ window.addEventListener('load',　async ()=>{
               '&article[category_id]=' + 1
             );
             xhr.onload = ()=> {
-              article_data = xhr.response 
+              // 最初の保存は自動的に未読記事で
+              document.getElementById('unread_button').classList.add('status_active');
+              document.getElementById('read_button').classList.add('status_inactive');
               // 記事を保存できたことを通知
               document.getElementById('notification').textContent = '記事を保存しました';
               deleteNotification()
@@ -117,11 +119,17 @@ window.addEventListener('load',　async ()=>{
             document.getElementById('note_textarea').style.display = 'inline-block';
             // メモ記入欄に既存のメモを表示する
             document.getElementById('note_textarea').textContent = article_data.article_note;
+            if (article_data.is_read == 0 ) {
+              document.getElementById('unread_button').classList.add('status_active');
+              document.getElementById('read_button').classList.add('status_inactive');
+            } else {
+              document.getElementById('read_button').classList.add('status_active');
+              document.getElementById('unread_button').classList.add('status_inactive');
+            }
             // その他オプションの表示
-            document.getElementById('footer_section').style.display = 'inline-block';
+  
           }
         };
-
       });
 
       // メモを追加を押した時にテキストエリアが表示される
@@ -130,44 +138,39 @@ window.addEventListener('load',　async ()=>{
         document.getElementById('note_textarea').style.display = 'inline-block';
       })
 
-      // メモを保存
-      document.getElementById('article_save_button').addEventListener('click', ()=>{
-        
-        xhr.open("put", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
-        xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('Authorization', 'Token ' + session_token);
-        // サーバーへリクエストの送信
-        xhr.send(
-          '&article[article_note]=' + document.getElementById("note_textarea").value +
-          '&article[category_id]=' + document.getElementById("category_list").value
-        );
-        xhr.onload = ()=> {
-          // 記事を保存できたことを通知
-          if (xhr.readyState == 4 && xhr.status == "200") {
-            document.getElementById('notification').textContent = 'メモを保存しました';
-            deleteNotification()
-          } else {
-          }
-        };
+      // カテゴリリストの追加
+      xhr.open("get", "http://localhost:3000/api/v1/categories", true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.setRequestHeader('Authorization', 'Token ' + session_token);
+      xhr.responseType = 'json';
+      xhr.send();
+      xhr.onload = async () => {
+        document.getElementById('category_list').style.display = 'inline-block';
+        category_data = await xhr.response
+        for (let i=0; i < category_data.length; i++) {
+          document.getElementById('category_list').insertAdjacentHTML('beforeend','<option value=”' + category_data[i].id + '”>' + category_data[i].category_name + '</option>');
+        }
+      };
+
+      // 記事の未読既読の切り替え
+      var unread_button_element = document.getElementById('unread_button')
+      var read_button_element = document.getElementById('read_button')
+      unread_button_element.addEventListener('click', () => {
+        if (unread_button_element.classList.contains('status_inactive')) {
+          unread_button_element.classList.remove('status_inactive');
+          read_button_element.classList.remove('status_active');
+          unread_button_element.classList.add('status_active');
+          read_button_element.classList.add('status_inactive');
+        }
       })
-
-      // カテゴリ追加を押した時の処理
-      document.getElementById('catecory_section_title').addEventListener('click', () => {
-
-        xhr.open("get", "http://localhost:3000/api/v1/categories", true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('Authorization', 'Token ' + session_token);
-        xhr.responseType = 'json';
-        xhr.send();
-        xhr.onload = async () => {
-          document.getElementById('category_list').style.display = 'inline-block';
-          category_data = await xhr.response
-          for (let i=0; i < category_data.length; i++) {
-            document.getElementById('category_list').insertAdjacentHTML('beforeend','<option value=”' + category_data[i].id + '”>' + category_data[i].category_name + '</option>');
-          }
-        };
+      read_button_element.addEventListener('click', () => {
+        if (read_button_element.classList.contains('status_inactive')) {
+          read_button_element.classList.remove('status_inactive');
+          unread_button_element.classList.remove('status_active');
+          read_button_element.classList.add('status_active');
+          unread_button_element.classList.add('status_inactive');
+        }
       })
-
 
       // 保存しているURLを削除する
       document.getElementById('delete_section').addEventListener('click', ()=>{
@@ -177,36 +180,35 @@ window.addEventListener('load',　async ()=>{
         xhr.onload = () => {
           if (xhr.readyState == 4 && xhr.status == "200") {
             document.getElementById('notification').textContent = '削除しました';
+            document.getElementById('note_textarea').style.display = 'none';
+            document.getElementById('category_section').style.display = 'none';
+            document.getElementById('status_section').style.display = 'none';
             deleteNotification()
+            setTimeout(function(){
+              window.close()
+            }, 5000);
           } else {
           }
         }
       })
 
-      // 未読にする
-      document.getElementById('article_unread_button').addEventListener('click', ()=>{
-        // xhr.open("PUT", 'http://localhost:3000/api/v1/articles/' + article_data.id + '/update_is_read?' + 'is_read=0', true);
-        // xhr.setRequestHeader('Authorization', 'Token ' + session_token);
-        // xhr.send();
-        // xhr.onload = () => {
-        //   if (xhr.readyState == 4 && xhr.status == "200") {
-        //     document.getElementById('notification').textContent = '未読にしました';
-        //   } else {
-        //   }
-        // }
+      // 記事の保存
+      document.getElementById('article_save_button').addEventListener('click', ()=>{
+  
         xhr.open("put", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
         xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('Authorization', 'Token ' + session_token);
         // サーバーへリクエストの送信
         xhr.send(
           '&article[article_note]=' + document.getElementById("note_textarea").value +
-          '&article[category_id]=' + 1 + 
-          '&article[is_read]=' + 0
+          '&article[category_id]=' + document.getElementById("category_list").value +
+          '&article[is_read]=' + document.getElementsByClassName("status_active")[0].value 
         );
         xhr.onload = ()=> {
           // 記事を保存できたことを通知
           if (xhr.readyState == 4 && xhr.status == "200") {
             document.getElementById('notification').textContent = 'メモを保存しました';
+            deleteNotification()
           } else {
           }
         };

@@ -121,13 +121,15 @@
 }
 
 /* --- ノート欄 --- */
-#note_section, #catecory_section_title, #delete_section {
-  padding: 4px 8px;
+#note_section, #delete_section {
+  padding: 4px 6px;
+  margin: 2px 0px;
   width: 100px;
   display: flex;
   justify-content: left;
   align-items: center;
   border-radius: 12px;
+  cursor: pointer;
   /* background-color: rgb(190, 205, 214); */
   transition: box-shadow 0.3s;
   /* box-shadow:
@@ -137,26 +139,33 @@
     inset -10px -10px 30px transparent; */
 }
 
-#note_section:hover, #catecory_section_title:hover, #delete_section:hover {
+#note_section:hover, #delete_section:hover {
   box-shadow:
     10px 10px 30px transparent,
     -10px -10px 30px transparent,
-    inset 10px 10px 30px rgba(18, 47, 61, 0.5),
+    inset 10px 10px 30px #DCE5F3,
     inset -10px -10px 30px rgba(248, 253, 255, 0.9);
 }
 
 #note_textarea {
+  padding: 4px 6px;
   border-radius: 4px;
+  border: 0.5px solid #d1d1d1;
 }
 
 /* --- カテゴリー --- */
-#catecory_section {
+#category_section {
   display: flex;
   align-items: center;
+  margin: 2px 0px;
 }
 
-#catecory_section_title {
+#category_section_title {
   width: 140px;
+  padding: 4px 6px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 
 .category_list_section {
@@ -165,16 +174,75 @@
 }
 
 #category_list {
+  width: 140px;
   border: none;
   outline: none;
   background: transparent;
 }
 
-/* --- ボタン群 --- */
-.footer_section {
+/* --- 記事のステータス --- */
+#status_section {
   display: flex;
+  align-items: center;
+  margin: 2px 0px;
   justify-content: space-between;
 }
+
+#status_section_title {
+  width: 140px;
+  padding: 4px 6px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+#status_select_field {
+  display: flex;
+}
+
+#unread_button, #read_button {
+  padding: 2px 19px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+#read_button {
+  margin-left: 16px;
+}
+
+#unread_button:hover, #read_button:hover {
+  background-color: #e8eef7;
+}
+
+.status_active {
+  background-color: #DCE5F3;
+}
+
+.status_inactive {
+  background-color: #ebebeb;
+}
+
+/* --- ボタン群 --- */
+#footer_section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#article_save_button {
+  padding: 6px 16px;
+  color: #ffffff; 
+  background-color: #1E65DC;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+}
+
+#article_save_button:hover {
+  background-color: #4f83dd;
+}
+
+
+
 
 #delete_section {
   width: 120px;

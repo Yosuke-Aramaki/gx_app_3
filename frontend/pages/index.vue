@@ -27,9 +27,7 @@
                 <v-list-item-icon style="margin-right: 14px;">
                   <v-icon>mdi-book-open</v-icon>
                 </v-list-item-icon>
-                <v-list-item-content>
-                  <v-list-item-title>既読記事</v-list-item-title>
-                </v-list-item-content>
+                <v-list-item-title>既読記事</v-list-item-title>
               </v-list-item>
               <div class="category-list">
                 <v-list-item v-for="category in categories" :key="'read_category' + category.id">
@@ -108,8 +106,8 @@
           <div v-else class="read-article-list">
             <v-row>
               <v-col cols="4" v-for="article in readArticles" :key="'read_article' + article.id">
-                <a :href="article.article_url" @click="article_url_clicked(article.id)">
-                  <div class="read-article-item">
+                <div class="read-article-item">
+                  <a :href="article.article_url" @click="article_url_clicked(article.id)">
                     <div class="image_section" style="margin:auto;">
                       <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
                     </div>
@@ -118,8 +116,12 @@
                     <div class="article_note">
                       <p><small>{{ article.article_note }}</small></p>
                     </div>
+                  </a>
+                  <div class="article_footer">
+                    <v-icon small class="article_footer_button">mdi-circle-edit-outline</v-icon>
+                    <v-icon small class="article_footer_button">mdi-trash-can-outline</v-icon>
                   </div>
-                </a>
+                </div>
               </v-col>
             </v-row>
           </div>
@@ -273,7 +275,7 @@ export default {
   padding: 6px 8px 6px 12px;
   margin-bottom: 8px;
   border-radius: 18px;
- vertical-align: middle;
+  vertical-align: middle;
 }
 
 .article_section {
@@ -340,7 +342,7 @@ a {
 .read-article-item {
   /* border: 1px solid #000; */
   padding: 16px;
-  height: 360px;
+  height: 380px;
   border-radius: 6px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px 0px;
   background-color: #ffffff;
@@ -381,6 +383,11 @@ a {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
+}
+
+/* 既読記事アイテムのフッター部分 */
+.article_footer {
+
 }
 
 .v-card {
