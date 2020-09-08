@@ -118,7 +118,8 @@
                     </div>
                   </a>
                   <div class="article_footer">
-                    <v-icon small class="article_footer_button">mdi-circle-edit-outline</v-icon>
+                    <EditModal :form="article" />
+                    <!-- <v-icon small class="article_footer_button">mdi-circle-edit-outline</v-icon> -->
                     <v-icon small class="article_footer_button" @click="delete_article(article.id)">mdi-trash-can-outline</v-icon>
                   </div>
                 </div>
@@ -132,7 +133,13 @@
 </template>
 
 <script>
+import Header from '@/components/Header'
+import EditModal from '@/components/EditModal'
 export default {
+  components: {
+    Header,
+    EditModal
+  },
   data() {
     return {
       articles: [],

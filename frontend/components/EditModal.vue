@@ -1,34 +1,44 @@
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
+  <v-dialog v-model="dialog" max-width="800px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn
-        color="#1E65DC"
-        dark
+      <v-icon 
         v-bind="attrs"
         v-on="on"
-        @click="fetchCategories()"
+        @click="beforeUpdate()"
+        small 
+        class="article_footer_button"
       >
-        記事を追加
-      </v-btn>
+        mdi-circle-edit-outline
+      </v-icon>
     </template>
     <v-card>
       <v-card-title>
-        <p class="headline">記事を追加する</p>
+        <p class="headline">編集する</p>
       </v-card-title>
       <v-card-text>
         <v-container>
           <v-row>
             <v-col cols="3">
-              <v-subheader>URL</v-subheader>
+              <v-subheader>タイトル</v-subheader>
             </v-col>
             <v-col cols="9">
               <v-text-field
-                v-model="form.article_url"
-                label="追加したい記事にURL"
-                prepend-inner-icon="mdi-link-variant"
+                v-model="form.title"
                 outlined
                 hide-details=false
               ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="3">
+              <v-subheader>メモ</v-subheader>
+            </v-col>
+            <v-col cols="9">
+              <v-textarea
+                v-model="form.article_note"
+                solo
+                hide-details=false
+              ></v-textarea>
             </v-col>
           </v-row>
           <v-row>
@@ -67,56 +77,26 @@
               ></v-select>
             </v-col>
           </v-row>
-          
         </v-container>
       </v-card-text>
-              
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-        <v-btn color="blue darken-1" text @click="add_article()">Save</v-btn>
+        <v-btn color="blue darken-1" text @click="save_article()">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <!-- <transition name="modal" appear>
-    <div class="modal modal-overlay" @click.self="$emit('close')">
-      <div class="modal-window">
-        <div class="modal-content">
-          <p>記事を追加する</p>
-          <form @submit.prevent="add_article">
-            <input type="text" v-model="form.article_url" placeholder="article url" name="article_url" />
-            <br />
-            <label><input type="radio" v-model="form.is_read" value="0">あとで読む</label>
-            <label><input type="radio" v-model="form.is_read" value="1">読んだ</label>
-            <br />
-            <textarea type="text" v-model="form.article_note" placeholder="article note" name="article_note"></textarea>
-            <br />
-            <select v-model="selected">
-              <option v-for="category in categories" v-bind:value="category.id" :key="category.id">
-                {{ category.category_name }}
-              </option>
-            </select>
-            <button type="submit">追加</button>
-          </form>
-        </div>
-        <footer class="modal-footer">
-          <slot name="footer">
-            <button @click="$emit('close')">Close</button>
-          </slot>
-        </footer>
-      </div>
-    </div>
-  </transition> -->
 </template>
 
 <script>
 export default {
+  props: ['form'],
   data() {
     return {
       form: {
         article_url: '',
         article_note: '',
-        is_read: 0,
+        is_read: '',
         category_id: ''
       },
       dialog: false,
@@ -128,18 +108,21 @@ export default {
   created() {
   },
   methods: {
-    async fetchCategories() {
+    async beforeUpdate() {
+      // 未読既読ステータスの変更
+      if (this.form.is_read) {
+        this.form.is_read = 1
+      } else {
+        this.form.is_read = 0
+      }
+      // カテゴリーの取得
       this.categories = await this.$axios.$get('/api/v1/categories')
       console.log(this.categories)
       this.categories.unshift({ id: 1, category_name: "カテゴリーを追加しない" })
     },
-    async add_article() {
-      // カテゴリー指定がない場合はcategory_idを1に指定する カテゴリーの扱いは要検討
-      if (this.form.category_id == "") {
-        this.form.category_id = 1
-      }
-      await this.$axios.$post(
-        '/api/v1/save_article_from_url', 
+    async save_article() {
+      await this.$axios.$put(
+        '/api/v1/articles/' + this.form.id , 
         { article: this.form } 
       )
       .then((response) => {
@@ -157,7 +140,7 @@ export default {
 </script>
 <style scoped>
 .v-card {
-  width: 700px;
+  width: 800px;
   padding: 16px 32px;
 }
 
