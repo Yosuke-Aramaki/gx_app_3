@@ -55,6 +55,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
+    '@nuxtjs/dotenv',
     ['cookie-universal-nuxt', { parseJSON: false }],
     '@nuxtjs/onesignal',
     '@nuxtjs/pwa'
@@ -75,7 +76,7 @@ export default {
   },
   oneSignal: {
     init: {
-      appId: 'c3c52b3b-e0f2-423b-9491-8ba8784e6434',
+      appId: process.env.push_app_key,
       allowLocalhostAsSecureOrigin: true,
       welcomeNotification: {
         disable: false
@@ -101,6 +102,9 @@ export default {
       theme_color: '#ffffff',
       background_color: '#ffffff'
     },
+  },
+  env: {
+    push_app_key: process.env.push_app_key
   },
   /*
   ** Build configuration

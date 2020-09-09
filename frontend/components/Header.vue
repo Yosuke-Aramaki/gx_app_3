@@ -2,7 +2,7 @@
   <v-row justify="space-between">
     <v-col cols="3">
       <nuxt-link to="/" no-prefetch>
-      <h1><img src="" class="logo" />GX_APP_3</h1>
+      <h1><img src="" class="logo" />loe</h1>
       </nuxt-link>
     </v-col>
     <v-col cols="5">

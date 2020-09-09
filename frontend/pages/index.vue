@@ -229,7 +229,6 @@ export default {
       this.articles = []
       this.readArticles = []
       this.readArticles = res
-      console.log(res)
       this.show_unread_articles = false
       // console.log(this.show_unread_articles) // falseが700回くらい反応してる
     },

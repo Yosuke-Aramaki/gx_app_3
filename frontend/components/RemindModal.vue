@@ -189,7 +189,6 @@ export default {
     async fetchReminds() {
       this.reminds = await this.$axios.$get('/api/v1/get_remind_info')
       for (let i = 0; i < this.reminds.length; i++) {
-        console.log(this.reminds[i])
         this.form.day_of_the_week.push(this.reminds[i].day_of_the_week)
       }
       this.checkDayOfTheWeek = this.form.day_of_the_week

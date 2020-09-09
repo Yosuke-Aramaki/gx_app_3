@@ -1,4 +1,4 @@
-# gx_app_3
+# leo
 
 # 概要
 情報を逃さずインプットの定着を図るアプリです。 
@@ -17,8 +17,8 @@
 ##  インストール
 
 ```
-git clone git@github.com:Yosuke-Aramaki/gx_app_3.git
-cd gx_app_3
+git clone git@github.com:Yosuke-Aramaki/leo.git
+cd leo
 git checkout development
 ```
 

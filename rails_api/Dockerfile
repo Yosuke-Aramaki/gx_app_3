@@ -10,17 +10,17 @@ RUN apt-get update -qq && \
 # cronインストール
 RUN apt-get install -y cron 
 
-RUN mkdir /gx_app_3
+RUN mkdir /leo
 
-WORKDIR /gx_app_3
+WORKDIR /leo
 
-COPY Gemfile /gx_app_3/Gemfile
-COPY Gemfile.lock /gx_app_3/Gemfile.lock
+COPY Gemfile /leo/Gemfile
+COPY Gemfile.lock /leo/Gemfile.lock
 
 RUN gem install bundler
 RUN bundle install
 
-COPY . /gx_app_3
+COPY . /leo
 
 # wheneverでcrontab書き込み
 RUN bundle exec whenever --update-crontab 
