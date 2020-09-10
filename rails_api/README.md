@@ -54,8 +54,9 @@ docker-compose up -d
 
 // RailsDBの作成
 docker-compose exec app bash
-rails db:create
-rails db:migrate
+bundle install --path=vendor
+bundle exec rake db:create
+bundle exec rake db:migrate
 ```
 
 ```

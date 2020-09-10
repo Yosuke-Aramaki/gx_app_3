@@ -17,8 +17,8 @@ namespace :remind_task do
     
     @remind.length.times do |i|
       body = {
-        'app_id' => Setting.push[:app_id]
-        'title' => 'Gx app 3',
+        'app_id' => Setting.push[:app_id],
+        'title' => 'leo',
         'url'    => 'localhost:5000',
         "filters" => [{"field": "tag", "key": "customId", "relation": "=", "value": @remind[i].user_id}],
         'contents' => contents
