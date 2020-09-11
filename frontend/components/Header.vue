@@ -41,7 +41,7 @@
           <nuxt-link to="/signUp" class="button--grey" no-prefetch
             >ユーザー登録</nuxt-link
           >
-          <nuxt-link to="/login" class="button--grey" no-prefetch
+          <nuxt-link to="/signin" class="button--grey" no-prefetch
             >ログイン</nuxt-link
           >
         </div>

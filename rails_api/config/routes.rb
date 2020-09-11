@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post 'sign_up',  to: 'users#create'           # ユーザー登録
-      post 'login',    to: 'sessions#create'        # ログイン
+      post 'signin',    to: 'sessions#create'        # ログイン
       post 'logout',   to: 'sessions#destroy'       # ログアウト
       get  'test',     to: 'articles#health_check'  # 疎通確認
 

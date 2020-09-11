@@ -25,7 +25,7 @@ window.addEventListener('load',　async ()=>{
           }
         }
         // 通信のリクエスト 参照：https://qiita.com/sirone/items/412b2a171dccb11e1bb6
-        xhr.open("post", "http://localhost:3000/api/v1/login", true);
+        xhr.open("post", "http://localhost:3000/api/v1/signin", true);
         xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
         xhr.responseType = 'json';
         // サーバーへリクエストの送信

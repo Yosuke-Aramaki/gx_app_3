@@ -11,6 +11,6 @@ export default function({ app, $axios, redirect }) {
 
   $axios.onResponse(config => {
     $axios.setHeader('Content-Type', 'application/json')
-    $axios.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+    $axios.setHeader('Access-Control-Allow-Origin', process.env.api)
   })
 }

@@ -8,7 +8,7 @@
       <div class="box-frame-title">
         <h2>Welcome back!</h2>
       </div>
-      <form @submit.prevent="login">
+      <form @submit.prevent="signin">
         <input class="form-field" type="text" v-model="form_login.email" placeholder="email" name="email"/>
         <input class="form-field" type="password" v-model="form_login.password" placeholder="password" name="password"/>
         <button class="form-button" type="submit">ログイン</button>
@@ -27,8 +27,8 @@ export default {
     errors: '',
   }),
   methods: {
-    async login () {
-      this.$axios.$post('api/v1/login', {session: this.form_login })
+    async signin () {
+      this.$axios.$post('api/v1/signin', {session: this.form_login })
       .then((response) => {
         this.$store.dispatch('auth/set_user_token', response )
         location.replace('/')

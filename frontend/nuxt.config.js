@@ -68,7 +68,7 @@ export default {
     proxy: true,
   },
   proxy: {
-    '/api': 'http://[::1]:3000'
+    '/api': process.env.api
     // '/api': { 
     //   target: 'http://[::1]', 
     //   pathRewrite: {'^/api': ''}
@@ -104,7 +104,8 @@ export default {
     },
   },
   env: {
-    push_app_key: process.env.push_app_key
+    push_app_key: process.env.push_app_key,
+    api: process.env.api
   },
   /*
   ** Build configuration
