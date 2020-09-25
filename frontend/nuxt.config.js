@@ -105,7 +105,7 @@ export default {
   },
   env: {
     push_app_key: process.env.push_app_key,
-    api: process.env.api
+    api: process.env.api,
   },
   /*
   ** Build configuration
