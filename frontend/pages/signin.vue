@@ -88,7 +88,7 @@ export default {
   border: 0;      
   cursor: pointer;
   padding: auto 18px;
-  background: #47B931;
+  background: #1E65DC;
   color: #ffffff;
   transition: .2s;
   /* box-shadow: 6px 6px 3px #666666;   */
@@ -96,7 +96,7 @@ export default {
 }
 
 .form-button:hover {
-  background: #D9F2A0;
+  background: #7aa3eb;
 }
 
 .error {

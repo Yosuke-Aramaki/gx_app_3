@@ -2,7 +2,7 @@
   <v-row justify="space-between">
     <v-col cols="3">
       <nuxt-link to="/" no-prefetch>
-      <h1><img src="" class="logo" />loe</h1>
+      <h1><img src="" class="logo" />leo</h1>
       </nuxt-link>
     </v-col>
     <v-col cols="5">
@@ -32,16 +32,16 @@
             </template>
             <v-list>
               <v-list-item>
-                <div class="button--grey" @click="logout">ログアウト</div>
+                <div class="button--blue" @click="logout">ログアウト</div>
               </v-list-item>
             </v-list>
           </v-menu>
         </div>
         <div v-else>
-          <nuxt-link to="/signUp" class="button--grey" no-prefetch
+          <nuxt-link to="/signUp" class="button--blue" no-prefetch
             >ユーザー登録</nuxt-link
           >
-          <nuxt-link to="/signin" class="button--grey" no-prefetch
+          <nuxt-link to="/signin" class="button--blue" no-prefetch
             >ログイン</nuxt-link
           >
         </div>
@@ -111,19 +111,19 @@ nav {
   text-align: right;
 }
 
-.button--grey {
+.button--blue {
   display: inline-block;
   border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
+  border: 1px solid #1E65DC;
+  color: #1E65DC;
   text-decoration: none;
   padding: 5px 10px;
   margin-left: 15px;
 }
 
-.button--grey:hover {
+.button--blue:hover {
   color: #fff;
-  background-color: #35495e;
+  background-color: #1E65DC;
 }
 
 .document {
