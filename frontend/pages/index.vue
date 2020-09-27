@@ -42,12 +42,13 @@
             <v-dialog v-model="dialog" max-width="600px">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                  color="primary"
+                  class="add_category_button"
+                  color="#1E65DC"
                   dark
                   v-bind="attrs"
                   v-on="on"
                 >
-                  カテゴリーの追加
+                  追加
                 </v-btn>
               </template>
               <v-card>
@@ -290,6 +291,11 @@ export default {
   margin-bottom: 8px;
   border-radius: 18px;
   vertical-align: middle;
+}
+
+.add_category_button {
+  margin-right: 16px;
+  width: 100%;
 }
 
 .article_section {

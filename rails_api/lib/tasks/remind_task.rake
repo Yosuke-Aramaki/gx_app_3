@@ -26,7 +26,5 @@ namespace :remind_task do
   
       HTTParty.post(API_URI, headers: headers, body: body)
     end
-    
-  
   end
 end

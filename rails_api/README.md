@@ -34,11 +34,11 @@ default: &default
 
 development:
   <<: *default
-  database: pilee_development
+  database: leo_development
 
 production:
   <<: *default
-  database: pilee_production
+  database: leo_production
   username: sample
   password: <%= ENV['SAMPLE_DATABASE_PASSWORD'] %>
 ```

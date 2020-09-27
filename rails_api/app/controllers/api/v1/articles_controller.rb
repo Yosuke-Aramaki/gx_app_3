@@ -2,7 +2,7 @@ class Api::V1::ArticlesController < ApplicationController
   skip_before_action :authenticate, only: [:test]
     
   def health_check
-
+    render json: 'test'
   end
 
   def index
