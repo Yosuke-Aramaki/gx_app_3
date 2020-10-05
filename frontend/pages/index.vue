@@ -87,7 +87,9 @@
         <v-col cols="10" class="article_section">
           <div v-if="show_unread_articles" class="unread-article-list">
             <div v-for="(article, index) in articles" :key="'unread_article' + article.id">
-              <div class="article_saved_date" v-if="index == 0">{{dataFormat(article.created_at)}}</div>
+              <div class="article_saved_date" v-if="index == 0">
+                {{dataFormat(article.created_at)}}
+              </div>
               <div v-else>
                 <div class="article_saved_date" v-if="sameDate(index)">{{dataFormat(article.created_at)}}</div>
               </div>
@@ -106,7 +108,6 @@
                   </div>
                   <div class="unread_article_footer">
                     <EditModal :form="article" />
-                    <!-- <v-icon small class="article_footer_button">mdi-circle-edit-outline</v-icon> -->
                     <v-icon small class="article_footer_button" @click="delete_article(article.id)">mdi-trash-can-outline</v-icon>
                   </div>
                 </div>
@@ -143,16 +144,17 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import Header from '@/components/Header'
 import EditModal from '@/components/EditModal'
 export default {
   components: {
     Header,
-    EditModal
+    EditModal,
   },
   data() {
     return {
-      articles: [],
+      // articles: [],
       readArticles: [],
       categories: [],
       category_form: {
@@ -170,7 +172,10 @@ export default {
     this.fetchCategories()
   },
   computed: {
-    sameDate: function() {
+    ...mapState({
+      articles: (state) => state.article.articles
+    }),
+    sameDate: function({ state }) {
       return function(value) {
         return this.articles[value-1].created_at.substr(0, 10) != this.articles[value].created_at.substr(0, 10)
       }
@@ -182,17 +187,18 @@ export default {
     }
   },
   methods: {
-    async toggle() {
-      this.active = !!this.active
-    },
-    async fetchArticles(is_read) {
-      let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
-        params: {
-          is_read: is_read
-        }
-      })
-      this.articles =[]
-      this.articles = res
+    ...mapActions({
+      fetch_article_list_action: "article/fetch_article_list_action",
+    }),
+    async fetchArticles( is_read ) {
+      // let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
+      //   params: {
+      //     is_read: is_read
+      //   }
+      // })
+      // this.articles =[]
+      // this.articles = res
+      await this.fetch_article_list_action(is_read)
       this.article_handler(is_read)
     },
     async fetch_categorised_article(is_read, category_id) {
@@ -212,6 +218,9 @@ export default {
       } else {
         this.show_unread_articles = false
       }
+    },
+    add_article(article) {
+      this.articles.push(article)
     },
     async article_url_clicked(article_id) {
       this.$axios.$put(

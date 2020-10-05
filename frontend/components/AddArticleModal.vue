@@ -143,6 +143,7 @@ export default {
         { article: this.form } 
       )
       .then((response) => {
+        this.$emit('add_article', response)
         this.dialog = false
       })
       .catch((error) => {
