@@ -93,12 +93,6 @@ export default {
   props: ['form'],
   data() {
     return {
-      form: {
-        article_url: '',
-        article_note: '',
-        is_read: '',
-        category_id: ''
-      },
       dialog: false,
       selected: 1,
       categories: [],
