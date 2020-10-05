@@ -134,7 +134,6 @@ export default {
     }),
     async fetchCategories() {
       this.categories = await this.$axios.$get('/api/v1/categories')
-      console.log(this.categories)
       this.categories.unshift({ id: 1, category_name: "カテゴリーを追加しない" })
     },
     async add_article() {

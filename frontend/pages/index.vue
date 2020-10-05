@@ -116,7 +116,7 @@
           </div>
           <div v-else class="read-article-list">
             <v-row>
-              <v-col cols="4" v-for="article in articles" :key="'read_article' + article.id">
+              <v-col cols="4" v-for="article in reverseArticles" :key="'read_article' + article.id">
                 <div class="read-article-item">
                   <a :href="article.article_url" @click="article_url_clicked(article.id)" target="_blank" rel="noopener noreferrer">
                     <div class="image_section" style="margin:auto;">
@@ -173,7 +173,8 @@ export default {
   },
   computed: {
     ...mapState({
-      articles: (state) => state.article.articles
+      articles: (state) => state.article.articles,
+      reverseArticles: (state) => state.article.articles.slice().reverse(),
     }),
     sameDate: function({ state }) {
       return function(value) {
