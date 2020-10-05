@@ -31,7 +31,7 @@
               </v-list-item>
               <div class="category-list">
                 <v-list-item v-for="category in categories" :key="'read_category' + category.id">
-                  <v-list-item-content @click="fetch_read_categorised_article(1, category.id)">
+                  <v-list-item-content @click="fetch_categorised_article(1, category.id)">
                     <v-list-item-title>{{ category.category_name }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
@@ -91,24 +91,33 @@
               <div v-else>
                 <div class="article_saved_date" v-if="sameDate(index)">{{dataFormat(article.created_at)}}</div>
               </div>
-              <a :href="article.article_url" @click="article_url_clicked(article.id)">
-                <div class="unread-article-item">
-                    <div class="image_section">
-                      <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
-                    </div>
-                    <div class="article_information">
+              <div class="unread-article-item">
+                <div class="image_section">
+                  <a :href="article.article_url" @click="article_url_clicked(article.id)" target="_blank" rel="noopener noreferrer">
+                    <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+                  </a>
+                </div>
+                <div>
+                  <div class="article_information">
+                    <a :href="article.article_url" @click="article_url_clicked(article.id)" target="_blank" rel="noopener noreferrer">
                       <div class="article_title">{{ article.title }}</div>
                       <div class="article_description"><small>{{ article.article_note }}</small></div>
-                    </div>
-                </div>  
-              </a>
+                    </a>
+                  </div>
+                  <div class="unread_article_footer">
+                    <EditModal :form="article" />
+                    <!-- <v-icon small class="article_footer_button">mdi-circle-edit-outline</v-icon> -->
+                    <v-icon small class="article_footer_button" @click="delete_article(article.id)">mdi-trash-can-outline</v-icon>
+                  </div>
+                </div>
+              </div>  
             </div>
           </div>
           <div v-else class="read-article-list">
             <v-row>
-              <v-col cols="4" v-for="article in readArticles" :key="'read_article' + article.id">
+              <v-col cols="4" v-for="article in articles" :key="'read_article' + article.id">
                 <div class="read-article-item">
-                  <a :href="article.article_url" @click="article_url_clicked(article.id)">
+                  <a :href="article.article_url" @click="article_url_clicked(article.id)" target="_blank" rel="noopener noreferrer">
                     <div class="image_section" style="margin:auto;">
                       <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
                     </div>
@@ -182,13 +191,25 @@ export default {
           is_read: is_read
         }
       })
+      this.articles =[]
+      this.articles = res
+      this.article_handler(is_read)
+    },
+    async fetch_categorised_article(is_read, category_id) {
+      let res = await this.$axios.$get('/api/v1/categorised_articles', {
+        params: {
+          is_read: is_read,
+          category_id: category_id
+        }
+      })
+      this.articles =[]
+      this.articles = res
+      this.article_handler(is_read)
+    },
+    article_handler(is_read) {
       if (is_read == 0) {
-        this.articles =[]
-        this.articles = res
         this.show_unread_articles = true
       } else {
-        this.readArticles =[]
-        this.readArticles = res
         this.show_unread_articles = false
       }
     },
@@ -203,30 +224,6 @@ export default {
         if (error.response && error.response.status === 401) {
         }
       })
-    },
-    async fetch_categorised_article(is_read, category_id) {
-      let res = await this.$axios.$get('/api/v1/categorised_articles', {
-        params: {
-          is_read: is_read,
-          category_id: category_id
-        }
-      })
-      this.articles =[]
-      this.articles = res
-      this.show_unread_articles = true
-    },
-    async fetch_read_categorised_article(is_read, category_id) {
-      let res = await this.$axios.$get('/api/v1/categorised_articles', {
-        params: {
-          is_read: is_read,
-          category_id: category_id
-        }
-      })
-      this.articles = []
-      this.readArticles = []
-      this.readArticles = res
-      this.show_unread_articles = false
-      // console.log(this.show_unread_articles) // falseが700回くらい反応してる
     },
     async fetchCategories() {
       this.categories = await this.$axios.$get('/api/v1/categories')
@@ -268,6 +265,8 @@ export default {
   display: flex;
 }
 
+/* ======= カテゴリーリスト ===================== */
+
 .v-list {
   padding: 0px;
   background-color: #fafafa;
@@ -306,6 +305,8 @@ a {
   text-decoration: none;
 }
 
+/* ======= 未読記事リスト ===================== */
+
 .unread-article-item {
   display: flex;
   padding-bottom: 16px;
@@ -327,6 +328,13 @@ a {
   padding-left: 16px;
 }
 
+.unread_article_footer {
+  margin-top: 4px;
+  display: flex;
+  padding-left: 16px;
+  justify-content: flex-start;
+}
+
 .article_information {
  
 }
@@ -344,15 +352,18 @@ a {
 .article_information .article_description small {
   color: #7B7B7B;
   overflow: hidden;
+  height: 57px;
   width: 100%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
+  -webkit-line-clamp: 3;
 }
 
 .article_section .col {
   padding-top: 0px;
 }
+
+/* ======= 既読記事リスト ===================== */
 
 .read-article-item {
   /* border: 1px solid #000; */
