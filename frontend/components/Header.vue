@@ -2,7 +2,7 @@
   <v-row justify="space-between">
     <v-col cols="3">
       <nuxt-link to="/" no-prefetch>
-      <h1><img src="" class="logo" />leo</h1>
+      <h1><img src="/images/leo_icon_header.png" class="logo" /></h1>
       </nuxt-link>
     </v-col>
     <v-col cols="5">
@@ -90,7 +90,8 @@ header {
   width: 100%;
   display: flex;
   padding: 16px;
-  line-height: 1.5;
+  text-align: center;
+  justify-content: center;
 }
 
 h1 {
@@ -102,13 +103,25 @@ h1 {
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
+  height: 47px;
   vertical-align: middle;
+}
+
+/* v-elseのクラス名がわからないためcol-5で指定 */
+.col-5 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 nav {
   text-align: right;
+}
+
+.header-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .button--blue {
@@ -119,6 +132,7 @@ nav {
   text-decoration: none;
   padding: 5px 10px;
   margin-left: 15px;
+  vertical-align: middle;
 }
 
 .button--blue:hover {

@@ -10,7 +10,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       token = SecureRandom.hex(18)
-      Redis.current.set(token, user.id)
+      Redis.current.set(token, @user.id)
       render json: { token: token }
     else
       render json: { messages: @user.errors }, status: :unauthorized

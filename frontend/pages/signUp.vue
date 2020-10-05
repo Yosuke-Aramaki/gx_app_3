@@ -39,8 +39,9 @@ export default {
         {user: this.form }
       )
       .then(async (response) => {
-        this.$store.dispatch('auth/set_user_token', response )
-        location.replace('/')
+        console.log(response)
+        // this.$store.dispatch('auth/set_user_token', response )
+        // location.replace('/')
         // await this.$router.push('/')
       })
       .catch((error) => {
