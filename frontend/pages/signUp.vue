@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="section-logo">
-
+      <img src="/images/leo_icon_header.png" class="logo" />
     </div>
     <div class="box-frame">
       <p class="error">{{ this.errors }}</p>
@@ -58,7 +58,12 @@ export default {
 <style scoped>
 .section-logo {
   margin: 20px 0px;
+  margin-top: 100px;
   text-align: center;
+}
+
+.logo {
+  height: 70px;
 }
 
 .box-frame {

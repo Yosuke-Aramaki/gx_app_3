@@ -103,7 +103,8 @@ h1 {
 }
 
 .logo {
-  height: 47px;
+  padding-left: 12px;
+  height: 35px;
   vertical-align: middle;
 }
 
