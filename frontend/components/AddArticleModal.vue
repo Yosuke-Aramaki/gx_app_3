@@ -110,6 +110,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -128,6 +129,9 @@ export default {
   created() {
   },
   methods: {
+    ...mapActions({
+      add_article_action: "article/add_article_action",
+    }),
     async fetchCategories() {
       this.categories = await this.$axios.$get('/api/v1/categories')
       console.log(this.categories)
@@ -143,7 +147,7 @@ export default {
         { article: this.form } 
       )
       .then((response) => {
-        this.$emit('add_article', response)
+        this.add_article_action(response)
         this.dialog = false
       })
       .catch((error) => {

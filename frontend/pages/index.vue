@@ -189,27 +189,14 @@ export default {
   methods: {
     ...mapActions({
       fetch_article_list_action: "article/fetch_article_list_action",
+      fetch_categorised_article_list_action: "article/fetch_categorised_article_list_action"
     }),
     async fetchArticles( is_read ) {
-      // let res = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
-      //   params: {
-      //     is_read: is_read
-      //   }
-      // })
-      // this.articles =[]
-      // this.articles = res
       await this.fetch_article_list_action(is_read)
       this.article_handler(is_read)
     },
     async fetch_categorised_article(is_read, category_id) {
-      let res = await this.$axios.$get('/api/v1/categorised_articles', {
-        params: {
-          is_read: is_read,
-          category_id: category_id
-        }
-      })
-      this.articles =[]
-      this.articles = res
+      await this.fetch_categorised_article_list_action({is_read: is_read, category_id: category_id})
       this.article_handler(is_read)
     },
     article_handler(is_read) {
@@ -218,9 +205,6 @@ export default {
       } else {
         this.show_unread_articles = false
       }
-    },
-    add_article(article) {
-      this.articles.push(article)
     },
     async article_url_clicked(article_id) {
       this.$axios.$put(
