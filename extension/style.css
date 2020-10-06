@@ -66,11 +66,20 @@
 #og_section {
   width: 280px;
   border: solid 0.5px #000000;
-  margin: 10px 0px;
+  margin: 8px 0px;
   border-radius: 6px;
   display: flex;
 }
 
+/* --- 通知 --- */
+#notification_field {
+  text-align: center;
+  color: #689cf7;
+  background-color: #fff;
+  padding: 4px 0px;
+  border-radius: 6px;
+}
+ 
 /* --- 画像 --- */
 #og_image{
   height: 58px;
@@ -149,6 +158,7 @@
 
 #note_textarea {
   padding: 4px 6px;
+  margin-top: 8px;
   border-radius: 4px;
   border: 0.5px solid #d1d1d1;
 }

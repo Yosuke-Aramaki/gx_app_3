@@ -206,7 +206,7 @@ window.addEventListener('load',　async ()=>{
         );
         xhr.onload = ()=> {
           // 記事を保存できたことを通知
-          if (xhr.readyState == 4 && xhr.status == "200") {
+          if (xhr.readyState == 4 && xhr.status == "204") {
             document.getElementById('notification').textContent = 'メモを保存しました';
             deleteNotification()
           } else {
