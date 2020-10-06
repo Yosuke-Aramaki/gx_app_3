@@ -63,14 +63,6 @@
 
 /* -------- 通常画面 -------- */
 
-#og_section {
-  width: 280px;
-  border: solid 0.5px #000000;
-  margin: 8px 0px;
-  border-radius: 6px;
-  display: flex;
-}
-
 /* --- 通知 --- */
 #notification_field {
   text-align: center;
@@ -79,8 +71,16 @@
   padding: 4px 0px;
   border-radius: 6px;
 }
- 
+
 /* --- 画像 --- */
+#og_section {
+  width: 280px;
+  border: solid 0.5px #616161;
+  margin: 8px 0px;
+  border-radius: 6px;
+  display: flex;
+}
+
 #og_image{
   height: 58px;
   width: 90px;
@@ -251,9 +251,6 @@
   background-color: #4f83dd;
 }
 
-
-
-
 #delete_section {
   width: 120px;
 }
@@ -262,6 +259,70 @@
   height: 18px;
   width: 18px;
 }
+
+/* --- アコーディオン --- */
+.option_section {
+  max-width: 600px;
+}
+
+label {
+  display: block;
+  margin: 0 0 4px 0;
+  padding: 8px;
+  line-height: 1;
+  color: #616161;
+  cursor: pointer;
+}
+
+label:before {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 600;
+  content: '\f078';
+  transition: all 0.5s;
+}
+
+#option_bar:checked + label:before {
+  content: '\f078';
+  display: inline-block;
+  -webkit-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+}
+
+.accordion {
+  display: none;
+}
+
+.option_section ul {
+  margin: 0;
+  padding: 0;
+  background :#ffffff;
+  list-style: none;
+}
+
+.option_section li {
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+#option_bar:checked ~ #option_list li {
+  height: 30px;
+  opacity: 1;
+}
+
+
+
+
+
+
+
+
+
 
 h1{
   text-align: center;
