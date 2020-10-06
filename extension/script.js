@@ -148,7 +148,7 @@ window.addEventListener('load',　async ()=>{
         document.getElementById('category_list').style.display = 'inline-block';
         category_data = await xhr.response
         for (let i=0; i < category_data.length; i++) {
-          document.getElementById('category_list').insertAdjacentHTML('beforeend','<option value=”' + category_data[i].id + '”>' + category_data[i].category_name + '</option>');
+          document.getElementById('category_list').insertAdjacentHTML('beforeend','<option value=' + category_data[i].id + '>' + category_data[i].category_name + '</option>');
         }
       };
 
