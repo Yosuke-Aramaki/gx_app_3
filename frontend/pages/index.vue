@@ -1,7 +1,8 @@
 <template>
   <v-app class="body-contents">
     <v-container>
-      <Header />
+      <Header
+       @add_article_from_modal="add_article" />
       <p>{{ this.errors }}</p>
       <v-row justify="center">
         <v-col cols="2" class="category_section">
@@ -232,6 +233,9 @@ export default {
         if (error.response && error.response.status === 401) {
         }
       })
+    },
+    add_article(article_data) {
+      this.articles.push(article_data)
     },
     async fetchCategories() {
       this.categories = await this.$axios.$get('/api/v1/categories')

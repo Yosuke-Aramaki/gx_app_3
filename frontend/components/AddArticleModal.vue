@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+// import { mapActions } from 'vuex';
 export default {
   data() {
     return {
@@ -129,9 +129,9 @@ export default {
   created() {
   },
   methods: {
-    ...mapActions({
-      add_article_action: "article/add_article_action",
-    }),
+    // ...mapActions({
+    //   add_article_action: "article/add_article_action",
+    // }),
     async fetchCategories() {
       this.categories = await this.$axios.$get('/api/v1/categories')
       this.categories.unshift({ id: 1, category_name: "カテゴリーを追加しない" })
@@ -146,7 +146,7 @@ export default {
         { article: this.form } 
       )
       .then((response) => {
-        this.add_article_action(response)
+        this.$emit('listener_for_add_article', response)
         this.dialog = false
       })
       .catch((error) => {

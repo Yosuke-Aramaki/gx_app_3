@@ -9,7 +9,8 @@
       <nav>
         <div v-if="hasCookies">
           <RemindModal />
-          <AddArticleModal />
+          <AddArticleModal
+            @listener_for_add_article="$listeners['add_article_from_modal']" />
           <v-menu 
             transition="slide-x-transition"
             offset-y
