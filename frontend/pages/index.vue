@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+// import { mapState, mapActions } from 'vuex';
 import Header from '@/components/Header'
 import EditModal from '@/components/EditModal'
 export default {
@@ -154,8 +154,7 @@ export default {
   },
   data() {
     return {
-      // articles: [],
-      readArticles: [],
+      articles: [],
       categories: [],
       category_form: {
         category_name: ''
@@ -172,10 +171,13 @@ export default {
     this.fetchCategories()
   },
   computed: {
-    ...mapState({
-      articles: (state) => state.article.articles,
-      reverseArticles: (state) => state.article.articles.slice().reverse(),
-    }),
+    // ...mapState({
+    //   articles: (state) => state.article.articles,
+    //   reverseArticles: (state) => state.article.articles.slice().reverse(),
+    // }),
+    reverseArticles: function() {
+      return this.articles.slice().reverse()
+    },
     sameDate: function({ state }) {
       return function(value) {
         return this.articles[value-1].created_at.substr(0, 10) != this.articles[value].created_at.substr(0, 10)
@@ -188,16 +190,28 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      fetch_article_list_action: "article/fetch_article_list_action",
-      fetch_categorised_article_list_action: "article/fetch_categorised_article_list_action"
-    }),
+    // ...mapActions({
+    //   fetch_article_list_action: "article/fetch_article_list_action",
+    //   fetch_categorised_article_list_action: "article/fetch_categorised_article_list_action",
+    //   delete_article_action: "article/delete_article_action"
+    // }),
     async fetchArticles( is_read ) {
-      await this.fetch_article_list_action(is_read)
+      const response = await this.$axios.$get('/api/v1/all_unread_or_read_articles', {
+        params: {
+          is_read: is_read
+        }
+      })
+      this.articles = response
       this.article_handler(is_read)
     },
     async fetch_categorised_article(is_read, category_id) {
-      await this.fetch_categorised_article_list_action({is_read: is_read, category_id: category_id})
+      const response = await this.$axios.$get('/api/v1/categorised_articles', {
+        params: {
+          is_read: is_read,
+          category_id: category_id
+        }
+      })
+      this.articles = response
       this.article_handler(is_read)
     },
     article_handler(is_read) {
@@ -239,12 +253,12 @@ export default {
       })
     },
     async delete_article(article_id) {
-      let article_array = this.readArticles
       await this.$axios.$delete('api/v1/articles/' + article_id )
+      const article_array = this.articles
       article_array.some(function(v, i) {
         if (v.id === article_id) article_array.splice(i,1)
       })
-      this.readArticles = article_array
+      this.articles = article_array
     }
   }
 }

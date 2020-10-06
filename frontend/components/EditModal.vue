@@ -79,6 +79,7 @@
           </v-row>
         </v-container>
       </v-card-text>
+      <div>{{form}}</div>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
@@ -89,6 +90,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 export default {
   props: ['form'],
   data() {
@@ -111,7 +113,6 @@ export default {
       }
       // カテゴリーの取得
       this.categories = await this.$axios.$get('/api/v1/categories')
-      console.log(this.categories)
       this.categories.unshift({ id: 1, category_name: "カテゴリーを追加しない" })
     },
     async save_article() {
