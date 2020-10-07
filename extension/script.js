@@ -67,11 +67,16 @@ window.addEventListener('load',　async ()=>{
               siteData.article_note = v.getAttribute("content")
             }
           })
+          // 画像の設定がなかった場合
+          if(!siteData.og_image) {
+            siteData.og_image = "/images/leo_icon_header.svg"
+            document.getElementById('og_image').src = "images/leo_icon_header.svg"
+          }
         })
         .catch((error) => { //サイトのスクレイピングがうまくいかない場合
           console.error('Error:', error);
-          siteData.og_image = "images/default_image.ico" //　デフォルトのイメージの参照先の指定
-          document.getElementById('og_image').src = "images/logo.ico"
+          siteData.og_image = "/images/leo_icon_header.svg" //　デフォルトのイメージの参照先の指定
+          document.getElementById('og_image').src = "images/leo_icon_header.svg"
           siteData.article_note = tab.title
           return
         });
@@ -186,7 +191,7 @@ window.addEventListener('load',　async ()=>{
             deleteNotification()
             setTimeout(function(){
               window.close()
-            }, 5000);
+            }, 7000);
           } else {
           }
         }
