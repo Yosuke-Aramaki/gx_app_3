@@ -1,6 +1,8 @@
 // chrome Extension 起動時
 window.addEventListener('load',　async ()=>{
 
+  var xhr = new XMLHttpRequest();
+
   // chrome storage にユーザー情報があるか確認
   await chrome.storage.sync.get(['session_token'], async (result) => {
     // ログインしてない時の処理
@@ -80,63 +82,59 @@ window.addEventListener('load',　async ()=>{
         });
 
         // 同じURLが保存されているかの確認
-        var xhr = new XMLHttpRequest();
         xhr.open("get", "http://localhost:3000/api/v1/already_saved?" + 'article_url=' + tab.url, true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('Authorization', 'Token ' + session_token);
         xhr.responseType = 'json';
         xhr.send();
         xhr.onload = async () => {
-          if (xhr.readyState == 4 && xhr.status == "200") { 
-            article_data = await xhr.response 
+          article_data = await xhr.response 
 
-            // タブで開いているURLがまだ保存されていない場合の処理
-            if (article_data == null) {
-  
-              // タブで開いている記事の保存
-              xhr = new XMLHttpRequest();
-              xhr.open("post", "http://localhost:3000/api/v1/articles", true);
-              xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
-              xhr.setRequestHeader('Authorization', 'Token ' + session_token);
-              xhr.responseType = 'json';
-  
-              // サーバーへリクエストの送信
-              xhr.send(
-                'article[title]='+ tab.title +
-                '&article[article_url]=' + tab.url +
-                '&article[og_image_url]=' + siteData.og_image +
-                '&article[article_note]=' + siteData.article_note +
-                '&article[category_id]=' + 1
-              );
-              xhr.onload = async () => {
-                if (xhr.readyState == 4 && xhr.status == "200") { 
-                  article_data = await xhr.response 
-                  // 最初の保存は自動的に未読記事で
-                  document.getElementById('unread_button').classList.add('status_active');
-                  document.getElementById('read_button').classList.add('status_inactive');
-                  // 記事を保存できたことを通知
-                  document.getElementById('notification').textContent = '記事を保存しました';
-                  deleteNotification()
-                }
-              };
-            // タブで開いているURLがすでに保存されている場合
-            } else {
-              // メモを追加するを非表示
-              document.getElementById('note_section').style.display = 'none';
-              // メモ記入欄の表示
-              document.getElementById('note_textarea').style.display = 'inline-block';
-              // メモ記入欄に既存のメモを表示する
-              document.getElementById('note_textarea').textContent = article_data.article_note;
-              if (article_data.is_read == 0 ) {
+          // タブで開いているURLがまだ保存されていない場合の処理
+          if (article_data == null) {
+
+            // タブで開いている記事の保存
+            xhr.open("post", "http://localhost:3000/api/v1/articles", true);
+            xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('Authorization', 'Token ' + session_token);
+            xhr.responseType = 'json';
+
+            // サーバーへリクエストの送信
+            xhr.send(
+              'article[title]='+ tab.title +
+              '&article[article_url]=' + tab.url +
+              '&article[og_image_url]=' + siteData.og_image +
+              '&article[article_note]=' + siteData.article_note +
+              '&article[category_id]=' + 1
+            );
+            xhr.onload = ()=> {
+              if (xhr.readyState == 4 && xhr.status == "200") { 
+                // 最初の保存は自動的に未読記事で
                 document.getElementById('unread_button').classList.add('status_active');
                 document.getElementById('read_button').classList.add('status_inactive');
-              } else {
-                document.getElementById('read_button').classList.add('status_active');
-                document.getElementById('unread_button').classList.add('status_inactive');
+                // 記事を保存できたことを通知
+                document.getElementById('notification').textContent = '記事を保存しました';
+                deleteNotification()
               }
-              // その他オプションの表示
-    
+            };
+
+          // タブで開いているURLがすでに保存されている場合
+          } else {
+            // メモを追加するを非表示
+            document.getElementById('note_section').style.display = 'none';
+            // メモ記入欄の表示
+            document.getElementById('note_textarea').style.display = 'inline-block';
+            // メモ記入欄に既存のメモを表示する
+            document.getElementById('note_textarea').textContent = article_data.article_note;
+            if (article_data.is_read == 0 ) {
+              document.getElementById('unread_button').classList.add('status_active');
+              document.getElementById('read_button').classList.add('status_inactive');
+            } else {
+              document.getElementById('read_button').classList.add('status_active');
+              document.getElementById('unread_button').classList.add('status_inactive');
             }
+            // その他オプションの表示
+  
           }
         };
       });
@@ -148,23 +146,22 @@ window.addEventListener('load',　async ()=>{
       })
 
       // カテゴリリストの追加
-      var xhr = new XMLHttpRequest();
-      xhr.open("get", "http://localhost:3000/api/v1/categories", true);
-      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xhr.setRequestHeader('Authorization', 'Token ' + session_token);
-      xhr.responseType = 'json';
-      xhr.send();
-      xhr.onload = async () => {
-        document.getElementById('category_list').style.display = 'inline-block';
-        category_data = await xhr.response
-        for (let i=0; i < category_data.length; i++) {
-          if (category_data[i].id == article_data.category_id) {
-            document.getElementById('category_list').insertAdjacentHTML('beforeend','<option value=' + category_data[i].id + ' selected>' + category_data[i].category_name + '</option>');
-          } else {
+      document.getElementById('option_label').addEventListener('click', () => {
+        xhr = new XMLHttpRequest();
+        xhr.open("get", "http://localhost:3000/api/v1/categories", true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader('Authorization', 'Token ' + session_token);
+        xhr.responseType = 'json';
+        xhr.send();
+        xhr.onload = async () => {
+          document.getElementById('category_list').style.display = 'inline-block';
+          category_data = await xhr.response
+          for (let i=0; i < category_data.length; i++) {
             document.getElementById('category_list').insertAdjacentHTML('beforeend','<option value=' + category_data[i].id + '>' + category_data[i].category_name + '</option>');
           }
-        }
-      };
+        };
+      })
+
 
       // 記事の未読既読の切り替え
       var unread_button_element = document.getElementById('unread_button')
@@ -188,26 +185,21 @@ window.addEventListener('load',　async ()=>{
 
       // 保存しているURLを削除する
       document.getElementById('delete_section').addEventListener('click', ()=>{
-        var xhr = new XMLHttpRequest();
-        // document.getElementById('notification').textContent = '1';
-        xhr.open("DELETE", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
-        // document.getElementById('notification').textContent = '2';
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        // document.getElementById('notification').textContent = '3';
-        xhr.setRequestHeader('Authorization', 'Token ' + session_token);
-        xhr.responseType = 'json';
-        console.log(1)
-        xhr.send();
-        document.getElementById('notification').textContent = '4';
-        xhr.onload = () => {
-          if (xhr.readyState == 4 && xhr.status == "200") {
+        xhraa = new XMLHttpRequest();
+        xhraa.open("DELETE", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
+        xhraa.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhraa.setRequestHeader('Authorization', 'Token ' + session_token);
+        xhraa.responseType = 'json';
+        xhraa.send();
+        xhraa.onload = () => {
+          if (xhraa.readyState == 4 && xhraa.status == "200") {
             document.getElementById('notification').textContent = '削除しました';
             document.getElementById('note_textarea').style.display = 'none';
             document.getElementById('category_section').style.display = 'none';
             document.getElementById('status_section').style.display = 'none';
             deleteNotification()
             setTimeout(function(){
-              // window.close()
+              window.close()
             }, 7000);
           } else {
           }
@@ -216,27 +208,42 @@ window.addEventListener('load',　async ()=>{
 
       // 記事の保存
       document.getElementById('article_save_button').addEventListener('click', async ()=>{
-        var xhr = new XMLHttpRequest();
-        xhr.open("put", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader('Authorization', 'Token ' + session_token);
-        xhr.responseType = 'json';
-        // サーバーへリクエストの送信
-        xhr.send(
-          '&article[article_note]=' + document.getElementById("note_textarea").value +
-          '&article[category_id]=' + document.getElementById("category_list").value +
-          '&article[is_read]=' + document.getElementsByClassName("status_active")[0].value 
-        );
-        xhr.onload = ()=> {
-          // 記事を保存できたことを通知
-          document.getElementById('notification').textContent = 5;
-          if (xhr.readyState == 4 && xhr.status == "204") {
-            document.getElementById('notification').textContent = 'メモを保存しました';
-            deleteNotification()
-            // closeWindow()
-          } else {
-          }
-        };
+        // var data = {
+        //   article: {
+        //     article: document.getElementById("note_textarea").value,
+        //     article: document.getElementById("category_list").value,
+        //     article: document.getElementsByClassName("status_active")[0].value 
+        //   }
+        // },
+        // const response = await fetch("http://localhost:3000/api/v1/articles/" + article_data.id, {
+        //   method: 'PUT',
+        //   headers:{
+        //     'Content-Type': 'application/x-www-form-urlencoded',
+        //     'Authorization': 'Token ' + session_token
+        //   },
+        //   body: JSON.stringify(data)
+        // })
+        // var xhr = new XMLHttpRequest();
+        // xhr.open("put", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
+        // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        // xhr.setRequestHeader('Authorization', 'Token ' + session_token);
+        // xhr.responseType = 'json';
+        // // サーバーへリクエストの送信
+        // xhr.send(
+        //   '&article[article_note]=' + document.getElementById("note_textarea").value +
+        //   '&article[category_id]=' + document.getElementById("category_list").value +
+        //   '&article[is_read]=' + document.getElementsByClassName("status_active")[0].value 
+        // );
+        // xhr.onload = ()=> {
+        //   // 記事を保存できたことを通知
+        //   document.getElementById('notification').textContent = 5;
+        //   if (xhr.readyState == 4 && xhr.status == "204") {
+        //     document.getElementById('notification').textContent = 'メモを保存しました';
+        //     deleteNotification()
+        //     closeWindow()
+        //   } else {
+        //   }
+        // };
       })
 
       // ログアウト
@@ -247,6 +254,10 @@ window.addEventListener('load',　async ()=>{
     }
   });
 })
+
+function get_categories() {
+
+}
 
 function deleteNotification() {
   setTimeout(function(){
@@ -260,9 +271,14 @@ function closeWindow() {
   }, 3500);
 }
 
+async function get_og_contents(tab) {
+  return new Promise((resolve, reject) => {
+
+  })
+}
+
 async function save_article(tab) {
   return new Promise((resolve, reject) => {
     
   })
 } 
-
