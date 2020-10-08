@@ -201,14 +201,10 @@ window.addEventListener('load',　async ()=>{
         document.getElementById('notification').textContent = '4';
         xhr.onload = () => {
           if (xhr.readyState == 4 && xhr.status == "200") {
-            document.getElementById('notification').textContent = '削除しました';
+            document.getElementById('notification').textContent = '記事を削除しました';
             document.getElementById('note_textarea').style.display = 'none';
-            document.getElementById('category_section').style.display = 'none';
-            document.getElementById('status_section').style.display = 'none';
-            deleteNotification()
-            setTimeout(function(){
-              // window.close()
-            }, 7000);
+            document.getElementById('option_list').style.display = 'none';
+            closeWindow()
           } else {
           }
         }
@@ -231,9 +227,8 @@ window.addEventListener('load',　async ()=>{
           // 記事を保存できたことを通知
           document.getElementById('notification').textContent = 5;
           if (xhr.readyState == 4 && xhr.status == "204") {
-            document.getElementById('notification').textContent = 'メモを保存しました';
-            deleteNotification()
-            // closeWindow()
+            document.getElementById('notification').textContent = '情報を更新しました';
+            closeWindow()
           } else {
           }
         };
