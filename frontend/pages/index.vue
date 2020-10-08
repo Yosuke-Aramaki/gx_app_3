@@ -2,7 +2,7 @@
   <v-app class="body-contents" style="background-color: #fafafa;">
     <v-container>
       <Header
-       @add_article_from_modal="add_article" />
+        @add_article_from_modal="add_article" />
       <p>{{ this.errors }}</p>
       <v-row justify="center">
         <v-col cols="2" class="category_section">
@@ -274,9 +274,6 @@ export default {
 </script>
 
 <style scoped>
-.body-contents {
-  
-}
 
 .wrapper {
   display: flex;

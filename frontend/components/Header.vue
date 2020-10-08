@@ -8,7 +8,7 @@
     <v-col cols="5">
       <nav>
         <div v-if="hasCookies">
-          <RemindModal />
+          <!-- <RemindModal /> -->
           <AddArticleModal
             @listener_for_add_article="$listeners['add_article_from_modal']" />
           <v-menu 
