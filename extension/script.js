@@ -1,3 +1,5 @@
+const API_URL = "https://leodb.sakigake.tech/";
+
 // chrome Extension 起動時
 window.addEventListener('load',　async ()=>{
 
@@ -23,7 +25,7 @@ window.addEventListener('load',　async ()=>{
           }
         }
         // 通信のリクエスト 参照：https://qiita.com/sirone/items/412b2a171dccb11e1bb6
-        xhr.open("post", "http://localhost:3000/api/v1/signin", true);
+        xhr.open("post", API_URL + "/api/v1/signin", true);
         xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
         xhr.responseType = 'json';
         // サーバーへリクエストの送信
@@ -81,7 +83,7 @@ window.addEventListener('load',　async ()=>{
 
         // 同じURLが保存されているかの確認
         var xhr = new XMLHttpRequest();
-        xhr.open("get", "http://localhost:3000/api/v1/already_saved?" + 'article_url=' + tab.url, true);
+        xhr.open("get", API_URL + "/api/v1/already_saved?" + 'article_url=' + tab.url, true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('Authorization', 'Token ' + session_token);
         xhr.responseType = 'json';
@@ -95,7 +97,7 @@ window.addEventListener('load',　async ()=>{
   
               // タブで開いている記事の保存
               xhr = new XMLHttpRequest();
-              xhr.open("post", "http://localhost:3000/api/v1/articles", true);
+              xhr.open("post", API_URL + "/api/v1/articles", true);
               xhr.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded');
               xhr.setRequestHeader('Authorization', 'Token ' + session_token);
               xhr.responseType = 'json';
@@ -149,7 +151,7 @@ window.addEventListener('load',　async ()=>{
 
       // カテゴリリストの追加
       var xhr = new XMLHttpRequest();
-      xhr.open("get", "http://localhost:3000/api/v1/categories", true);
+      xhr.open("get", API_URL + "/api/v1/categories", true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader('Authorization', 'Token ' + session_token);
       xhr.responseType = 'json';
@@ -190,7 +192,7 @@ window.addEventListener('load',　async ()=>{
       document.getElementById('delete_section').addEventListener('click', ()=>{
         var xhr = new XMLHttpRequest();
         // document.getElementById('notification').textContent = '1';
-        xhr.open("DELETE", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
+        xhr.open("DELETE", API_URL + "/api/v1/articles/" + article_data.id , true);
         // document.getElementById('notification').textContent = '2';
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         // document.getElementById('notification').textContent = '3';
@@ -213,7 +215,7 @@ window.addEventListener('load',　async ()=>{
       // 記事の保存
       document.getElementById('article_save_button').addEventListener('click', async ()=>{
         var xhr = new XMLHttpRequest();
-        xhr.open("put", "http://localhost:3000/api/v1/articles/" + article_data.id , true);
+        xhr.open("put", API_URL + "/api/v1/articles/" + article_data.id , true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('Authorization', 'Token ' + session_token);
         xhr.responseType = 'json';
@@ -237,6 +239,7 @@ window.addEventListener('load',　async ()=>{
       // ログアウト
       document.getElementById('signout_extension').addEventListener('click', ()=>{
         chrome.storage.sync.remove(['session_token'], function() {
+          closeWindow()
         });
       })
     }

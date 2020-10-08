@@ -32,7 +32,7 @@
 }
 
 .underline {
-  text-align: center;
+  margin: 0 auto;
   width: 200px;
   height: 2px;
   background: skyBlue;
@@ -314,6 +314,10 @@ label:before {
   opacity: 1;
 }
 
+/* --- サインアウト --- */
+#signout_extension {
+  cursor: pointer;
+}
 
 h1{
   text-align: center;
