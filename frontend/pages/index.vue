@@ -1,5 +1,5 @@
 <template>
-  <v-app class="body-contents">
+  <v-app class="body-contents" style="background-color: #fafafa;">
     <v-container>
       <Header
        @add_article_from_modal="add_article" />
@@ -275,7 +275,7 @@ export default {
 
 <style scoped>
 .body-contents {
-  background-color: #fafafa;
+  
 }
 
 .wrapper {
