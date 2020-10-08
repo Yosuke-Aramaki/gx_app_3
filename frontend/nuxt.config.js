@@ -25,7 +25,7 @@ export default {
       { hid: 'og:url', property: 'og:url', content: 'https://leo.sakigake.tech'},
       { hid: 'og:title', property: 'og:title', content: 'leo - 情報を逃さず知識の定着を図るアプリ' },
       { hid: 'og:description', property: 'og:description', content: 'あとて読みたいサイトや何について書かれた記事かを覚えるために、メモと一緒にそれらの記事を保存できるサービスです。' },
-      { hid: 'og:image', property: 'og:image', content: '/images/leo_header_icon.svg' },
+      { hid: 'og:image', property: 'og:image', content: 'https://leo.sakigake.tech/images/leo_icon_header.svg' },
       { name: 'twitter:card', content: 'summary' },　
     ],
     link: [
