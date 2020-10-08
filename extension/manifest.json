@@ -1,12 +1,12 @@
 {
-  "name": "GX_app",  
+  "name": "leo",  
   "version": "1.0",  
   "icons": {"128": "images/logo.ico"},  
-  "description": "Get title and url of web page that you are opening now", 
+  "description": "Save the website with some note in order to read it later or remember what the website is about.", 
   "author": "ywzx",  
   "manifest_version": 2,  
   "browser_action": {
-    "default_title": "GX_app",
+    "default_title": "leo",
     "default_popup": "index.html"  
   },
   "content_scripts": [ 

@@ -15,14 +15,21 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'leo',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
+      { hid: 'og:site_name', property: 'og:site_name', content: 'leo' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:url', property: 'og:url', content: 'https://leo.sakigake.tech'},
+      { hid: 'og:title', property: 'og:title', content: 'leo - 情報を逃さず知識の定着を図るアプリ' },
+      { hid: 'og:description', property: 'og:description', content: 'あとて読みたいサイトや何について書かれた記事かを覚えるために、メモと一緒にそれらの記事を保存できるサービスです。' },
+      { hid: 'og:image', property: 'og:image', content: '/images/leo_header_icon.svg' },
+      { name: 'twitter:card', content: 'summary' },　
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/images/leo_icon.ico' }
     ],
   },
   /*

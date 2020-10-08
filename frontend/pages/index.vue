@@ -149,6 +149,11 @@
 import Header from '@/components/Header'
 import EditModal from '@/components/EditModal'
 export default {
+  head() {
+    return {
+      title: 'home'
+    }
+  },
   components: {
     Header,
     EditModal,

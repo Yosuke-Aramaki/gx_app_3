@@ -19,6 +19,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'signin'
+    }
+  },
   data: () => ({
     form_login: {
       email: '',

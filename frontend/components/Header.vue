@@ -39,7 +39,7 @@
           </v-menu>
         </div>
         <div v-else>
-          <nuxt-link to="/signUp" class="button--blue" no-prefetch
+          <nuxt-link to="/signup" class="button--blue" no-prefetch
             >ユーザー登録</nuxt-link
           >
           <nuxt-link to="/signin" class="button--blue" no-prefetch

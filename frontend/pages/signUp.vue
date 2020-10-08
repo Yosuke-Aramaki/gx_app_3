@@ -21,6 +21,11 @@
 
 <script>
 export default {
+  head() {
+    return {
+      title: 'signup'
+    }
+  },
   data: () => ({
     form: {
       name: '',
