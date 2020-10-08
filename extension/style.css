@@ -2,8 +2,318 @@
 *{
   font-family: 'Muli', sans-serif;
   box-sizing: border-box;
-  margin: auto;
+  /* margin: auto; */
 }
+
+/* -------- ログイン画面 -------- */
+#signin_section {
+  text-align: center;
+  /* display: flex;
+  justify-content: center; */
+}
+
+.input_section {
+  margin: 8px 0px;
+}
+
+#email_input, #password_input {
+  width: 200px;
+  height: 30px;
+  font-size: 16px;
+  border: none;
+  outline: 0;
+  border-bottom: 1px solid #d1d5db;
+  transform-origin: center center;
+  transition: transform 0.18s ease-out;
+}
+
+#email_input::placeholder, #password_input::placeholder {
+  font-size: 12px;
+}
+
+.underline {
+  text-align: center;
+  width: 200px;
+  height: 2px;
+  background: skyBlue;
+  transform-origin: center center;
+  transform: scaleX(0);
+  transition: transform 0.18s ease-out;
+}
+
+#email_input:focus + .underline, #password_input:focus + .underline {
+  transform: scaleX(1);
+}
+
+#signin_button {
+  width: 200px;
+  height: 30px;
+  color: #ffffff;
+  font-size: 12x;
+  background-color: #609AE7;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px 0px;
+  border: none;
+  border-radius: 4px;
+}
+
+.link_for_signup {
+  width: 200px;
+  text-align: right;
+}
+
+/* -------- 通常画面 -------- */
+
+/* --- 通知 --- */
+#notification_field {
+  text-align: center;
+  color: #689cf7;
+  background-color: #fff;
+  margin: 4px 0px;
+  padding: 4px 0px;
+  border-radius: 6px;
+}
+
+#notification {
+  font-size: large;
+  margin: 8px 0;
+}
+
+/* --- 画像 --- */
+#og_section {
+  width: 280px;
+  border: solid 0.5px #616161;
+  border-radius: 6px;
+  display: flex;
+}
+
+#og_image{
+  height: 58px;
+  width: 90px;
+  padding-top: 6px;
+}
+
+/* .ellipsis {
+  padding: 8px;
+  width: 180px;
+  height: 60px;
+  font-weight: 500;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+} */
+
+/* --- タイトルの・・・省略 --- */
+.ellipsis {
+  position: relative;
+  padding: 6px;
+  height: 70px;
+  width: 180px;
+  overflow: hidden;
+  line-height: 20px;
+}
+
+.ellipsis:before, .ellipsis:after {
+  position: absolute;
+  background: #fff;
+}
+
+.ellipsis:before {
+  content: "･･･";
+  bottom: 6px;
+  right: 0;
+}
+
+.ellipsis:after {
+  content: "";
+}
+
+
+/* --- ノート欄 --- */
+#note_section, #delete_section {
+  padding: 2px 6px;
+  margin: 2px 0px;
+  width: 100px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  border-radius: 12px;
+  cursor: pointer;
+  /* background-color: rgb(190, 205, 214); */
+  transition: box-shadow 0.3s;
+  /* box-shadow:
+    10px 10px 30px rgba(18, 47, 61, 0.5),
+    -10px -10px 30px rgba(248, 253, 255, 0.9),
+    inset 10px 10px 30px transparent,
+    inset -10px -10px 30px transparent; */
+}
+
+#note_section:hover, #delete_section:hover {
+  box-shadow:
+    10px 10px 30px transparent,
+    -10px -10px 30px transparent,
+    inset 10px 10px 30px #DCE5F3,
+    inset -10px -10px 30px rgba(248, 253, 255, 0.9);
+}
+
+#note_textarea {
+  padding: 4px 6px;
+  border-radius: 4px;
+  border: 0.5px solid #d1d1d1;
+}
+
+/* --- カテゴリー --- */
+#category_section {
+  display: flex;
+  align-items: center;
+  margin: 2px 0px;
+}
+
+#category_section_title {
+  width: 140px;
+  padding: 4px 6px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.category_list_section {
+  margin-left: 6px;
+  border-bottom: 1px solid #000000;
+}
+
+#category_list {
+  width: 140px;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+/* --- 記事のステータス --- */
+#status_section {
+  display: flex;
+  align-items: center;
+  margin: 2px 0px;
+  justify-content: space-between;
+}
+
+#status_section_title {
+  width: 140px;
+  padding: 4px 6px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+#status_select_field {
+  display: flex;
+}
+
+#unread_button, #read_button {
+  padding: 2px 19px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+#read_button {
+  margin-left: 16px;
+}
+
+#unread_button:hover, #read_button:hover {
+  background-color: #e8eef7;
+}
+
+.status_active {
+  background-color: #DCE5F3;
+}
+
+.status_inactive {
+  background-color: #ebebeb;
+}
+
+/* --- ボタン群 --- */
+#footer_section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+#article_save_button {
+  padding: 6px 16px;
+  color: #ffffff; 
+  background-color: #1E65DC;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+}
+
+#article_save_button:hover {
+  background-color: #4f83dd;
+}
+
+#delete_section {
+  width: 120px;
+}
+
+.icon_image {
+  height: 18px;
+  width: 18px;
+}
+
+/* --- アコーディオン --- */
+.option_section {
+  max-width: 600px;
+}
+
+label {
+  display: block;
+  margin: 0 0 4px 0;
+  padding: 8px;
+  line-height: 1;
+  color: #616161;
+  cursor: pointer;
+}
+
+label:before {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 600;
+  content: '\f078';
+  transition: all 0.5s;
+}
+
+#option_bar:checked + label:before {
+  content: '\f078';
+  display: inline-block;
+  -webkit-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+}
+
+.accordion {
+  display: none;
+}
+
+.option_section ul {
+  margin: 0;
+  padding: 0;
+  background :#ffffff;
+  list-style: none;
+}
+
+.option_section li {
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+#option_bar:checked ~ #option_list li {
+  height: 35px;
+  opacity: 1;
+}
+
 
 h1{
   text-align: center;
@@ -14,8 +324,4 @@ body{
   padding: 10px;
 }
 
-img {
-  height: 50px;
-  width: 80px;
-}
 

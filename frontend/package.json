@@ -3,15 +3,22 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "HOST=0.0.0.0 PORT=5000 nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "start": "HOST=0.0.0.0 PORT=5000 nuxt start",
     "export": "nuxt export",
     "serve": "nuxt serve"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",
+    "@nuxtjs/dotenv": "^1.4.1",
+    "@nuxtjs/onesignal": "^3.0.0-beta.16",
+    "@nuxtjs/proxy": "^2.0.0",
+    "@nuxtjs/pwa": "^3.0.0-beta.20",
+    "cookie-universal-nuxt": "^2.1.4",
     "nuxt": "^2.13.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.11.2"
+  }
 }

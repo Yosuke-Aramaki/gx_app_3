@@ -9,14 +9,83 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
   </head>
   <body>
-    <h1>Gx_app</h1>
-    <div id="og_section">
-      <div id="og_image_section">
-        <img id="og_image" src="">
+    <div id="signin_section" > 
+      <!-- style="display: none;" -->
+      <div class="input_section">
+        <input type="email" id="email_input" placeholder="メールアドレス">
+        <div class ="underline"></div>
       </div>
-      <div id="og_title_section">
+      <div class="input_section">
+        <input type="password" id="password_input" placeholder="パスワード">
+        <div class ="underline"></div>
+      </div>
+      <div class="input_section">
+        <button type="submit" id="signin_button">ログイン</button>
+      </div>
+      <div class="link_for_signup">
+        <a href="localhost:3000/" target="_blank"><small>新規登録はこちらから</small></a>
       </div>
     </div>
-    <p>Open source project. <a href="" target="_blank">See source code.</a></p>
+    <div id="body_contents">
+      <div id="og_section">
+        <div id="og_image_section">
+          <img id="og_image" src="">
+        </div>
+        <div id="og_title_section" class="ellipsis">
+        </div>
+      </div>
+      <div id="notification_field">
+        <p id="notification"></p>
+        <p id="notification1"></p>
+      </div>
+      <div id="note_section">
+        <img class="icon_image" src="images/note-outline.svg">
+        <text>メモを追加</text>
+      </div>
+      <textarea id="note_textarea" rows="8" style='width: 100%; display: none;'></textarea>
+      
+      <div class="option_section">
+        <input type="checkbox" id="option_bar" class="accordion" />
+        <label for="option_bar" id="option_label"> その他のオプション</label>
+        <ul id="option_list">
+          <li>
+            <div id="category_section">
+              <div id="category_section_title">
+                <img class="icon_image" src="images/tag-outline.svg">
+                <text>カテゴリー </text>
+              </div>
+              <div class="category_list_section">
+                <select name=”categories” id="category_list">
+                  <option value=1>カテゴリーなし</option>
+                </select>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div id="status_section">
+              <div id="status_section_title">
+                <img class="icon_image" src="images/book-open.svg">
+                <text>ステータス</text>
+              </div>
+              <div id="status_select_field">
+                <option id="unread_button" value="0">未読</option>
+                <option id="read_button" value="1">既読</option>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div id="delete_section">
+              <img class="icon_image" src="images/trash-can-outline.svg">
+              <text>リストから削除</text>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div id="footer_section">
+        <button id="article_save_button">更新する</button>
+      </div>
+      <span id="signout_extension"><small>ログアウト</small></span>
+    </div>
+    <!-- <p>Open source project. <a href="" target="_blank">See source code.</a></p> -->
   </body>
 </html>
