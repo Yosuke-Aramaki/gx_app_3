@@ -9,8 +9,8 @@
         <h2>Welcome back!</h2>
       </div>
       <form @submit.prevent="signin">
-        <input class="form-field" type="text" v-model="form_login.email" placeholder="email" name="email"/>
-        <input class="form-field" type="password" v-model="form_login.password" placeholder="password" name="password"/>
+        <input class="form-field" type="text" v-model="form_login.email" placeholder="email" name="email" autocomplete=”on”/>
+        <input class="form-field" type="password" v-model="form_login.password" placeholder="password" name="password" autocomplete=”on”/>
         <button class="form-button" type="submit">ログイン</button>
       </form>
     </div>
