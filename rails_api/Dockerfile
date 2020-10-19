@@ -29,10 +29,10 @@ RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
-CMD ["rails", "server", "-b", "0.0.0.0"]
-
 # wheneverでcrontab書き込み
 RUN bundle exec whenever --update-crontab 
 
-# cronをフォアグラウンド実行
-CMD ["cron", "-f"] 
+# railsとcronをフォアグラウンド実行
+COPY startup.sh /startup.sh
+RUN chmod 744 /startup.sh
+CMD ["/startup.sh"]
