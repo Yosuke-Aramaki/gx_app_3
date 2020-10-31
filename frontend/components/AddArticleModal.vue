@@ -15,6 +15,7 @@
       <v-card-title>
         <p class="headline">記事を追加する</p>
       </v-card-title>
+      <div>{{ this.errors }}</div>
       <v-card-text>
         <v-container>
           <v-row>
