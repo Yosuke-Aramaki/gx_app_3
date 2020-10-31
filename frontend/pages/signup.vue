@@ -4,7 +4,6 @@
       <img src="/images/leo_icon_header.png" class="logo" />
     </div>
     <div class="box-frame">
-      <p class="error">{{ this.errors }}</p>
       <div class="box-frame-title">
         <h2>アカウントを作成</h2>
       </div>
@@ -120,8 +119,4 @@ export default {
   background: #7aa3eb;
 }
 
-.error {
-  font-size: 12px;
-  color: #FF954A;
-}
 </style>

@@ -15,9 +15,9 @@
       <v-card-title>
         <p class="headline">記事を追加する</p>
       </v-card-title>
-      <div>{{ this.errors }}</div>
       <v-card-text>
         <v-container>
+          <Error :message="this.errors" />
           <v-row>
             <v-col cols="3">
               <v-subheader>URL</v-subheader>
@@ -112,7 +112,12 @@
 
 <script>
 // import { mapActions } from 'vuex';
+import Error from '@/components/error'
+
 export default {
+  components: {
+    Error
+  },
   data() {
     return {
       form: {
