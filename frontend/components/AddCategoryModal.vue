@@ -72,7 +72,7 @@ export default {
         { category: this.category_form } 
       )
       .then((response) => {
-        this.categories.push(response)
+        this.$emit('send_category', response);
         this.dialog = false
       })
       .catch((error) => {

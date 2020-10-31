@@ -39,7 +39,7 @@
               </div>
             </v-list-item-group>
           </v-list>
-          <AddCategoryModal />
+          <AddCategoryModal @send_category="add_category" />
         </v-col>
         <v-col cols="10" class="article_section">
           <div v-if="show_unread_articles" class="unread-article-list">
@@ -200,25 +200,11 @@ export default {
     add_article(article_data) {
       this.articles.push(article_data)
     },
+    add_category(category_data) {
+      this.categories.push(category_data)
+    },
     async fetchCategories() {
       this.categories = await this.$axios.$get('/api/v1/categories')
-    },
-    async add_category() {
-      this.$axios.$post(
-        '/api/v1/categories', 
-        { category: this.category_form } 
-      )
-      .then((response) => {
-        this.categories.push(response)
-        this.dialog = false
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          console.log(error.response.data.messages)
-          this.errors = []
-          this.errors = error.response.data.messages
-        }
-      })
     },
     async delete_article(article_id) {
       await this.$axios.$delete('api/v1/articles/' + article_id )
