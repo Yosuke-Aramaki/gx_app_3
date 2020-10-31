@@ -39,51 +39,7 @@
               </div>
             </v-list-item-group>
           </v-list>
-          <div>
-            <v-dialog v-model="dialog" max-width="600px">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  class="add_category_button"
-                  color="#1E65DC"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  追加
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="headline">新規カテゴリーを追加する</span>
-                </v-card-title>
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="3">
-                        <v-subheader>カテゴリー名</v-subheader>
-                      </v-col>
-                      <v-col cols="9">
-                        <v-text-field
-                          v-model="category_form.category_name"
-                          label="追加したいカテゴリー名"
-                          name="category_name"
-                          required
-                          prepend-inner-icon="mdi-folder-multiple"
-                          outlined
-                          hide-details=false
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-                  <v-btn color="blue darken-1" text @click="add_category()">Save</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </div>
+          <AddCategoryModal />
         </v-col>
         <v-col cols="10" class="article_section">
           <div v-if="show_unread_articles" class="unread-article-list">
@@ -147,6 +103,7 @@
 <script>
 // import { mapState, mapActions } from 'vuex';
 import Header from '@/components/Header'
+import AddCategoryModal from '@/components/AddCategoryModal'
 import EditModal from '@/components/EditModal'
 export default {
   head() {
@@ -156,6 +113,7 @@ export default {
   },
   components: {
     Header,
+    AddCategoryModal,
     EditModal,
   },
   data() {
@@ -256,6 +214,7 @@ export default {
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
+          console.log(error.response.data.messages)
           this.errors = []
           this.errors = error.response.data.messages
         }
@@ -299,11 +258,6 @@ export default {
   margin-bottom: 8px;
   border-radius: 18px;
   vertical-align: middle;
-}
-
-.add_category_button {
-  margin-right: 16px;
-  width: 100%;
 }
 
 .article_section {
@@ -435,15 +389,6 @@ a {
 .article_footer_button {
   margin-left: 8px;
   cursor: pointer;
-}
-
-.v-card {
-  padding: 16px 32px;
-}
-
-.headline {
-  margin: 18px auto;
-  font-weight: 700;
 }
 
 </style>
