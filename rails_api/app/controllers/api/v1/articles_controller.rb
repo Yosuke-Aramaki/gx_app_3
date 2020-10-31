@@ -35,6 +35,11 @@ class Api::V1::ArticlesController < ApplicationController
 
   # サイトから記事を保存する場合（Rails側でスクレイピングする必要があるためcreateとは別にした）
   def save_article_from_url
+    @user = current_user
+    if (!current_user.articles.find_by(article_url: params[:article_url]).empty?) {
+      return render json: { messages: 'すでに保存されてます' }
+    }
+    
     require 'mechanize'
     agent = Mechanize.new
     
@@ -50,7 +55,7 @@ class Api::V1::ArticlesController < ApplicationController
       end   
     rescue => e
       # ogがうまく取得できない場合
-      og_image_url = "/logo.ico"
+      og_image_url = "/logo_icon_header.svg"
       article_note = ""
     end
 
@@ -82,7 +87,7 @@ class Api::V1::ArticlesController < ApplicationController
     @article.update(is_read: params[:is_read])
   end
 
-  # 保存しようとしてる記事がすでに保存されているかの確認
+  # Extensionで同じURLだったら、すでに保存されている記事情報を返す
   def already_saved
     @user = current_user
     @article = current_user.articles.find_by(article_url: params[:article_url])
