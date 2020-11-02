@@ -6,10 +6,10 @@ class Api::V1::SessionsController < ApplicationController
 
   # ログイン
   def create
-    user = User.find_by(email: params[:session][:email].downcase)
-    if user && user.authenticate(params[:session][:password])
+    @user = User.find_by(email: params[:session][:email].downcase)
+    if @user && @user.authenticate(params[:session][:password])
       token = SecureRandom.hex(18)
-      Redis.current.set(token, user.id)
+      Redis.current.set(token, @user.id)
       render json: { token: token }
     else
       render json: { messages: "メールまたはパスワードが一致しません"}, status: :unauthorized

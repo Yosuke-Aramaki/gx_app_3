@@ -18,7 +18,7 @@
         </v-card-title>
         <v-card-text>
           <v-container>
-            <Error :message="this.errors" />
+            <Error :messages="this.errors" />
             <v-row>
               <v-col cols="3">
                 <v-subheader>カテゴリー名</v-subheader>

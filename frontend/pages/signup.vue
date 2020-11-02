@@ -4,6 +4,7 @@
       <img src="/images/leo_icon_header.png" class="logo" />
     </div>
     <div class="box-frame">
+      <Error :messages="this.errors" />
       <div class="box-frame-title">
         <h2>アカウントを作成</h2>
       </div>
@@ -19,11 +20,16 @@
 </template>
 
 <script>
+import Error from '@/components/error'
+
 export default {
   head() {
     return {
       title: 'signup'
     }
+  },
+  components: {
+    Error
   },
   data: () => ({
     form: {
@@ -50,6 +56,7 @@ export default {
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
+          console.log(error.response.data.messages)
           this.errors = []
           this.errors = error.response.data.messages
         }

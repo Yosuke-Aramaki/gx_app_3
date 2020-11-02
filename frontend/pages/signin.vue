@@ -18,11 +18,16 @@
 </template>
 
 <script>
+import Error from '@/components/error'
+
 export default {
   head() {
     return {
       title: 'signin'
     }
+  },
+  components: {
+    Error
   },
   data: () => ({
     form_login: {

@@ -32,6 +32,13 @@ module RailsApi
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    # 日本語化
+    config.i18n.default_locale = :ja
+
+    # 設定の読み込み
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.yml').to_s]
+    config.i18n.available_locales = %w(ja)
+
     # cornのためのAutopathの設定
     config.autoload_paths += %W(#{config.root}/lib)
     config.eager_load_paths += Dir["#{config.root}/lib/**/"]
