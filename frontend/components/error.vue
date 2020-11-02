@@ -1,12 +1,14 @@
 <template>
   <div class="error_setion">
-    <p class="error_style">{{ message }}</p>
+    <div v-for="(message, index) in messages" :key="index">
+      <p class="error_style">{{ message[0] }}</p>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['message']
+  props: ['messages']
 }
 </script>
 <style scoped>

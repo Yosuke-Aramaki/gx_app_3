@@ -17,7 +17,7 @@
       </v-card-title>
       <v-card-text>
         <v-container>
-          <Error :message="this.errors" />
+          <Error :messages="this.errors" />
           <v-row>
             <v-col cols="3">
               <v-subheader>URL</v-subheader>
@@ -158,6 +158,7 @@ export default {
       .catch((error) => {
         if (error.response && error.response.status === 401) {
           this.errors = []
+          console.log(error.response.data.messages)
           this.errors = error.response.data.messages
         }
       })

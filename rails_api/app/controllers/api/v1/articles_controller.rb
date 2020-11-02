@@ -35,11 +35,6 @@ class Api::V1::ArticlesController < ApplicationController
 
   # サイトから記事を保存する場合（Rails側でスクレイピングする必要があるためcreateとは別にした）
   def save_article_from_url
-    @user = current_user
-    article_data = current_user.articles.find_by(article_url: params[:article][:article_url])
-    if !article_data.nil? 
-      return render json: { messages: 'すでに保存されてます' }, status: :unauthorized
-    end
     
     require 'mechanize'
     agent = Mechanize.new
