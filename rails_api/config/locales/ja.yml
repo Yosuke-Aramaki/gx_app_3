@@ -1,10 +1,8 @@
 ja:
   activerecord:
     models:
-      user: ユーザー
+      category: カテゴリー
     attributes:
-      user:
-        name: ユーザー名
-        email: メールアドレス
-        password: パスワード
-        password_confirmation: 確認用パスワード     
+      category:
+        category_name: カテゴリー名
+        user_id: ユーザーID
