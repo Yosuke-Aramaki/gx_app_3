@@ -44,7 +44,8 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    'plugins/axios'
+    'plugins/axios',
+    { src: "~plugins/lazyload.js" }
   ],
   /*
   ** Auto import components

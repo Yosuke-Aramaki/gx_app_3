@@ -53,7 +53,7 @@
               <div class="unread-article-item">
                 <div class="image_section">
                   <a :href="article.article_url" @click="article_url_clicked(article.id)" target="_blank" rel="noopener noreferrer">
-                    <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+                    <img class="image_size" border="0" v-lazy="article.og_image_url" :alt="article.title">
                   </a>
                 </div>
                 <div>
@@ -77,7 +77,7 @@
                 <div class="read-article-item">
                   <a :href="article.article_url" @click="article_url_clicked(article.id)" target="_blank" rel="noopener noreferrer">
                     <div class="image_section" style="margin:auto;">
-                      <img class="image_size" border="0" :src="article.og_image_url" :alt="article.title">
+                      <img class="image_size" border="0" v-lazy="article.og_image_url" :alt="article.title">
                     </div>
                     <div class="article_title">{{ article.title }}</div>
                     <div class="article_read_date"><small>{{dataFormat(article.updated_at)}}</small></div>
