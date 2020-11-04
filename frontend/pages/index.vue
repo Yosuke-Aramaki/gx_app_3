@@ -5,8 +5,8 @@
         @add_article_from_modal="add_article" />
       <p>{{ this.errors }}</p>
       <v-row justify="center">
-        <v-col cols="2" class="category_section">
-          <v-list rounded dense>
+        <v-col cols="2">
+          <v-list color="#fafafa" rounded dense>
             <!-- <v-subheader>カテゴリー</v-subheader> -->
             <v-list-item-group v-model="item" color="#5294E2">
               <v-list-item @click="fetchArticles(0)" >
@@ -235,6 +235,10 @@ export default {
   margin-right: 12px;
 }
 
+.category_section {
+  background-color: #fafafa;
+}
+
 .category-list {
   padding-left: 16px;
 }
@@ -245,6 +249,8 @@ export default {
   border-radius: 18px;
   vertical-align: middle;
 }
+
+/* ======= 記事共通 ===================== */
 
 .article_section {
   /* width: 80%; */
