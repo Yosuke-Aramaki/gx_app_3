@@ -18,6 +18,15 @@
       <v-card-text>
         <v-container>
           <Error :messages="this.errors" />
+          <div style="padding-left: 16px">
+            <span>
+              Chrome Extentionをインストールするとワンクリックで記事を保存できます。インストールは
+              <a href="https://chrome.google.com/webstore/search/abjbdfpgihfnefpneobealjogmckkllm" target="_blank" rel="noopener noreferrer">
+                こちら
+              </a>から<br />
+              Extension ID: abjbdfpgihfnefpneobealjogmckkllm
+            </span>
+          </div>
           <v-row>
             <v-col cols="3">
               <v-subheader>URL</v-subheader>
