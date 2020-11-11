@@ -1,54 +1,56 @@
 <template>
-  <v-row justify="space-between">
-    <v-col cols="3">
-      <nuxt-link to="/" no-prefetch>
-      <h1><img src="/images/leo_icon_header.png" class="logo" /></h1>
-      </nuxt-link>
-    </v-col>
-    <v-col cols="5">
-      <nav>
-        <div v-if="hasCookies">
-          <!-- <RemindModal /> -->
-          <AddArticleModal
-            @listener_for_add_article="$listeners['add_article_from_modal']" />
-          <v-menu 
-            transition="slide-x-transition"
-            offset-y
-            left
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                icon
-                dark
-                v-bind="attrs"
-                v-on="on"
-              >
-                <v-icon 
-                  color="#1E65DC"
-                  large
+  <v-container>
+    <v-row justify="space-between">
+      <v-col cols="3">
+        <nuxt-link to="/" no-prefetch>
+        <h1><img src="/images/leo_icon_header.png" class="logo" /></h1>
+        </nuxt-link>
+      </v-col>
+      <v-col cols="5">
+        <nav>
+          <div v-if="hasCookies">
+            <!-- <RemindModal /> -->
+            <AddArticleModal
+              @listener_for_add_article="$listeners['add_article_from_modal']" />
+            <v-menu 
+              transition="slide-x-transition"
+              offset-y
+              left
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
                 >
-                  mdi-account-circle
-                </v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item>
-                <div class="button--blue" @click="logout">ログアウト</div>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </div>
-        <div v-else>
-          <nuxt-link to="/signup" class="button--blue" no-prefetch
-            >ユーザー登録</nuxt-link
-          >
-          <nuxt-link to="/signin" class="button--blue" no-prefetch
-            >ログイン</nuxt-link
-          >
-        </div>
-      </nav>
-    </v-col>
-  </v-row>
+                  <v-icon 
+                    color="#1E65DC"
+                    large
+                  >
+                    mdi-account-circle
+                  </v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item>
+                  <div class="button--blue" @click="logout">ログアウト</div>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </div>
+          <div v-else>
+            <nuxt-link to="/signup" class="button--blue" no-prefetch
+              >ユーザー登録</nuxt-link
+            >
+            <nuxt-link to="/signin" class="button--blue" no-prefetch
+              >ログイン</nuxt-link
+            >
+          </div>
+        </nav>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

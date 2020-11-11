@@ -1,8 +1,8 @@
 <template>
   <v-app class="body-contents" style="background-color: #fafafa;">
-    <v-container>
-      <Header
-        @add_article_from_modal="add_article" />
+    <Header
+      @add_article_from_modal="add_article" />
+    <v-container class="main-contents" >
       <p>{{ this.errors }}</p>
       <v-row justify="center">
         <v-col cols="2">
@@ -97,6 +97,7 @@
         </v-col>
       </v-row>
     </v-container>
+    <Footer />
   </v-app>
 </template>
 
@@ -105,6 +106,8 @@
 import Header from '@/components/Header'
 import AddCategoryModal from '@/components/AddCategoryModal'
 import EditModal from '@/components/EditModal'
+import Footer from '@/components/Footer'
+
 export default {
   head() {
     return {
@@ -115,6 +118,7 @@ export default {
     Header,
     AddCategoryModal,
     EditModal,
+    Footer,
   },
   data() {
     return {
@@ -220,10 +224,15 @@ export default {
 
 <style scoped>
 
-.wrapper {
+.body-contents {
   display: flex;
+  flex-flow: column;
+  min-height: 100vh;
 }
 
+.main-contents {
+  flex: 1;
+}
 /* ======= カテゴリーリスト ===================== */
 
 .v-list {
