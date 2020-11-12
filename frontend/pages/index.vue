@@ -14,13 +14,21 @@
                   <v-icon>mdi-book</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>未読記事</v-list-item-title>
+                  <v-list-item-title>
+                    <span class="caterory-name">
+                      未読記事
+                    </span>
+                  </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <div class="category-list">
                 <v-list-item v-for="category in categories" :key="'unread_category' + category.id">
                   <v-list-item-content @click="fetch_categorised_article(0, category.id)">
-                    <v-list-item-title>{{ category.category_name }}</v-list-item-title>
+                    <v-list-item-title>
+                      <span class="caterory-name">
+                        {{ category.category_name }}
+                      </span>
+                    </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </div>
@@ -28,12 +36,20 @@
                 <v-list-item-icon style="margin-right: 14px;">
                   <v-icon>mdi-book-open</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title>既読記事</v-list-item-title>
+                <v-list-item-title>
+                  <span class="caterory-name">
+                    既読記事
+                  </span>
+                </v-list-item-title>
               </v-list-item>
               <div class="category-list">
                 <v-list-item v-for="category in categories" :key="'read_category' + category.id">
                   <v-list-item-content @click="fetch_categorised_article(1, category.id)">
-                    <v-list-item-title>{{ category.category_name }}</v-list-item-title>
+                    <v-list-item-title>
+                      <span class="caterory-name">
+                        {{ category.category_name }}
+                      </span>
+                    </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </div>
@@ -242,6 +258,10 @@ export default {
 
 .v-list-item__icon {
   margin-right: 12px;
+}
+
+.caterory-name {
+  /* font-weight: 550; */
 }
 
 .category_section {

@@ -181,6 +181,10 @@ export default {
   padding: 16px 32px;
 }
 
+.v-btn {
+  font-weight: 550;
+}
+
 .headline {
   margin: 18px auto;
   font-weight: 700;
