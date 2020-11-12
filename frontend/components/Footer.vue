@@ -1,7 +1,7 @@
 <template>
   <div class="term_setion">
     <div class="footer_style">
-      <a href="" target="_blank">利用規約</a> / 
+      <nuxt-link to="/terms" no-prefetch>利用規約</nuxt-link> / 
       <a href="https://www.gaiax.co.jp/policy/" target="_blank">プライバシーポリシー</a> / 
       <a href="https://www.gaiax.co.jp/individual/" target="_blank">個人情報保護方針</a>   
     </div>
