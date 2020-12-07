@@ -1,3 +1,3 @@
 #!/usr/bin/env zsh
-rails server -b 0.0.0.0
+bundle exec puma -C config/puma.rb
 cron -f
