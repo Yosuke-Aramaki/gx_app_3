@@ -49,7 +49,7 @@ production:
 cd rails_api
 
 //dockerのアプリを起動した状態で
-docker-compose build
+docker-compose build 
 docker-compose up -d
 
 // RailsDBの作成
