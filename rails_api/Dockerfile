@@ -38,4 +38,4 @@ RUN bundle exec whenever --update-crontab
 # railsとcronをフォアグラウンド実行
 COPY startup.sh /startup.sh
 RUN chmod 744 /startup.sh
-CMD ["/startup.sh"]
+# CMD ["/startup.sh"]

@@ -52,6 +52,9 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  config.force_ssl = true
+
   # config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 1.day }
   config.session_store :redis_store, servers: 'redis://localhost:6379'
 
