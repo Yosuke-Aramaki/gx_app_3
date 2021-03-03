@@ -4,18 +4,15 @@
       <img src="/images/leo_icon_header.png" class="logo" />
     </div>
     <div class="box-frame">
-      <p class="error">{{ this.errors }}</p>
+      <Error :messages="this.errors" />
       <div class="box-frame-title">
-        <h2>Welcome back!</h2>
+        <h2>パスワードを変更する</h2>
       </div>
-      <form @submit.prevent="signin">
-        <input class="form-field" type="text" v-model="form_login.email" placeholder="email" name="email" autocomplete=”on”/>
-        <input class="form-field" type="password" v-model="form_login.password" placeholder="password" name="password" autocomplete=”on”/>
-        <button class="form-button" type="submit">ログイン</button>
+      <form @submit.prevent="updatePassword">
+        <input class="form-field" type="password" v-model="form.password" placeholder="password" name="password"/>
+        <input class="form-field" type="password" v-model="form.password_confirmation" placeholder="password_confirmation" name="password_confirmation"/>
+        <button class="form-button" type="submit">パスワードの変更</button>
       </form>
-      <nuxt-link to="/password_reset" no-prefetch>
-        <div class="link">パスワードを忘れた方はこちら</div>
-      </nuxt-link>
     </div>
   </div>
 </template>
@@ -26,28 +23,36 @@ import Error from '@/components/error'
 export default {
   head() {
     return {
-      title: 'signin'
+      title: 'signup'
     }
   },
   components: {
     Error
   },
   data: () => ({
-    form_login: {
-      email: '',
-      password: ''
+    form: {
+      password: '',
+      password_confirmation: ''
     },
     errors: '',
   }),
+  computed: {
+  },
   methods: {
-    async signin () {
-      this.$axios.$post('api/v1/signin', {session: this.form_login })
-      .then((response) => {
+    async updatePassword () {
+      this.$axios.$post(
+        '/api/v1/users',
+        {user: this.form }
+      )
+      .then(async (response) => {
+        console.log(response)
         this.$store.dispatch('auth/set_user_token', response )
         location.replace('/')
+        // await this.$router.push('/')
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
+          console.log(error.response.data.messages)
           this.errors = []
           this.errors = error.response.data.messages
         }
@@ -117,13 +122,4 @@ export default {
   background: #7aa3eb;
 }
 
-.link {
-  margin: 18px 16px;
-  font-size: 14px;
-}
-
-.error {
-  font-size: 12px;
-  color: #FF954A;
-}
 </style>
