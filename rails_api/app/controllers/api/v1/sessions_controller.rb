@@ -27,7 +27,7 @@ class Api::V1::SessionsController < ApplicationController
         Redis.current.expire(request_token, 216000)
       end
 
-      render json: { token: @user.id }
+      render json: { token: request_token }
     else
       render json: { messages: "メールアドレスが登録されていません"}, status: :unauthorized
     end
