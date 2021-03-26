@@ -1,6 +1,6 @@
 class Api::V1::SessionsController < ApplicationController
-  skip_before_action :authenticate, only: [:create]
-  
+  skip_before_action :authenticate, only: [:create, :update]
+
   def new
   end
 
@@ -13,6 +13,23 @@ class Api::V1::SessionsController < ApplicationController
       render json: { token: token }
     else
       render json: { messages: "メールまたはパスワードが一致しません"}, status: :unauthorized
+    end
+  end
+
+  # パスワード更新
+  def update
+    if @user = User.find_by(email: params[:session][:email].downcase)
+      token = SecureRandom.hex(18)
+
+      redis = Redis.new
+      redis.multi do
+        redis.set(token, @user.id)
+        redis.expire(token, 60)
+      end
+
+      render json: { token: token }
+    else
+      render json: { messages: "メールアドレスが登録されていません"}, status: :unauthorized
     end
   end
 

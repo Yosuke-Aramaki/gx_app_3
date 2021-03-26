@@ -5,12 +5,13 @@ Rails.application.routes.draw do
       post 'sign_up',  to: 'users#create'           # ユーザー登録
       post 'signin',    to: 'sessions#create'        # ログイン
       post 'logout',   to: 'sessions#destroy'       # ログアウト
+      post 'password_reset',   to: 'sessions#update'       # パスワードの更新
       get  'test',     to: 'articles#health_check'  # 疎通確認
 
-      
-      resources :users, only: [:create] do 
-      end 
-      
+
+      resources :users, only: [:create] do
+      end
+
       resources :articles, only: [:index, :create, :edit, :update, :destroy] do
         put :update_is_read, on: :member
       end
@@ -19,8 +20,8 @@ Rails.application.routes.draw do
       get 'already_saved',               to: 'articles#already_saved'
       post 'save_article_from_url',      to: 'articles#save_article_from_url'
 
-      resources :categories, only: [:index, :create, :edit, :update, :destroy] do 
-      end 
+      resources :categories, only: [:index, :create, :edit, :update, :destroy] do
+      end
 
       resource :reminds, only: [:create, :edit, :update, :destroy]
       get 'get_remind_info', to: 'reminds#index'
