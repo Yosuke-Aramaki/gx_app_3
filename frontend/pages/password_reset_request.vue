@@ -48,7 +48,7 @@ export default {
         console.log(response)
 
         // location.replace('/')
-        // await this.$router.push('/')
+        await this.$router.push('/password_reset?authentication=' + response.token)
       })
       .catch((error) => {
         if (error.response && error.response.status === 401) {
