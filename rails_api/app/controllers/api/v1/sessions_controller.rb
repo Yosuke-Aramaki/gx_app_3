@@ -19,15 +19,15 @@ class Api::V1::SessionsController < ApplicationController
   # パスワード更新
   def update
     if @user = User.find_by(email: params[:session][:email].downcase)
-      token = SecureRandom.hex(18)
+      request_token = SecureRandom.hex(18)
 
-      redis = Redis.new
-      redis.multi do
-        redis.set(token, @user.id)
-        redis.expire(token, 60)
+      # Redis.current = Redis.new
+      Redis.multi do
+        Redis.current.set(request_token, @user.id)
+        Redis.current.expire(token, 60)
       end
 
-      render json: { token: token }
+      render json: { token: @user.id }
     else
       render json: { messages: "メールアドレスが登録されていません"}, status: :unauthorized
     end

@@ -5,7 +5,8 @@ Rails.application.routes.draw do
       post 'sign_up',  to: 'users#create'           # ユーザー登録
       post 'signin',    to: 'sessions#create'        # ログイン
       post 'logout',   to: 'sessions#destroy'       # ログアウト
-      post 'password_reset',   to: 'sessions#update'       # パスワードの更新
+      post 'password_reset_request',   to: 'sessions#update'       # パスワードの更新のリクエスト
+      post 'password_reset',   to: 'user#update'       # パスワードの更新
       get  'test',     to: 'articles#health_check'  # 疎通確認
 
 
