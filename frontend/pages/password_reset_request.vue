@@ -41,13 +41,13 @@ export default {
   methods: {
     async updatePassword () {
       this.$axios.$post(
-        '/api/v1/users',
-        {user: this.form }
+        '/api/v1/password_reset_request',
+        {session: this.form }
       )
       .then(async (response) => {
         console.log(response)
-        this.$store.dispatch('auth/set_user_token', response )
-        location.replace('/')
+
+        // location.replace('/')
         // await this.$router.push('/')
       })
       .catch((error) => {

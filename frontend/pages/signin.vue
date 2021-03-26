@@ -13,7 +13,7 @@
         <input class="form-field" type="password" v-model="form_login.password" placeholder="password" name="password" autocomplete=”on”/>
         <button class="form-button" type="submit">ログイン</button>
       </form>
-      <nuxt-link to="/password_reset" no-prefetch>
+      <nuxt-link to="/password_reset_request" no-prefetch>
         <div class="link">パスワードを忘れた方はこちら</div>
       </nuxt-link>
     </div>

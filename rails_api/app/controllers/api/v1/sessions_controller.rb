@@ -21,10 +21,10 @@ class Api::V1::SessionsController < ApplicationController
     if @user = User.find_by(email: params[:session][:email].downcase)
       request_token = SecureRandom.hex(18)
 
-      # Redis.current = Redis.new
-      Redis.multi do
+      redis = Redis.new
+      redis.multi do
         Redis.current.set(request_token, @user.id)
-        Redis.current.expire(token, 60)
+        Redis.current.expire(request_token, 216000)
       end
 
       render json: { token: @user.id }
